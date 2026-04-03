@@ -1,0 +1,1318 @@
+Versiyon: 4.1 — Build-Ready Product & System Blueprint
+Tarih: Nisan 2026
+0. Dokümanın Amacı
+Bu doküman, MatchProfile ürününün stratejik, ürünsel ve teknik temelini tanımlar.
+
+Amaç, fikri “genel amaçlı AI ile yapılabilecek ilginç bir deney” seviyesinden çıkarıp, kullanıcıya gerçekten daha kişisel, daha tutarlı ve daha faydalı karar desteği veren bir ürün sistemi haline getirmektir.
+Bu blueprint şu sorulara cevap verir:
+
+
+Ürün tam olarak ne yapar?
+
+Ne yapmaz?
+
+Kullanıcıya neden genel amaçlı bir AI’dan daha fazla değer sunar?
+
+Hangi veri ve mantık katmanlarıyla kişiselleşir?
+
+Hangi ekranlar ve akışlar gerekir?
+
+Teknik mimari nasıl kurulmalıdır?
+
+MVP’de ne olmalı, ne olmamalı?
+
+Başarı nasıl ölçülmelidir?
+1. Ürün Konumlandırması ve Marka Dili
+1.1. Ürünün Tanımı
+MatchProfile bir dating app değildir.
+
+Yeni insanlarla eşleştirme yapmaz, swipe ekonomisine dayanmaz, sohbet havuzu kurmaz.
+MatchProfile, kullanıcının bir buluşma sonrasında yaşadığı duygusal yoğunluk içinden çıkıp daha net düşünmesine yardımcı olan, AI destekli bir post-date decision journal ürünüdür.
+Ürünün görevi şudur:
+
+
+kullanıcının anlattıklarını yapılandırmak,
+
+gözlem ile yorumu ayırmak,
+
+eksik verileri görünür kılmak,
+
+tekrar eden karar hatalarını zamanla fark ettirmek,
+
+sonraki en sağlıklı adımı daha bilinçli belirlemesine yardımcı olmak.
+1.2. Marka Vaadi
+Ana slogan:
+Date sonrası daha net düşün.
+İngilizce karşılığı:
+Clarity after the date.
+1.3. Ana Misyon
+Ürünün misyonu, kullanıcıya “hakikat” söylemek değil; kullanıcının kendi karar verme sürecini daha rafine, daha sistematik ve daha az önyargılı hale getirmektir.
+MatchProfile şunları yapar:
+
+
+heyecan ile veriyi ayırır,
+
+belirsizliği açık hale getirir,
+
+duygusal kör noktaları görünür kılar,
+
+geçmiş örüntülerle bugünkü kararı ilişkilendirir.
+1.4. İç ve Dış Kitle Stratejisi
+İç strateji / ICP:
+
+İlk öğrenme döngüsü, güvenlik, tutarlılık, sınır ve niyet netliği konularına yüksek hassasiyet gösteren kadın kullanıcı segmenti üzerinde optimize edilir.
+
+Build-ready karar:
+
+Beta recruitment, onboarding örnekleri, prompt değerlendirme seti, red-team senaryoları ve ilk güven/safety copy testleri bu segment üzerinden hazırlanır.
+
+Ancak ürünün çekirdek mantığı segment-spesifik olmamalıdır.
+
+Evrensel kalması gereken katmanlar:
+
+evidence model,
+
+confidence labels,
+
+safety escalation kuralları,
+
+consent ve deletion kontrolleri,
+
+nihai hüküm vermeyen ürün dili.
+
+Segment-spesifik optimize edilebilecek katmanlar:
+
+onboarding soru örnekleri,
+
+örnek red flag ve ambiguity senaryoları,
+
+tone nüansları,
+
+ilk beta dağıtım kanalı ve kullanıcı eğitimi.
+Dış ürün dili:
+
+İlişki kararlarında daha rasyonel, daha net ve daha bilinçli hareket etmek isteyen tüm yetişkin kullanıcılar.
+Bu ayrım önemlidir:
+
+ürün herkese açık bir dil kullanır, ancak ilk ürün öğrenmesi daha yüksek sinyal üreten bir kullanıcı segmenti üzerinde yapılır.
+2. Ürün Sınırları: MatchProfile Ne Değildir?
+Ürünün etik, hukuki ve ürünsel sınırları en baştan net olmalıdır.
+
+2.1. Terapi Aracı Değildir
+MatchProfile duygusal destek hissi yaratabilir, ancak terapötik değerlendirme, klinik yönlendirme veya psikolojik teşhis aracı değildir.
+
+2.2. Güvenlik Garantisi Değildir
+“Bu kişi güvenlidir” ya da “bu kişi tehlikelidir” şeklinde nihai hüküm vermez.
+
+Sadece kullanıcı anlatısı ve girilen veriler üzerinden risk, veri eksikliği veya dikkat gerektiren alanları işaret eder.
+2.3. Yalan Makinesi Değildir
+Karşı tarafın niyetini doğrudan okuyamaz.
+
+Sadece kullanıcının anlattığı olaylar, davranış örnekleri, çelişkiler ve eksik veriler üzerinden yapılandırılmış içgörü üretir.
+2.4. Eşleştirme Platformu Değildir
+Yeni insanlarla tanıştırmaz.
+
+Mevcut buluşmaları, mevcut etkileşimleri ve mevcut karar süreçlerini analiz eder.
+2.5. Nihai Karar Verici Değildir
+Kullanıcının yerine karar vermez.
+
+Kararı daha net vermesine yardımcı olur.
+3. Ürün Prensipleri
+MatchProfile aşağıdaki temel ürün prensipleri üzerine kurulmalıdır:
+
+3.1. Açıklanabilirlik
+Ürün tek skor veya “uygun/uygunsuz” hükmü üretmemelidir.
+
+Her çıkarım mümkün olduğunca kanıt, bağlam ve belirsizlik ile birlikte sunulmalıdır.
+3.2. Belirsizliği Saklamamak
+Sistemin emin olmadığı şeyleri eminmiş gibi sunması en büyük ürün hatasıdır.
+
+Bu nedenle belirsizlik, ürünün merkez bileşeni olmalıdır.
+3.3. Karşı Tarafı Çözmekten Çok Kullanıcıyı Netleştirmek
+Ürün, karşı taraf hakkında nihai karakter çözümlemesi yapmaya çalışmamalıdır.
+
+Asıl işlev, kullanıcının kendi karar kalitesini yükseltmektir.
+3.4. Hafıza ile Değer Üretmek
+Ürünün genel AI’dan ayrıştığı yer tek seferlik analiz değil, zaman içinde oluşan ilişki hafızası olmalıdır.
+
+3.5. Geri Bildirimle Kalibrasyon
+Sistem her zaman daha doğru olmak zorunda değildir; ama zamanla daha kişisel, daha tutarlı ve daha uyarlanmış hale gelmelidir.
+
+3.6. Güvenli ve Yargılamayan Dil
+Ürün dili sert, dramatik, magazinsel veya küçük düşürücü olmamalıdır.
+
+Daha çok netleştiren, düşünceyi düzenleyen ve kullanıcıyı sakinleştiren bir tonda olmalıdır.
+4. Temel Değer Farkı: Neden MatchProfile, Genel Amaçlı AI’dan Daha Anlamlıdır?
+Bir kullanıcı aynı buluşma hikâyesini GPT, Gemini veya başka bir genel LLM’e de anlatabilir.
+
+Bu yüzden MatchProfile’ın gerçek değeri, yalnızca “iyi yorum yapan bir model” olmak değildir.
+Ürün şu üçgen üzerine kurulmalıdır:
+
+4.1. Hafıza
+Sistem kullanıcının:
+
+
+değerlerini,
+
+dealbreaker’larını,
+
+geçmiş örüntülerini,
+
+önceki buluşma sonuçlarını,
+
+düzelttiği veya itiraz ettiği çıkarımları
+zaman içinde hatırlar.
+
+4.2. Geri Bildirim
+Kullanıcı raporlara geri bildirim verir:
+
+
+doğru anladın,
+
+eksik anladın,
+
+yanlış anladın,
+
+bu konuda veri yetersizdi.
+Bu sayede sistem kullanıcıya özgü sinyal ağırlıklarını kalibre eder.
+
+4.3. Kanıt
+Ürün her çıkarımı aynı seviyede güvenle sunmaz.
+
+Şunları birbirinden ayırır:
+
+somut olay,
+
+kullanıcı yorumu,
+
+yapılandırılmış form cevabı,
+
+geçmiş örüntü benzerliği,
+
+eksik veri.
+Bu üçgen sayesinde MatchProfile, tek atımlık bir sohbet yerine zamanla güçlenen bir karar sistemi haline gelir.
+5. Personalization and Accuracy Engine
+Bu bölüm, ürünün genel amaçlı AI’dan ayrışmasını sağlayan teknik ve mantıksal çekirdeği tanımlar.
+
+5.1. Kalibrasyon Katmanı (The Anchor)
+Her analizin kullanıcının kendi ilişki çerçevesine göre yapılabilmesi için güçlü bir başlangıç kalibrasyonu gerekir.
+
+Toplanan çekirdek veriler:
+
+kullanıcının vazgeçilmez değerleri,
+
+tolerans göstermeyeceği davranışlar,
+
+geçmişte tekrar eden yanlış seçim örüntüleri,
+
+kendi karar kör noktaları,
+
+ilişki hedefi ve tempo tercihleri.
+Örnek kalibrasyon alanları:
+
+dürüstlük,
+
+duygusal olgunluk,
+
+kariyer ve yaşam düzeni,
+
+aile beklentisi,
+
+iletişim açıklığı,
+
+finansal istikrar,
+
+sınır saygısı.
+Örnek bias flag’leri:
+
+yüksek çekimi uyum sanma,
+
+erken bağlanma,
+
+red flag’leri rasyonalize etme,
+
+çok hızlı eleme,
+
+fazla umut üretme.
+Bu katman, sistemin “herkese aynı yorum” yapmasını önler.
+5.2. Kanıt Modeli (Evidence Model)
+Her çıkarımın kaynağı etiketlenmelidir.
+
+Bu, ürünün güvenilirliği için zorunludur.
+Önerilen evidence taxonomy:
+user_reported_fact
+
+Kullanıcının anlattığı somut olay
+
+Örnek: “Hesabı ödemeyi teklif etmedi.”
+user_emotional_interpretation
+
+Kullanıcının olaylara dair hissi/yorumu
+
+Örnek: “Bana ilgisiz gibi geldi.”
+structured_response
+
+Form üzerinden alınan yapılandırılmış cevap
+
+Örnek: “Bir sonraki buluşma teklifi geldi mi? = Hayır”
+system_inferred_pattern
+
+Geçmiş oturumlara göre sistemin tespit ettiği benzerlik
+
+Örnek: “Daha önce nazik görünüp sonrasında tutarsız çıkan örüntülere benzerlik var.”
+missing_observation
+
+Hiç veri olmayan veya karar için eksik kalan alan
+
+Örnek: “İlişki niyeti hakkında hiçbir açık veri yok.”
+Bu yapı olmadan sistem fazla kendinden emin görünür ve güven kaybeder.
+5.3. Hibrit Hafıza Mimarisi (Hybrid Memory)
+Sistem yalnızca vektör hafızaya dayanmaz.
+
+Daha sağlam bir mimari için üç katmanlı hafıza gerekir:
+A. Structured Memory
+Yapılandırılmış kullanıcı bilgileri:
+
+
+values,
+
+dealbreakers,
+
+bias flags,
+
+previous outcome labels,
+
+user corrections,
+
+confidence downgrade geçmişi.
+B. Vector Memory
+Semantik benzerlik ve geçmiş buluşma özetleri:
+
+
+cleaned summaries,
+
+session embeddings,
+
+benzer geçmiş oturumlar,
+
+tekrar eden ifade biçimleri.
+C. Rule Memory
+Kural tabanlı sınırlamalar:
+
+
+hard dealbreakers,
+
+escalation kuralları,
+
+pattern aktivasyon eşiği,
+
+compliance ve risk uyarıları.
+Bu hibrit yapı, ürünün hem açıklanabilir hem de bağlama duyarlı kalmasını sağlar.
+5.4. Pattern Activation Logic
+Pattern Lab erken açılırsa sahte kesinlik üretir.
+
+Bu nedenle örüntü analizi aşamalı olmalıdır.
+Aktivasyon mantığı:
+3 oturum: weak signal
+5 oturum: emerging pattern
+8+ oturum: strong recurring pattern
+Örnek dil:
+
+“Zayıf tekrar eden sinyal”
+
+“Oluşan örüntü”
+
+“Güçlü tekrar eden örüntü”
+Sistem erken aşamada “sen hep böylesin” dememelidir.
+5.5. Outcome Loop (Gerçeklik Döngüsü)
+Ürünün zamanla güçlenmesi için her oturumdan sonra gerçek dünya sonucu toplanmalıdır.
+
+Check-in zamanları:
+
+7. gün: erken outcome check
+
+14. gün: tutarlılık ve netlik check
+
+MVP operasyon kuralı:
+
+varsayılan olarak yalnızca 2 otomatik check-in gönderilir,
+
+kullanıcı sonucu daha erken manuel girerse kalan otomatik check-in iptal edilir veya pasifleşir,
+
+aynı oturum için 14 günden sonra ek otomatik hatırlatma gönderilmez,
+
+bildirimler kullanıcının yerel saatine göre gündüz saatlerinde planlanır.
+Sorulabilecek temel sorular:
+
+Tekrar görüştünüz mü?
+
+Konuşma devam etti mi?
+
+Karşı taraf ilgiyi sürdürdü mü?
+
+Davranışlar tutarlı çıktı mı?
+
+İlk belirsizliklerden biri sonradan soruna dönüştü mü?
+
+Kullanıcı kendi isteğiyle mi vazgeçti?
+Outcome decomposition
+Sonuç sadece “iyi/kötü” diye tutulmaz. Daha nüanslı kayıt gerekir.
+Önerilen outcome seçenekleri:
+
+
+tekrar görüşüldü / olumlu ilerledi,
+
+konuşma devam ediyor / netlik yok,
+
+kullanıcı kendi kararıyla vazgeçti,
+
+karşı taraf tutarsız davrandı,
+
+karşı taraf uzaklaştı,
+
+veri hâlâ yetersiz / gözlem devam ediyor.
+Bu yapı, ürünün kendi önerilerini daha ince ayarlı biçimde yeniden kalibre etmesini sağlar.
+5.6. Validation and Recalibration Loop
+Rapor sunulduğunda bu, sistemin son sözü değil; bir taslak içgörü seti olmalıdır.
+
+Akış:
+
+Sistem ilk içgörü taslağını sunar.
+
+Kullanıcı şunu işaretler:
+doğru,
+
+eksik,
+
+yanlış,
+
+veri yetersiz.
+
+Kullanıcının itiraz ettiği çıkarımlar:
+silinmez,
+disputed veya low-confidence olarak işaretlenir,
+
+sonraki analizlerde daha düşük ağırlıkla kullanılır.
+Bu sayede sistem “self-training” değil, self-calibration yapar.
+
+Yani modeli baştan eğitmek yerine, kullanıcıya özgü hafıza ve sinyal ağırlıklarını ayarlar.
+
+Build-ready validation mapping:
+
+doğru = sinyal korunur, pattern katkısı tam kalır,
+
+eksik = sinyal korunur ama ek açıklama ihtiyacı işaretlenir,
+
+yanlış = sinyal disputed olur, sonraki pattern hesaplarında düşük ağırlıkla değerlendirilir,
+
+veri yetersiz = güven seviyesi düşürülür, sinyal pattern motoruna tek başına güçlü kanıt olarak girmez.
+6. Ürün Deneyimi ve Kullanıcı Akışı
+6.1. Onboarding / Derin Kalibrasyon
+Kullanıcıdan yalnızca “ne arıyorsun?” sorusu alınmaz.
+
+Onboarding, ürünün kişiselleşmesinin temelidir.
+Alınması gereken veriler:
+
+ilişki hedefi,
+
+vazgeçilmez 3 değer,
+
+kırmızı çizgiler,
+
+geçmişte tekrarlayan karar hataları,
+
+iletişim ve tempo tercihi,
+
+güvenlik hassasiyetleri,
+
+ilişki niyeti netliği beklentisi.
+6.2. Dashboard: Netlik Özeti
+Dashboard’da skor olmamalıdır.
+
+Skor, ürünün fazla bilimsel görünmesine ve kullanıcıyı yanlış yönlendirmesine neden olabilir.
+Dashboard bileşenleri:
+
+Son oturum özeti
+
+Bekleyen check-in’ler
+
+Son 3 buluşmada tekrar eden ortak sinyal
+
+En sık eksik kalan veri alanı
+
+Yeni değerlendirme başlat CTA’sı
+6.3. Yarı-İnteraktif Debrief: “Anlat + Netleştir”
+Bu akış MVP için en gerçekçi ve en dengeli yapıdır.
+
+Aşama 1: Serbest Anlatım
+Kullanıcı 3–5 dakika boyunca kesintisiz anlatır.
+
+Aşama 2: Structured Form
+AI işleme yaparken kullanıcı kısa yapılandırılmış formu doldurur.
+
+Aşama 3: Clarification
+Sistem en fazla 3 netleştirme sorusu sorar.
+Örnek:
+
+
+“İlgili davrandığını söyledin, bunu hangi somut davranışıyla hissettin?”
+
+“Rahatsız oldum dedin; bu tek bir an mıydı, tekrar eden bir his miydi?”
+
+“Geleceğe dönük plan işareti gördün mü, yoksa bu senin yorumun mu?”
+Bu akış tam gerçek zamanlı konuşan AI yerine daha kontrollü, daha düşük maliyetli ve daha güvenilir bir deneyim sunar.
+6.4. Analiz Paneli: Buluşma Değerlendirmesi
+Bu ekran “hakikati açıklayan ekran” değildir.
+
+İsmi ve yapısı güvenilir, sakin ve açıklanabilir olmalıdır.
+Bölümler:
+Olumlu Sinyaller
+
+Kanıta dayalı ve tutarlı olumlu gözlemler
+Belirsiz Alanlar
+
+Henüz test edilmemiş veya veri eksikliği nedeniyle netleşmemiş başlıklar
+Dikkat Gerektirenler
+
+Kullanıcının dealbreaker’larıyla, beklentileriyle veya güvenlik hassasiyetleriyle çelişen noktalar
+Eksik Veri Alanları
+
+Karar vermeden önce gözlenmesi gereken ama henüz oluşmamış veriler
+Önerilen Sonraki Adım
+
+İlerleme, bekleme, test etme veya geri çekilme yönünde sakin bir öneri
+6.5. User Validation Step
+Sistem içgörüyü sunduktan sonra kullanıcıya kısa bir onay ekranı verilmelidir:
+
+
+“Bunu doğru anladım mı?”
+
+“Neyi yanlış anladım?”
+
+“Burada eksik olan ne var?”
+
+“Bu değerlendirmede sana en az doğru gelen bölüm hangisi?”
+Bu adım kullanıcı güvenini ve model kalibrasyonunu ciddi ölçüde artırır.
+6.6. Final Reflection Save
+Kullanıcı onayıyla birlikte rapor final hale gelir ve kişisel journal’a kaydedilir.
+Buradan sonra:
+
+
+geçmiş listesine eklenir,
+
+pattern layer için kullanılabilir hale gelir,
+
+check-in planına bağlanır.
+6.7. Follow-up Check-ins
+Sistem, oturum kapandıktan sonra belirlenen günlerde kullanıcıya kısa check-in gönderir.
+Amaç:
+
+
+sonucun nasıl evrildiğini görmek,
+
+ilk rapordaki belirsizliklerin doğrulanıp doğrulanmadığını anlamak,
+
+sistemi zaman içinde kalibre etmektir.
+6.8. Journal / History
+Geçmiş buluşmalar ikili etiketlerle tutulmamalıdır.
+
+“Başarılı / başarısız” gibi kaba etiketler ürün mantığına aykırıdır.
+Daha uygun örnek etiketler:
+
+
+umut verici ama belirsiz,
+
+düşük tutarlılık,
+
+yeniden gözlenmeli,
+
+kullanıcı vazgeçti,
+
+karşı taraf uzaklaştı,
+
+olumlu ilerledi.
+6.9. Pattern Lab
+Pattern Lab MVP’de kapalı kalabilir veya sınırlı biçimde açılabilir.
+
+Ancak aktivasyon eşiği olmadan devreye girmemelidir.
+Amaç:
+
+
+tekrar eden karar hatalarını göstermek,
+
+kullanıcının kör noktalarını fark ettirmek,
+
+geçmiş outcome’larla bugünkü eğilimler arasında bağlantı kurmaktır.
+7. Uygulama Ekran Haritası (High-Level Sitemap)
+
+Welcome / Splash
+
+Onboarding / Calibration
+
+Dashboard / Netlik Özeti
+
+New Reflection Session
+
+Voice Debrief
+
+Structured Form
+
+Clarification Questions
+
+Buluşma Değerlendirmesi
+
+Validation Step
+
+Final Reflection Save
+
+Journal / History
+
+Check-ins
+
+Pattern Lab
+
+Privacy & Settings
+
+Data & Deletion Controls
+8. Veri Mimarisi
+Bu ürün için veri yapısı sadece “tek JSON rapor” seviyesinde bırakılmamalıdır.
+
+İleride analiz, kalite iyileştirme ve kişiselleşme için daha atomize yapı gerekir.
+Önerilen çekirdek tablolar
+profiles
+
+relationship_values
+
+dealbreakers
+
+pacing_preference
+
+bias_flags
+
+safety_preferences
+sessions
+
+session_id
+
+user_id
+
+session_status
+
+date_time
+
+raw_transcript
+
+cleaned_summary
+
+audio_status
+
+audio_retention_policy
+structured_responses
+
+follow_up_offer
+
+physical_boundary_issue
+
+future_plan_signal
+
+payment_signal
+
+comfort_level
+
+clarity_level
+extracted_signals
+
+signal_type
+
+evidence_source
+
+evidence_text
+
+confidence_label
+
+linked_session_id
+uncertainty_flags
+
+missing_data_point
+
+ambiguity_reason
+
+emotional_bias_risk
+
+insufficient_evidence_flag
+user_validations
+
+signal_id
+
+validation_type
+
+user_comment
+
+revised_weight
+outcomes
+
+follow_up_status
+
+consistency_result
+
+user_choice_outcome
+
+counterpart_behavior_outcome
+
+unresolved_flag
+memory_patterns
+
+pattern_strength
+
+related_sessions
+
+pattern_type
+
+activation_level
+safety_events
+
+escalation_flag
+
+risk_category
+
+response_mode
+
+Build-ready için zorunlu ek operasyonel tablolar
+analysis_runs
+
+session_id
+
+prompt_version_id
+
+schema_version
+
+provider_name
+
+model_name
+
+run_status
+
+latency_ms
+
+retry_count
+
+contract_valid
+
+failure_reason
+
+raw_output_json
+prompt_versions
+
+version_key
+
+prompt_family
+
+schema_version
+
+status
+
+created_at
+notification_jobs
+
+user_id
+
+session_id
+
+job_type
+
+scheduled_for
+
+sent_at
+
+job_status
+policy_acceptances
+
+user_id
+
+policy_type
+
+policy_version
+
+accepted_at
+deletion_requests
+
+user_id
+
+request_scope
+
+requested_at
+
+completed_at
+
+request_status
+audit_log
+
+actor_type
+
+action_type
+
+entity_type
+
+entity_id
+
+created_at
+
+Minimum build-ready veri kuralları:
+
+tüm ana tablolar UUID primary key, created_at ve updated_at alanlarına sahip olmalıdır,
+
+user_id içeren tüm tablolarda row-level security zorunludur,
+
+ham provider çıktısı kullanıcıya doğrudan render edilmez; yalnızca normalize edilmiş contract çıktısı UI’a gider,
+
+session silindiğinde transcript, extracted_signals, user_validations, outcomes, embeddings ve bağlı notification kayıtları aynı silme akışına bağlanmalıdır.
+9. Teknik Mimari
+9.1. Genel Yaklaşım
+Sistem provider-agnostic olmalıdır.
+
+Belirli bir modele veya API’ye yapışık kurulursa ileride maliyet ve kalite yönetimi zorlaşır.
+Bu nedenle teknik mimari şu prensiple kurulmalıdır:
+Prompt/Output Contract sabit, provider değişebilir.
+
+9.1.1. Canonical Output Contract
+Build-ready sistemde tüm model çıktıları tek bir versiyonlanmış şemaya normalize edilmelidir.
+
+İlk production contract:
+
+insight_report_v1
+
+Zorunlu top-level alanlar:
+
+schema_version
+
+session_id
+
+report_status
+
+generated_at
+
+summary
+
+positive_signals[]
+
+caution_signals[]
+
+uncertainty_flags[]
+
+missing_data_points[]
+
+recommended_questions[]
+
+next_step
+
+safety_assessment
+
+memory_updates
+
+Her signal objesi minimum şu alanlara sahip olmalıdır:
+
+signal_id
+
+signal_type
+
+title
+
+explanation
+
+confidence_label
+
+evidence_items[]
+
+Evidence item minimum alanları:
+
+evidence_source
+
+evidence_text
+
+source_session_id
+
+quote_type
+
+Allowed confidence labels:
+
+Yüksek Kanıt
+
+Orta Kanıt
+
+Düşük Kanıt
+
+Veri Eksik
+
+Kullanıcı Yorumu Ağırlıklı
+
+Geçmiş Örüntü Benzerliği
+
+Önemli kural:
+
+frontend yalnızca canonical contract okur,
+
+provider-specific ham JSON yalnızca analysis_runs içinde saklanır,
+
+contract validation fail ederse sonuç kullanıcıya gösterilmez, en fazla 1 otomatik retry yapılır, sonra session failed veya manual review bayrağına gider.
+
+9.1.2. Prompt ve Şema Versiyonlama
+Her analysis run şu üç referansla saklanmalıdır:
+
+prompt_version_id
+
+schema_version
+
+model_name
+
+Böylece kalite düşüşü, provider regressions ve prompt değişiklikleri session bazında geri izlenebilir olur.
+9.2. Frontend Katmanı
+Mobil istemci: Flutter
+Önerilen bileşenler:
+
+
+state management: Riverpod
+
+audio recording: düşük boyutlu ama yeterli kaliteli kayıt yapısı
+
+local cache / local storage: Hive veya Isar
+
+offline-friendly session continuation
+
+privacy controls ve silme tercihleri
+Local storage özellikle geçmiş summary, UI state ve bazı hafif journal öğeleri için maliyet avantajı sağlar.
+9.3. Backend Katmanı
+Backend önerisi: Supabase tabanlı mimari
+Temel roller:
+
+
+Auth
+
+PostgreSQL
+
+Storage
+
+Edge Functions / lightweight API
+
+pgvector desteği
+9.4. Servis Katmanları
+Auth Service
+
+kullanıcı oturumu
+
+sosyal giriş
+
+cihaz ilişkisi
+
+session security
+Session Service
+
+yeni reflection session başlatma
+
+session state yönetimi
+
+kayıt ve form adımlarını orkestre etme
+Audio Service
+
+dosya yükleme
+
+retention policy uygulama
+
+silme / purge işlemleri
+STT Service Layer
+
+provider adapter üzerinden speech-to-text
+
+raw transcript üretimi
+
+fallback ve retry yönetimi
+Logic LLM Layer
+
+transcript + structured form + profile data + memory context analizi
+
+JSON contract’a uygun çıktı üretimi
+
+contract validator ve fallback retry
+Memory Service
+
+structured memory update
+
+vector memory retrieval
+
+rule memory check
+
+disputed signal handling
+Outcome Service
+
+7 ve 14 günlük check-in’ler
+
+outcome decomposition
+
+recalibration input üretimi
+Pattern Service
+
+session threshold kontrolü
+
+weak/emerging/strong pattern üretimi
+
+overclaim önleyici dil mantığı
+Notification Service
+
+7/14 günlük check-in planlama
+
+timezone-aware gönderim
+
+cancel/reschedule mantığı
+Policy & Audit Service
+
+policy acceptance kayıtları
+
+deletion workflow
+
+audit log üretimi
+Safety Escalation Layer
+Yüksek riskli içerik tespit edildiğinde standart analiz akışından ayrılarak özel bir güvenlik yanıtı devreye girer.
+9.5. Session Lifecycle
+Her oturumun açık şekilde tanımlı durumları olmalıdır:
+
+
+created
+
+recording
+
+transcribing
+
+awaiting_structured_input
+
+awaiting_clarification
+
+analyzing
+
+awaiting_user_validation
+
+finalized
+
+archived
+
+manual_review_required
+
+failed
+Bu akış build-ready sistem tasarımı için önemlidir.
+10. Güvenlik, Gizlilik ve Compliance
+10.1. Açık Rıza
+Kullanıcının verileri açık rıza ile işlenmelidir.
+
+Build-ready MVP kuralı:
+
+ürün yalnızca 18+ kullanıcılar için açılır,
+
+hesap oluşturma sırasında yaş beyanı ve politika kabulü zorunludur.
+
+10.2. Üçüncü Kişi Verisi
+Karşı tarafa ait anlatı, ses veya hassas kişisel bilgi içeren içeriklerde etik sınırlar ve yasal uyarılar görünür olmalıdır.
+
+Build-ready MVP sınırı:
+
+yalnızca kullanıcının kendi post-date debrief ses kaydı kabul edilir,
+
+karşı tarafa ait gizli kayıt, telefon konuşması kaydı veya rızasız ham üçüncü kişi sesi MVP kapsamı dışındadır,
+
+kullanıcıya, karşı tarafın kimliğini açığa çıkaran gereksiz kişisel detayları girmemesi açıkça söylenmelidir.
+
+10.3. Veri Tutma Politikası
+Varsayılan yaklaşım:
+
+
+ses kayıtları varsayılan olarak 30 gün tutulur,
+
+kullanıcı isterse anında silme modunu açabilir,
+
+ham transcript ve temiz özet kullanıcı silene kadar veya hesap kapanana kadar saklanabilir,
+
+yapılandırılmış hafıza öğeleri hesap silinince veya ilgili oturum unutulunca temizlenmelidir,
+
+veri yaşam döngüsü kullanıcıya açık biçimde gösterilir.
+
+Teknik minimum:
+
+veri aktarımı TLS ile yapılır,
+
+storage ve veritabanında at-rest encryption desteklenir,
+
+silme talepleri audit_log ve deletion_requests üzerinden izlenir.
+10.4. Safety Escalation
+Şu tür sinyaller tespit edilirse sistem normal dating değerlendirme tonundan çıkar:
+
+
+sınır ihlali,
+
+korku hissi,
+
+ısrarlı baskı,
+
+tehdit,
+
+takip edilme şüphesi,
+
+açık manipülasyon.
+Bu durumda sistem “romantik değerlendirme” değil, güvenlik odaklı, sakin ve yönlendirici bir dil kullanır.
+
+Build-ready yanıt kuralı:
+
+uyum analizi paneli geri plana alınır,
+
+önce güvenlik kartı gösterilir,
+
+kullanıcıya teması yavaşlatma, ek doğrulama yapma veya uzaklaşma gibi genel güvenlik odaklı seçenekler sunulur,
+
+uygun pazarda yerel destek ve acil yardım kaynaklarına yönlendirme alanı bulunur,
+
+yüksek riskli session otomatik olarak safety_events kaydı açar.
+
+10.5. Compliance Layer
+
+KVKK uyumlu açık rıza metinleri
+
+MVP beta için birincil hukuk/politika çerçevesi net tanımlanmalıdır
+
+önerilen ilk kapsam: Türkiye-first beta + KVKK öncelikli politika seti
+
+ikinci aşama: AB kullanıcı açılımı varsa GDPR uyum mantığı
+
+veri silme ve veri taşıma talepleri
+
+üçüncü şahıs verilerinin işlenmesine dair politika sınırları
+11. Güven ve Analiz Dili
+Kullanıcıya sayısal güven skorları sunulmamalıdır.
+
+Sayısal skorlar fazla kesinlik hissi doğurur.
+Bunun yerine şu etiketler kullanılmalıdır:
+
+Yüksek Kanıt
+Orta Kanıt
+Düşük Kanıt
+Veri Eksik
+Kullanıcı Yorumu Ağırlıklı
+Geçmiş Örüntü Benzerliği
+Bu etiketler sinyal kartlarının altında veya açıklama satırı olarak yer alabilir.
+12. İş Modeli İskeleti
+Bu doküman iş modelini detaylandırmak için yazılmamıştır; ancak ürünün ticari mantığı için temel iskelet tanımlanmalıdır.
+
+Ücretsiz katman
+
+sınırlı sayıda reflection session
+
+temel sinyal özeti
+
+temel journal geçmişi
+Premium katman
+
+sınırsız veya genişletilmiş session hakkı
+
+gelişmiş belirsizlik analizi
+
+pattern layer erişimi
+
+daha gelişmiş geçmiş karşılaştırma
+
+derinleştirilmiş follow-up ve insight raporları
+Monetization’ın ana fikri şudur:
+
+kullanıcı tek rapor için değil, zaman içinde oluşan kişisel netlik sistemi için ödeme yapar.
+13. Başarı Metrikleri
+13.1. North Star Metric
+Perceived Decision Value (PDV)
+Ana soru:
+“Bu rapor, buluşmada fark etmediğim bir şeyi görmemi sağladı mı?”
+Bu metrik ürünün gerçek değerini daha doğru ölçer.
+
+13.2. Secondary Metrics
+
+User Validation Accuracy
+
+Retention by Clarity
+
+Check-in completion rate
+
+Reuse after uncertain session
+
+Pattern acceptance rate
+
+Session-to-session return behavior
+
+13.3. Guardrail ve Operasyon Metrikleri
+
+Contract-valid response rate
+
+STT success rate
+
+P95 report generation latency
+
+User dispute rate
+
+Safety escalation precision review rate
+
+Deletion request completion SLA
+
+Push notification delivery success rate
+
+13.4. Check-in Accuracy
+Destekleyici metriktir, ana metrik değildir.
+
+Amaç sadece tahminin tutması değil, kullanıcının daha net düşünmesine yardım etmektir.
+14. MVP Kapsamı
+Dahil
+
+Onboarding / Calibration
+
+Voice Debrief
+
+Structured Form
+
+Clarification Questions
+
+Basic Insight Screen
+
+User Validation Step
+
+Final Save to Journal
+
+Basic History
+
+7/14 day Check-in
+
+Privacy controls
+
+Confidence labels
+
+Basic outcome logging
+
+Canonical output contract validation
+
+Prompt versioning ve analysis run logging
+
+Deletion request flow
+
+18+ gate ve policy acceptance tracking
+Hariç
+
+gerçek zamanlı kulak içi koçluk,
+
+canlı date recording mode,
+
+sosyal paylaşım / feed,
+
+eşleştirme havuzu,
+
+agresif personality scoring,
+
+erken açılan tam Pattern Lab,
+
+dramatik risk skoru sistemi.
+15. Operasyonel Yol Haritası
+Faz 0 — Release Readiness
+
+Schema lock: insight_report_v1
+
+Prompt versioning ve analysis_runs tabloları
+
+deletion ve audit akışı
+
+7/14 check-in job scheduler
+
+safety escalation red-team testi
+
+ilk 30 oturum için manuel kalite review paneli
+Faz 1 — Controlled Beta
+20–30 kullanıcıyla kontrollü test
+
+Amaç:
+
+fayda hissi var mı,
+
+dil güven veriyor mu,
+
+kullanıcı rapora itiraz ediyor mu,
+
+hangi sinyaller en değerli bulunuyor?
+
+Faz 1 çıkış kriterleri:
+
+contract-valid response rate yüksek ve stabil olmalı,
+
+kritik safety false negative vakası görülmemeli,
+
+deletion flow uçtan uca test edilmiş olmalı,
+
+ortalama rapor süresi kabul edilebilir seviyede kalmalı.
+Faz 2 — Narrow MVP Release
+Kısıtlı ama tam çalışan V1
+
+
+onboarding,
+
+anlat + netleştir,
+
+sinyal özeti,
+
+validation,
+
+check-in,
+
+history
+Faz 3 — Memory & Pattern Expansion
+Yeterli veri ve outcome toplandıktan sonra
+
+
+weak/emerging pattern
+
+cross-session insights
+
+user-specific signal weighting
+Faz 4 — Monetization Expansion
+
+premium layers
+
+deeper reports
+
+pattern intelligence
+
+advanced journaling value
+16. Viral ve Büyüme Stratejisi
+Büyüme dili clickbait ve hüküm verici olmamalıdır.
+
+Doğru içerik hattı
+
+“Date sonrası kafam karışıktı, neyi kaçırdığımı gösterdi.”
+
+“AI bana kaç demedi; hangi soruyu sormam gerektiğini gösterdi.”
+
+“Heyecan ile veriyi ayırmama yardım etti.”
+
+“Belirsizliği görünür kıldı.”
+Kaçınılması gereken dil
+
+“AI bana bu adamdan kaç dedi”
+
+“AI kimin kötü insan olduğunu anlıyor”
+
+“Yalanı 3 dakikada yakalıyor”
+Bu dil kısa vadede dikkat çekse bile uzun vadede ürünü yanlış konumlandırır.
+17. Sonuç
+MatchProfile’ın gücü, “birini çözen yapay zekâ” olmasında değil;
+
+kullanıcının kendi ilişki kararlarını zaman içinde daha net, daha sistematik ve daha az kör noktayla vermesini sağlayan bir karar altyapısı olmasındadır.
+Ürünün nihai hedefi tek bir buluşmayı yorumlamak değil;
+
+kullanıcının zamanla daha iyi ilişki kararları almasına yardımcı olan kişisel bir netlik sistemi kurmaktır.
+Bu nedenle MatchProfile:
+
+
+bir yargıç değildir,
+
+bir dedektif değildir,
+
+bir eşleştirme motoru değildir,
+
+bir terapist değildir.
+MatchProfile, doğru kurulduğunda şudur:
+Date sonrası duygusal gürültüyü azaltan, kanıtı yapılandıran, hafızayı kullanan ve geri bildirimle kalibre olan kişisel karar sistemi.
