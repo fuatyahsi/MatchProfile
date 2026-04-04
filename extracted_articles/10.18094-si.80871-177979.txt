@@ -1,0 +1,926 @@
+KİŞİLİK VE İLETİŞİM TİPLERİ
+          Çetin Murat Hazar*
+
+ÖZET
+Bu çalışmada kişilik, fiziksel, toplumsal ve ruhsal özelliklerine göre ele alınmakta ve kişilik ile
+iletişim tipleri arasında ilişkiler kurulmaktadır.
+Kalıtımla çevresel faktörlerin bir sonucu olarak beliren kişilik bireye özgü duygu, düşünce ve
+davranışların örgütlenip bütünleşmesi olarak görülmektedir. Kişiliğin fiziksel özellere göre belir-
+lendiği, kısalık, uzunluk, zayıflık, şişmanlık, güzellik, çirkinlik, saç, göz, ten rengi, mimik ve jest
+gibi beden özelliklerine göre kişiliğin ortaya çıktığı konusu Hipokrat’tan beri tartışılmaktadır.
+Ancak günümüzde toplumsal ve ruhsal özelliklere göre kişilik tiplemeleri oluşturulmaktadır. Bun-
+lar arasında, Freud’un psikoanalitik yaklaşımı, Jung, Adler, Horney ve Erikson’un neo-analitik
+yaklaşımı, Pavlov, Galton, Tyron ve Gottesman’ın biyolojik yaklaşımı, Pavlov, Miller ve Do-
+nald’ın davranışçı yaklaşımı, Kelly, Rotter ve Bandura’nın bilişsel yaklaşımı, Allport, Murray ve
+McDougall’ın özellikçi yaklaşımı, Fromm ve Rogers’ın hümanist yaklaşımı ile Murray ve Sulli-
+van’ın etkileşimci yaklaşımı ön plana çıkmaktadır.
+Biyolojik ve özellik yaklaşımları içinde yer alan Eysenck’in oturmuş-içedönük, oturmuş-
+dışadönük, uçarı-içedönük, uçarı-dışadönük tiplemeleri çerçevesinde, kendi kendine iletişim, kişi-
+ler arası iletişim ve kitle iletişimi gibi iletişim tiplerinin farklı tercih ve kullanımları ortaya çık-
+maktadır.
+Anahtar sözcükler : Kişilik, iletişim, iletişim tipleri
+
+PERSONALITY AND TYPE OF COMMUNICATION
+
+ABSTRACT
+In this study, the personality is dealed with physical, social and psychological characteristics and
+is made connections with communication types.
+Comprised as a result of genetic and environmental factors personality is defined as integrity of
+senses, considerations and behaviors, which are special to individual. It has been discussed
+whether personality depends on physical traits such as weight, height, beauty, ugliness, color of
+hair, eye, skin, mimics and gestures since Hypocrites. However, personality types have been con-
+stituted recently according to social and psychological traits. Among these, psychoanalytic ap-
+proach of Freud, neo-analytic approach of Horney and Erikson, biological approach of Pavlov,
+Galton, Tyron and Gottesman, behavioral approach of Pavlov, Miller and Donald, cognitive ap-
+proach of Kelly, Rotter and Bandura, traits approach of Allport, Murray and McDougall, hu-
+manistic approach of Fromm and Rogers and interaction approach of Murray and Sullivan have
+come forth.
+Within the framework of stable-introverted, stable-extraverted, unstable-introverted, unstable-
+extraverted types of Eysenck which are among biologic and traits approaches, different prefer-
+ences and usages of communication types such as intrapersonal communication, inter personal
+communication, mass communication appear.
+Keywords: Personality, communications, type of communication.
+
+GİRİŞ                                              naklıdır. Kültürel olayların benzerlik ve ayrılık-
+                                                   larını toplumdaki kişilik tipinin oluşmasında
+Kişilik, kalıtımla dış faktörlerin bir sonucu      ana etken olarak görenlere göre ise, kişilik,
+olarak görülmektedir. Kişiliği, bireyin iç ve dış  bireye özgü duygu, düşünce ve davranışların
+çevresiyle kurduğu, diğer bireylerden ayırt        örgütlenip bütünleşmesidir (Güvenç 1984:347)
+edici, tutarlı ve yapılaşmış bir ilişki biçimi     Carrel ise, daha pragmatik bir tanım yaparak,
+olarak tanımlamak (Cüceloğlu 1993:404) ola-        kişiliği insanın ta kendisi olarak ele alır. Her
+
+* Dr., Gazi Üniversitesi İletişim Fakültesi
+Selçuk İletişim 4, 2, 2006
+
+birimize küçüklüğümüzü, aleladeliğimizi, gü- yüzünden onun beden ve ruh tarifinin okunaca-
+
+cümüzü veren odur. (Carrel 1973:154)                 ğını (Carrel 1973:84) belirtmektedir.
+
+Psikolojide uzun süre,                               Kısalık, uzunluk, zayıflık, şişmanlık, güzellik,
+                                                     çirkinlik, saç, göz, ten rengi, yürüyüş, oturuş,
+Kişilik özellikleri          Davranış                mimik, jest gibi bedensel özelliklere göre çev-
+(varsayılan)                (gözlenen)               renin gösterdiği ilgi, tepki, ilişki kurma isteği
+                                                     farklılıklar göstermektedir. İnsanların bu tepki-
+modeli hakimiyetini sürdürmüştür. Ancak,             lere verdikleri cevaplar uzun süreli ve benzer
+1960’larda, Mischel, Marlowe ve Gergen’in            nitelikli olursa, değişik kişilik yapılarının
+kişilik ve ahlaki özellikler arasındaki tutarlılı-   oluşması gündeme gelmektedir (Köknel 1986:
+ğın beklenenden düşük boyutlarda olduğunu ve         82-83). Dolayısıyla şöyle veya böyle fiziksel
+değişkenliğin yüksek tezahür ettiğini buldukla-      özellikler kişilik özelliklerini etkilemektedir.
+rında,                                               Buna iyi bir örnek olarak Doberman köpekleri
+                                                     gösterilebilir. Dobermanlar kendileriyle aynı
+Kişilik özellikleri         Davranış                 sınıfa girdikleri kurt köpekleriyle aynı davranış
+(varsayılan)                (Gözlenen)               kalıplarına sahip bulunmaktadırlar. Ancak
+                                                     görünüşlerinden dolayı, bu köpeklerle sahiple-
+Ortamsal etkiler                                     rinin dışında yakın ilişki içine girilmemekte,
+(etkileşim)                                          sevgi gösterilmemekte, onlardan genellikle
+                                                     korkulmaktadır. Böylece Dobermanlar, Kurt
+                                                     köpeklerinde olmayacak derecede bir saldır-
+                                                     ganlık göstermektedirler.
+
+modeline geçilmiştir. Dolayısıyla kişilik özel-      Modern tıbbın babası olarak kabul edilen Hi-
+liklerinin tek tek değil de birbirleriyle etkileşim  pokrat’ın kişilik kavramı, onun öğrencisi olan
+halinde bir bütün olarak davranışı etkilediği        Empedokles’in ortaya koyduğu 4 element (ha-
+ileri sürülmektedir. (Kağıtçıbaşı 1977:78)           va, su, ateş ve toprak) teorisine uygun olarak 4
+                                                     temel mizaca bölünmektedir (Hall ve ark.
+FİZİKSEL VE TOPLUMSAL-RUHSAL                         1985:379). Bu bölümleme, insan vücudundaki
+ÖZELLİKLERE GÖRE KİŞİLİK                             kan, balgam, sarı ve siyah safra olmak üzere 4
+                                                     sıvıya (ki bunlar kalp, beyin, karaciğer ve dala-
+19. yüzyılın sonlarında, kişilik özelliklerinin      ğa karşılık gelmektedir) dayanmaktadır. Tipleri
+irade dışı açığa vurulması, bedensel özelliklere     öfkeli, sıcak kanlı, hüzünlü ve soğukkanlı ola-
+dayalı olarak, “kafanın fiziksel biçiminden yola     rak bölümleyen Hipokrat, sıcakkanlı ve öfkeli
+çıkılarak karakterin okunması” anlamına gelen        kişiliğin, kolayca heyecanlanan, ilgileri çabuk
+Frenoloji ve yine fiziksel özelliklere göre gele-    değişebilenlerden kurulu olduğunu ileri sür-
+ceğin suçlularının ortaya çıkarılmasında Bertil-     mektedir. Öfkeli tipin ilgisi zayıf, ikincinin ise
+lon ölçümlerine gerek duyulmuştur (Sennett           hızlıdır. Buna karşılık soğukkanlı ve hüzünlü
+1996:41-42).                                         mizaçlar ilgilerinin sürekli olması ama yavaş
+                                                     yavaş uyarılması ile ortaya çıkmaktadır. So-
+Aynı dönemlerde kişiliği çevre etkilerinden          ğukkanlı olanların ilgileri zayıf, hüzünlülerinki
+bağımsız olarak bireyin kendi benliğinin belir-      ise şiddetlidir (Öfkeli= ateş= sarı safra= sıcak
+lediği görüşü de (Freudcu yaklaşım) etkinlik         ve kuru, hızlı ve kuvvetli. Sıcakkanlı= hava=
+kazanmıştır. Çevresel etkileri başat öğe olarak      kan= sıcak ve nemli, hızlı ve zayıf. Soğukkan-
+ele alan görüşler ise ruhsal ve toplumsal yapıya     lı= su= balgam= soğuk ve nemli, yavaş ve
+göre kişiliğin ortaya çıktığını ileri sürmüştür.     zayıf. Hüzünlü= toprak= kara safra soğuk ve
+                                                     kuru, ağır ve kuvvetli.) (Fromm 1995:71)
+1. Fiziki Özelliklere Göre Kişilik
+                                                     Aynı şekilde Galen de, Hipokratın vücut sıvıla-
+Carrel, eski hekimlerin pek haklı olarak teşhis      rına dayanan dörtlü sınıflandırmasını kabul
+ve tahminlerinde fiziksel yapıya önem verdik-        eder. Öncelikle, kan bolluğu nedeniyle neşeli
+lerini, görmesini bilen biri için her insanın        ve canlı olan sagvinik tipe referans yapar.
+
+126
+Kişilik ve İletişim Tipleri (125-140)
+
+Sonra aşırı balgamdan etkilenen ve sakin, ra- tip gelir. En sonra ise, enerjik kolerik tip gel-
+hat, iyimser olan flegmatik tip, fazla safra sıvı- mektedir.
+larından etkilenen ve hüzünlü olan melankolik
+
+Tablo 1. Düşünürlere Göre Beden Yapıları ve Kişilik Tipleri
+
+ARAŞTIRMACI  ÖNERİLEN                                ÖNERİLEN     ÖNERİLEN       ÖNERİLEN
+             TİP 1                                   TİP 2        TİP 3          TİP 4
+HİPOKRAT     Öfkeli                                  Melankolik   Sıcakkanlı     Soğukkanlı
+GALEN        Kolerik                                 Melankolik   Flegmatik      Sagvinik
+
+ROSTAN VE    Dijestif                                Respiratuar Se- Müsküler
+ARKADAŞLARI
+VİOLA                                                rebral
+
+             Mikro-Splanknik Makro-Splanknik
+
+SİGAUD VE AULİFFE Dijestif                           Respiratuar  Müsküler Serebral
+
+DAVENPORT    Slender                                 Medium       Fleshy
+
+GALANT       Stenosom                                Mesosom      Megalosom
+Dİ TULLIO    Brevilignes                             Longilignes
+KRETSCHMER   Piknik                                  Astenik      Atletik        Displastik
+
+SHELDON      Viserotonik/                            Serebrotonik/ Somatotonik/
+
+             Ekdomorf                                Ektomorf     Mezomorf
+
+18. yüzyıla kadar varlığını sürdüren Hipokrat        kısmında belirli bir çıkıntısı olanların maddi
+ve Galen’in tipleştirmeleri, her ne kadar günü-      zevklere düşkün, alınlarının yukarı kısmı çıkın-
+müzde çok ciddiye alınmasa da, önerdikleri           tılı olanların ise mal ve mülkiyet arzularının
+tiplerin kelime anlamlarına bakıldığında (San-       kuvvetli olduğunu vurgulamaktadır (Timur
+guinicus = mutlu, iyimser, kan renginde,             Demirtaş, www.kriminoloji.com).
+
+Phlegm = soğuk kanlılık, balgam) uzun yıllar
+                                                             Yine 19. yüzyılın başlarında Rostan’ın da için-
+
+ne kadar etkili olduğunu göstermektedir.
+                                                             de bulunduğu birkaç Fransız yazar kişilik tipo-
+
+                                                             lojisini Dijestif, Respiratuar Serebral ve Müs-
+Ortaçağda, insan fizyonomi okulunu kuran
+
+                                                             küler almak üzere üçe ayırırlar.
+Giambattista della Porta, insan davranışları ile
+
+yüz özellikleri arasındaki ilişkileri incelemiştir.  İtalyan hukukçu Lombroso ise, kişilerin beden-
+Bir suçlu tipolojisi de çıkaran Porta’ya göre,       sel yapılarına göre suça ne derecede eğimli
+hırsız, geniş dudaklı ve sert bakışlıdır. (Timur     olduklarını ve kalıtımsal olarak bu eğilimin
+Demirtaş, www.kriminoloji.com)                       aileden çocuğa geçtiğini iddia etmektedir. As-
+
+19. yüzyılın başlarında, Gall ve Spurzheim’ın        kerlik yaptığı sıradaki gözlemlerinden yola
+frenolojiyi geliştirmeleriyle birlikte, kişilikle    çıkarak, devamlı suç işleyen kişilerin beden
+ilgili çeşitli özellik ve fonksiyonların beyinde     yapılarının normal insanlardan farklı olduğunu
+belirli merkezler kanalıyla geliştiği ileri sürül-   ileri sürmüştür. Ona göre, tepesi yassı küçük
+müştür. Yaşamının 20 yılını akıl hastaları ve        kafalı, elmacık kemikleri çıkık ve goril tipi
+mahkumlar arasında, onların kafataslarının           elleri olanlar (ki günümüzdeki çizgi filmlerde
+şeklini çizerek geçiren Gall, a) beyin düşünce-      de suçlu ve kötü adam tipi böyle canlandırılır)
+nin merkezidir, b) beynin farklı bölgeleri, deği-    suç işlemeye doğuştan yatkındırlar (Ankay
+şik davranışları yönlendirir, c) beynin daha         1992:28).
+
+önemli kısımları nisbi olarak daha küçüktür, d)      Ferri’nin doğuştan suçlu teorisi olarak isimlen-
+kafatası beyin korteksini kaplar ve kafatasında      dirdiği düşünceye göre, suçlular suçlu olma-
+eş anlamlı çıkıntılar olur yargılarına varmıştır.    yanlardan kafatasının küçüklüğü, kolların
+Gall, beyindeki merkezlerin kafatasına etki          uzunluğu, ağrılara karşı duyarsızlık ve solaklık
+yapıp orada bir takım çıkıntı ve girintilere yol     gibi farklı birtakım belirtiler taşımaktadır. Ka-
+açacağını, kafatasındaki çıkıntı, düzlük veya        tiller: kafatasları dar, elmacık kemikler dışarı
+girintinin incelenmesiyle kişilik özelliklerinin     çıkıktır, ırza geçenler: gözleri eğri ve birbirleri-
+bulunabileceğini iddia ederek, kafatasının arka      ne yakın, çeneleri uzundur, hırsızlar: gözleri
+
+                                                                                             127
+Selçuk İletişim 4, 2, 2006
+
+devamlı hareketli, alınları çıkık ve solaktırlar.    eğimli alın, zayıf ve ince yanaklar, ince boyun,
+Ferri’ye göre, sayılan özelliklere sahip olmayan     düşük omuzlar ve kepçe kulaklar gibi ortak
+kişiler de suç işleyebilirler, ancak bu belirtileri  özellikler bulduğunu ileri sürmüştür. Ayrıca
+taşıyanlar suç işlemeye mahkum durumdadırlar         farklı suçları işleyen suçluları değerlendirerek,
+(Soyaslan 1996:35).                                  örneğin uzun boylu zayıf erkeklerin katil ve
+                                                     haydut, uzun boylu ve kalın erkeklerin adam
+20. yüzyılın başlarında ise İtalya’da Viola          öldürme, dolandırıcılık ve sahtecilik suçlarını
+insan vücudunun karşılaştırmalı büyüklüğüne          işleme, kısa boylu, ufak tefek erkeklerin hırsız,
+göre kişilik tiplerinin oluştuğunu ileri sürmüş-     evlerden hırsızlık, kısa boylu kalın erkeklerin
+tür. Hipokrattan esinlenerek, küçük vücutluları      ise müessir fiil ve cinsel suçları işleme, bayağı
+Mikro-Splanknik, büyük vücutluları Makro-            görünümlü erkeklerin değişik tür suç işleme
+Splanknik olarak değerlendirmektedir (Hall ve        eğilimde olduklarını iddia etmektedir. Yine
+ark. 1985:379).                                      Hooton’a göre hırsızların kısa kafası, sarı saç-
+                                                     ları ve çıkık alt çeneleri, yağmacıların ise uzun
+Sigaud ve Auliffe insanları beden yapılarına         dalgalı saçları, uzun kafaları, kısa kulakları,
+göre, Celebral, Respiratoire, Musculaire ve          geniş yüzleri bulunmaktadır.
+Digestive olarak dört tipe ayırmaktadır. Celeb-
+ral tip, ufak yüz yapısı, büyük kafatası, Respi-     Sosyal çevrenin etkilerine değinen Hooton,
+ratoire tip, karın boşluğuna oranla çok geniş        yapısal bakımdan daha aşağı durumda olan
+göğüs kafesi, Musculaire tip, iyi gelişmiş kol       kişilerin, çevrenin de yarattığı baskı ile daha da
+ve bacak kasları, Digestive tip ise, geniş ve        kötü oldukları ve suçluluğa bunun yol açtığı
+büyük karın boşluğu özelliklerine sahiptir.          üzerinde durmaktadır. Toplumun ise bu tür
+                                                     insanları düzeltemeyeceğini, tam tersi kötü
+1923 yılında Davenport, Slender (ince-uzun),         organizmaların iyi çevreyi bozacağını belirt-
+Medium (orta) ve Fleshy (şişman-etli) ayrımına       mektedir (Sokullu-Akıncı 1999:153-154).
+gitmiştir. Aynı şekilde Sovyet araştırmacı Ga-
+lant (1927), Stenosom, Mesosom ve Megalo-            Ancak, bedensel tiplemeler arasında en çok ilgi
+som gibi tiplemelere gitmekte ve Davenport           gören Kretschmer (1927) ve Sheldon’un (1954)
+gibi farklı fizik özelliklerine sahip insanların     sınıflandırmaları olmuştur.
+birbirlerinden farklı kişilik özelliklerinin oldu-
+ğunu ileri sürmektedir (Köknel 1986: 83-84).         Kretschmer, beden yapılarını Piknik, Astenik,
+                                                     Atletik ve Displastik olarak 4 tipe ayırmaktadır
+Di Tullio ise genel olarak kişileri organları        (Songar 1977:168-172).
+(uzun organlı-kısa organlı) ve güçleri yönün-
+den (güçlüler-güçsüzler) birbirlerinden ayır-        1. Piknik yapılı olanlar, orta boylu, kısa bo-
+maktadır. Kısa organlı olanların (Brevilignes)       yunlu, yağlı, şişman, göbekli, yuvarlak, yüzleri
+omuz ve sırtları geniş, kol ve bacakları kısa,       yağlı, saçları ince ve seyrek, sakalları sert ve
+yüzleri yuvarlaktır. Uzun organlıların (Longi-       beden kılları çok, kol ve bacakları kısa, elleri,
+lignes) ise omuz ve sırtları dar ve boyları, kol     parmakları tombuldur.
+ve bacakları ile çehreleri uzundur. Kısa organlı
+ve güçsüzlerin genel olarak az suç işlediklerini,    Piknik tip, orta yaşlarda eriştiği en son olgun-
+kısa organlı ve güçlülerin agressif olduklarını,     luk safhasında, iç organları ihtiva eden boşlu-
+adam öldürme, hırsızlık gibi suçları işledikleri-    ğun çok fazla gelişmesi ve gövdede yağ birik-
+ni, uzun organlı ve güçlülerin fanatik suçlular      mesi ve omuz çevresi, kol ve bacaklar gibi
+olduklarını, ihtiraslı adam öldürme suçları          hareket organlarının zayıf bir şekilde teşekkülü
+işlediklerini ileri sürmüştür (Soyaslan              ile kendini göstermektedir.
+1996:37).
+                                                     2. Astenik tip, uzunluğuna bir büyümedir.
+Farklı tip suçlular arasında, aynı zamanda da        İnce, uzun, zayıf beden yapıları, ufak baş, ince
+suçlu olmayanlar ve suçlular arasında ırk fark-      uzun burun, küçük çene, soluk yüz derisi, kalın
+lılıkları ve anatomik değişiklikleri bulmaya         telli saçlar tipik özelliğidir.
+çalışan Antropolog Hooton, 17 bin suçlu üzeri-
+ne yaptığı araştırmalarda, ince dudaklar, dar ve
+
+128
+Kişilik ve İletişim Tipleri (125-140)
+
+3. Atletik tip, iskeletin, kasların ve tenin iyi    Endomorflarda, Viseronotik denilen, hareketle-
+gelişmesiyle kendini gösterir. Boyları ortanın      ri yavaş ve uyuşuk, rahata düşkün, yemek ye-
+üstündedir. Kol ve bacaklar uzun, baş sert ve       mekten hoşlanan, topluluktan haz duyan, bol
+yüksekçedir.                                        gülen, neşeli, arkadaş canlısı, sevme tanınma
+                                                    isteği güçlü, hoşgörülü, ilgisi kendisine dönük,
+4. Displastiklerde vücut diğerlerine benzemez.      çok ve derin uyuyan, alkole düşkün, çabuk ve
+Kalıtımla ilgili veya sonradan olan iç salgı        kolay duygulanan, kaygılanan, üzülen ve ağla-
+bezlerine ilişkin bozukluklardan dolayı anor-       yan bir kişilik yapısı görülmektedir.
+mal bir intiba verir. Aşırı uzun veya kısa boy,
+şişmanlık, zayıflık, zeka gerilikleri, kişilik      2. Mezomorf tipte olanların omuzları ve özel-
+sapmaları gibi özellikleri içerir.                  likle kasları iyi gelişmiş, dayanıklı, atletik
+                                                    kişilerdir.
+Kretschmer, hasta ve sağlıklı insanlar üzerinde
+yaptığı araştırmalar sonucunda, insanları genel     Bunlarda, Somatotonik denilen, beden hareket-
+olarak Siklotimik ve Şizomik biyotipe ayırır.       leri canlı, spordan ve serüvenden hoşlanan,
+Çoğunlukla piknik tiplerde gelişen Siklotimik,      egemen olma ve yönetme tutkusu olan, davra-
+dışadönük, canlı, neşeli, sevecen, insancıl kişi-   nışlarında girişken ve atılgan, kapalı yerlerden
+lerdir. Kolay ve çabuk duygulanır, sever, kızar,    korkan, içinden geldiği gibi hatta zaman zaman
+öfkelenir, uygulamalı ve toplumsal alanlarda        saygısızca davranan, her türlü kalabalık ve
+başarılı olurlar.                                   gürültüden hoşlanan, dışadönük, kaygı ve endi-
+                                                    şe durumlarında dışa yönelik eylemlerde bulu-
+İçedönük, soğukkanlı, duygularını dışa yansıt-      nan ve saldırgan olan bir kişilik görülür.
+mayan insanlar ise Şizomitiklerdir. Çekingen
+ve alıngandırlar. Yalnızlıktan ve soyut konular-    3. Ektomorf tipte olanlar ince, uzun, iyi ge-
+la uğraşmaktan hoşlanırlar. İradeleri güçlüdür      lişmemiş kas yapısına sahiptirler.
+ve başladıkları işin sonunu getirirler. Genellikle
+astenikleri kapsamaktadır (Köknel 1986: 84-         Serebrotonik denilen bu tip kişilikte, hareketler
+85).                                                yavaş ve endişeli, olaylar ve insanlar karşısında
+                                                    geriye çekilme ve içe kapanma, aşırı zihinsel
+Sheldon ise, iskelet ve beden oranlarının değer-    işlev ve akılcı yaklaşım, duygu ve coşkular
+lendirilmesi ve ölçümlendirilmesi için beden        üzerinde aşırı denetim, topluluktan, kalabalık-
+yapıları farklı insanlar ve bunların çeşitli açı-   tan hatta arkadaştan çekinme ve kaçma, açık
+lardan çekilmiş fotoğraflarından yola çıkmıştır     yerlerden, geniş alanlardan korkma, aşırı ve
+(Köknel 1986:86-87). Beden yapılarını döl           dışarı yansıtılmayan duyarlılık, alkole karşı
+yatağı içinde gelişen katmanlara göre Endo-         dayanıklılık, kaygı ve korku yaratan durumlar-
+morf, Mezomorf ve Ektomorf şeklinde üç te-          da içe kapanma ve yalnız kalma isteği ortaya
+mel tipe ayırmıştır. Döl yatağı içinde oğulcu-      çıkmaktadır.
+ğun ilk oluşan katmanları endoderm olup, bun-
+dan sindirim sistemi, mide, bağırsak kanalı         Sheldon, bu tiplerin saf olarak nadir bulunacak-
+gelişir. Daha sonra oluşan mezodermden ke-          larını ve herhangi bir kişilik tipinin diğerlerine
+mik, kas ve bağ dokuları gibi bedenin temel         baskın olduğunda anlamlı bir kişilik tipinin
+destekleri, son oluşan ve oğulcuğun dışında         ortaya çıkacağını savunmaktadır.
+bulunan ektodermden ise merkezi sinir sistemi
+ve duyu organları gelişmektedir. Sheldon,           Kişiliğin oluşumunda, genlerin, vücut sıvıları-
+oğulcukta ayrı katmanlardan kaynaklanan sis-        nın da büyük bir etkinliği vardır.
+temlerin gelişmesi sonucu ortaya çıkan üç ayrı
+beden yapısının üzerinde bunların uygun üç          Günümüzde genlerin ancak % 2’sinin işlevleri
+ayrı kişilik olduğunu ileri sürmüştür.              bilinmekte ancak, bununla bile psikolojide bir
+                                                    devrim yaratılabilmektedir. Lange, 13’ü tek,
+1. Endomorf tipte olanların iç organları geliş-     17’si ayrı yumurta ikizi olan 30 çocuğu suçlu-
+miş olup, özellikle karın bölgeleri geniştir.       luk yönünden inceler. Bu çalışma ile eşit yu-
+Beden yuvarlak, kaslar gevşek, saçlar seyrek ve     murta ikizlerinden 10’u, ayrı yumurta ikizle-
+cilt düzgündür.
+
+                                                    129
+Selçuk İletişim 4, 2, 2006
+
+rinden ise sadece 2’sinin suç işlediği saptan-         (size zorluk çıkarana saldırma veya çekici
+mıştır (Ankay, 1992:25-26).                            bulunan karşı cinsten birisiyle o anda birlikte
+                                                       olma vb.) ister.
+İç salgı bezleri de kişiliğin oluşumunda etkin
+görev görmektedir. İnsan beyni sıkıntıdan kur-         Rüyalar veya hayal kurmalar şeklinde de ortaya
+tulmak için morfine benzer Serotonin gibi              çıkan id’in doyurulması “Birincil Süreçler”i
+kimyasal maddeler üretmektedir. Serotonin,             oluşturmaktadır. Birincil süreçlerin baskın
+nöronlarla ilgili olduğundan az salgılandığında        olduğu bireylerde, davranışların düşünme ve
+kaygı ve depresyon durumlarına yol açmakta-            akıl yürütme yoluyla değil, id’in istekleri yö-
+dır. Bunu önlemek için organizma karbonhid-            nünde geliştiği görülür.
+ratlı besinlere yönelmekte ve kişi şişmanlamak-
+tadır. Isı ve ışığın da iç salgı bezlerinin çalış-     İd’i denetim altında tutmaya çabalayan kişilik
+masını etkilediği bilinmektedir.                       birimi ego’dur. Gerçek ilkesine uyarak, gerçek
+                                                       dünya ile id arasında bir aracı olarak işlev gö-
+Kişiliğin hem bir türevi hem de oluşturucusu           rür. ‘İkincil Süreçler’e dayalı düşünce içinde
+niteliğinde olan duyguların temelinde de biyo-         çalışan ego, mantık ve gerçekçi düşünceyi ön
+kimya vardır. Yapılan bir deneyde, erkek fare-         plana çıkarır. İd’in “hemen şimdi istiyorum”
+nin hipotalamusuna Bekaendorfin enjekte edil-          emrine karşı, ego “koşullar uygunsa sana iste-
+diğinde, belirli bir dişi fare ile daha fazla ilişki-  ğini verebilirim” der. Akılcılık ve pratikliğini
+ye girdiği ve diğerlerine ilgi duymadığı ortaya        kullanarak, id’le çoğu zaman çelişki halinde
+çıkmıştır. Adrenalinin de duygusal yaşamı              olsa da onun arzu dürtülerini mümkün oldu-
+harekete geçirdiği ve beyin aktivitesini arttırdı-     ğunca yerine getirmeye çalışır. İd’in sürekli bir
+ğı ispatlanmıştır (Ankay 1992:31-32).                  danışmanı ve yol göstericisi olduğundan, iyi ve
+                                                       kötü kavramlarıyla ilgilenmez ve herhangi bir
+2. Toplumsal ve Ruhsal Özelliklere Göre                ahlaksal tutumu yoktur.
+Kişilik
+                                                       Toplumun inandığı ve kişiye dayattığı doğru ve
+Araştırmacıların bazıları ise, beden yapısından        yanlış kararların kaynağını Superego oluştur-
+bağlantısız olarak kişilik özelliklerini toplumsal     maktadır. Vicdan olarak da isimlendirilen Su-
+ve ruhsal açıdan değerlendirmeye almaktadır-           perego, bireyin davranışlarını süzgeçten geçire-
+lar. Bu yaklaşımları, Psikoanalitik, Neo-              rek, bireye iltifat veya yergi bildirir. Böyle bir
+Analitik, Biyolojik, Davranışsal, Bilişsel, Özel-      yapılanma içinde ego, id ile superego arasında
+likçi, İnsancıl ve Etkileşimci olarak sınıflan-        bir nevi cambaz niteliğindedir. Hem id’i mem-
+dırmak olanaklıdır.                                    nun etmeye, hem de superego tarafından azar-
+                                                       lanmaktan kurtulmak ister.
+
+2.1. Psikoanalitik Yaklaşım                            Freud’a göre, kişiliğin bütün bu katmanları
+                                                       birbirleriyle devamlı çelişki halindedir. Böyle-
+Kişilik konusundaki Psikoanalitik yaklaşım             ce, kaygı ile birlikte, bastırma, düş kurma,
+Freud’un kişilik kavramından kaynaklanmak-             ussallaştırma, yansıtma, saplanma ve gerileme,
+tadır. İnsanların fark etmedikleri birtakım içgü-      özdeşim, özleşme, ödünleme, yer değiştirme-
+düleri, itileri ve gereksinimlerinden yola çıka-       yön değiştirme, kaçma, tepki oluşturma, çö-
+rak, altta yatan gereksinimlerin yada kaygıların       zülme, dönüşüm, yüceltme, yapma-bozma,
+bilinmesinin farklı ortamlarda yapılan farklı          inkar, yalıtma, dışa vurma gibi savunma meka-
+davranışları birbirleriyle tutarlı hale getireceği-    nizmaları ortaya çıkar.
+ni (Morgan 1998:315) ileri süren Freud, insan
+kişiliğinin üç temel birimi olarak “İd”, “Ego”         Freud, cinsel gelişmenin çeşitli aşamalardaki
+ve “Süperego” kavramlarını ele alır (Cüceloğlu         saplamalara bağlı olarak, Sevgeç, Sado-
+1993:406-414).                                         mazoşist ve Özsever olmak üzere üç temel
+                                                       kişilik tipi üzerinde durmaktadır (Köknel 1986:
+İd, kişiliğin, en kaba, en ilkel kalıtımsal dürtü      91-92)
+ve arzularını içerir. Zevk ilkesine göre işleyen
+ve bilinçaltı dürtülerden oluşan id, hiç gecikti-      Sevgeç tiptekiler, sevmenin ve sevilmenin
+rilmeden bütün isteklerin yerine getirilmesini         egemen olduğu, ağır bastığı duygusal insanlar-
+                                                       dan oluşmaktadır.
+
+130
+Kişilik ve İletişim Tipleri (125-140)
+
+Superego’ları ile Ego’ları arasında sürekli         içedönük sezgisel, dışadönük düşünen, içedö-
+çatışma ve sürtüşme görülen tipler ise, Sado-       nük düşünen tarzında toplam sekiz kişilik)
+Mazoşist’leri oluşturmaktadır. Katı kurallar        değerlendirmektedir. Kişinin içinde bulunduğu
+karşısında, bunlara uymamanın verdiği kaygı         ortama, zihinsel gelişmelere göre bu işlevler-
+ve sıkıntı nedeniyle devamlı tedirginlik göste-     den biri ön plana geçmektedir. Böylece ağırlık
+rirler. Saplantılı düşünceleri ve korkuları kendi-  kazanan işlev, kişinin bilinçli yanını oluştur-
+lerinde taşıma eğilimindedirler.                    maktadır. Gölgede kalan işlev ise diğerine
+                                                    yardımcı olmaktadır. Geriye kalan iki işlevden
+Kendi bedenine ve kişiliğine aşırı düşkün olma      birisi arada sıkışmış, sonuncusu ise, gelişmeye-
+durumuyla da, özsever tip ortaya çıkmaktadır.       rek, denetim dışı kalmıştır (Köknel 1986:89-
+                                                    91).
+Freud, bunların, birbirinden bağımsız ortaya
+çıkmak yerine, iki tipin özelliklerinin bir bölü-   Kişilikte bulunan bu dört işlevden birisinin
+münü taşıyan değişik kişilik yapılarının da         gelişmesi ergenlik çağının sonunda ortaya
+belirdiğini ileri sürer.                            çıkmaktadır. Ancak, kişilik gelişmesini tamam-
+                                                    layamayanlar bu dört işlevden hangisine başvu-
+2.2. Neo-Analitik Yaklaşım                          racaklarını bilemediklerinden dengesiz ve dü-
+                                                    zensizdirler ve her an bir değişme gösterebilir-
+Freud’un takipçisi olan ancak, cinselliğin rolü-    ler.
+nün Freud’un ifade ettiğinden daha düşük ol-
+duğunu ileri süren Neo-Analitik düşüncenin en       Adler ise, çocukluk hayatının başkasına tabi
+önemli temsilcileri Carl Jung ve Alfred Ad-         olma durumu ve yetersizliklerinin zamanında
+ler’dir. Jung, “Persona” ve “Gölge” kavramla-       kalmayıp devam etmesiyle, kişide aşağılık
+rını ortaya koymaktadır (Songar 1977: 136-          duygusunun geliştiğini ileri sürmektedir. Birey,
+137).                                               eksikliğini fark ettiğinde, bunu giderici faali-
+                                                    yetlerde bulunur (Songar 1977:131-132).
+
+Persona, kişinin gerçek egosunun üstüne geçiri-     Üstünlük arzusunun, kişinin psikolojik hayat-
+len, toplumsal açıdan kabul edilebilir ve çevre-    taki amacını oluşturduğunu, dünya görüşünü ve
+ye sunulabilir bir maskedir. Toplumsal çevre        davranış kalıbını değiştirdiğini, kendisine ait
+ve konjonktür kişileri meslek ve meşguliyetle-      çeşitli ruhsal ifadeleri belli kanallara doğru
+rine bağlı olarak bir takım davranışları göster-    sevk ettiğini belirten (Adler 1997:291) Adler,
+mesi konusunda yönlendirmektedir. Bir bakan,        dominant (baskın) üst erkeklik (masculinity) ve
+doktor, avukat vb. sadece mesai saatlerinde         resesif (çekingen) kadınlık (femininity) durum-
+değil, toplum tarafından her zaman bir bakan,       larına işaret etmektedir. Erkekte feminen eği-
+doktor veya avukat olarak görülür. Dolayısıyla,     limlerin kişi tarafından fark edilmesiyle “erkek
+Persona, bireyin çevreyle uyuşmasını sağlayan       protestosu”, aşırı bir agressif davranış görülür.
+bir mekanizma görevi yapmaktadır.
+                                                    Kişiliği, Freud’dan farklı olarak, bireyin kendi-
+Persona maskesinin altında ise, arzuları, duy-      sine, diğer insanlara ve topluma karşı geliştir-
+guları ve bunların bağlantılarını oluşturan Göl-    diği tutumların ürünü olarak alan (Geçtan
+ge yer almaktadır. İç davranış adı da verilen       1988:83) Adler, insanları karşılaştıkları zorluk-
+Gölge, Persona’ya oranla daha sabit ve ona zıt      lara göre, iyimser-kötümser (Adler 1997:306-
+bir figürdür. Olgunlaşma ve eğitimle değiştiri-     307), saldırgan (boş gurur, harislik, kıskançlık,
+lemez. Birey, toplumsal nedenlerden dolayı          haset, cimrilik, kin) ve kendini savununlar
+(ahlak, vicdan vb.) Gölge’yi kabullenmekte          (insanlardan kaçma, endişe yüreksizlik, uyum-
+zorlanmakta, bu da tehlikeli bir iç çelişkiye       suzluk belirtisi olarak baskı altına alınamayan
+neden olabilmektedir.                               içgüdüler) (Adler 1997:309) olarak ayırmakta-
+                                                    dır.
+Jung, temel olarak aldığı içedönük ve dışadö-
+nük kişilik tiplerini duyum, duygu, sezgi ve        2.3. Biyolojik Yaklaşım
+düşünme gibi işlevlerine göre (dışadönük du-
+yumsal, içedönük duyumsal, dışadönük duygu-         Her ne kadar motivasyon ve çok çalışma birey-
+sal, içedönük duygusal, dışadönük sezgisel,         lerin arzuladığı herhangi bir şeyi yapmada, elde
+                                                    etmede önemli olsa da, biyolojik faktörlerin
+
+                                                    131
+Selçuk İletişim 4, 2, 2006
+
+kişiliği etkilediği şüphe götürmez bir gerçeklik-    Yine kişiliğin belirli özelliklerinin nesiller
+tir.                                                 boyunca aktarıldığını ileri süren Galton, genler-
+                                                     le aileden kalma bazı özelliklerin zamanla aynı
+Beyin yarımkürelerindeki aktivitelerden, zehir-      ailenin devamında görüldüğünü, Tyron, kalı-
+lenme veya hastalıklara kadar bir çok biyolojik      tımla zeka arasında ilişki olduğunu, Gottesman,
+değişken kişilik farklılıkları üzerinde etkili       ikizlerin benzer kişilik özelliklerinin genetik
+olabilmektedir (Friedman ve Schustack                benzerliklerinden kaynaklandığını, Newman,
+2003:199). Beynimizin yapısına ve işleyiş            Greeman ve Holzinger, ikizler arasındaki ağır-
+tarzına bağlı olarak gerek duyu organların           lık, fizyolojik yapı ve zeka düzeylerindeki
+hassasiyetinde, gerekse vücudun hormon üre-          benzerliklerden ötürü benzer kişilik özellikleri-
+timinde kişiden kişiye, ortamdan ortama ve           nin oluştuğunu ileri sürmüşlerdir (Timur De-
+hatta zamana bağlı olarak değişiklikler meyda-       mirtaş, www.kriminoloji.com).
+na gelmektedir. Dolayısıyla bu değişikliklere
+bağlı olarak herhangi bir olay karşısında algı,      2.4. Davranışçı Yaklaşım
+dikkat, önem, reaksiyon şiddeti gibi unsurlar
+değişebilmektedir. Çikolatanın çok sınırlı da        Bir çok yaklaşım, kişiliği anlamak için, komp-
+olsa rahatlatıcı işlevi dikkate alındığında, çiko-   leks bir bütün olan insan davranışından yola
+lata bağımlısı bir kişinin reaksiyonu ile diğerle-   çıkarken, davranışçı geleneğe sahip olanlar
+rinin reaksiyonları arasında düşük düzeyli bir       öncelikle daha basit olan hayvan davranışı
+farklılık göze çarpacaktır. Diğer yandan, hasta-     üzerinde durmuşlardır. Hayvan davranışlarının
+lıklar, zehirlenme, fiziksel maddelere bağımlı-      özellikle çevre tarafından koşullanmasından
+lıklar yüzünden kişilik değişikleri görülebil-       yola çıkarak, bireyin tam olarak çevre tarafın-
+mekte, bu unsurlar kişilik üzerinde dramatik         dan kontrol edildiğini ileri sürerler (Friedman
+etkilere yol açabilmektedir (Friedman ve             ve Schustack, 2003:202).
+Schustack 2003:199).
+                                                     Ampirik yaklaşımı sürdüren anglo-sakson
+İnsanların sadece çevreden etkilenmediklerini,       geleneği, gözle görünmeyen, ölçülemeyen ego,
+belli yeteneklerle doğduğunu ileri süren biyolo-     id, üst ben gibi soyut kavramlar yerine, kişili-
+jik yaklaşım taraftarları, özellikle ikizler üzeri-  ğin öğrenme tarihçesini yansıtan davranış alış-
+ne yapılan çalışmalar üzerinde durmaktadır.          kanlıklarından oluştuğunu iddia etmektedir
+Tek yumurta ikizlerinin, diğer ikizlere oranla       (Cüceloğlu 1993:423). Böylece, öğrenmeyi
+kişilik yönünden daha fazla benzerlikler taşı-       temel tezi olarak ele alan davranışçı yaklaşım,
+dıkları belirtilmektedir. Özellikle benzer çevre-    bireylerin, sosyal davranışı da tıpkı başka bir
+sel etkilere karşı benzer davranış örüntüleri        davranışın öğrenilmesi gibi aynı ilkelere bağlı
+görünmektedir. Ancak, çocukluktan yetişkinli-        olarak öğrendiklerini savunmaktadır. Dahası,
+ğe ve yaşlılığa kadar önemli çevresel etkilerin,     farklı durumlarda değişik davranımlarda bu-
+benzerlikleri caydırıcı olarak ortaya çıktığı        lunmayı da öğrenmektedirler. Bireyler bir du-
+görülmektedir. Genç tek yumurta ikizlerinin          rumda dürüst olmayı öğrenirlerken, bir başka
+kişilik benzerlikleri ile yaşlanmış tek yumurta      durumda bu davranışı öğrenmeyebilirler. Dola-
+ikizlerinin kişilik benzerlikleri arasındaki fark    yısıyla kişinin belli durumlarda neler yaptığının
+da bunu göstermektedir (Friedman ve Schus-           anlaşılması için onun gözlemlenmesi ve kendi-
+tack 2003:199).                                      ne sorulması (çeşitli durumların resimlerinin
+                                                     gösterilmesiyle davranım ya da tepkilerdeki
+Biyolojik yaklaşımın önemli temsilcilerinden         otomatik değişmeleri ölçmek, rol yapılması
+kabul edilen Ivan Pavlov, beyin kabuğunda            sağlanarak sorunların olası nedenlerini sapta-
+oluşan uyarılma ve ketleme süreçlerine göre          mak, görüşmelerle, anketlerle kişinin değişik
+mizacı güçlülük, dengelilik, hareketlilik boyut-     durumlarda neler yaptığının kendisine sorulma-
+larında 1) güçlü, dengeli, hareketli-canlı tip, 2)   sı vb.) gerekir (Morgan 1998:318). Davranışçı-
+güçlü, dengeli hareketsiz-sakin, yavaş tip, 3)       lar, genelde, bir insanın her günkü davranışıyla
+güçlü, dengesiz-engelsiz tip, 4) zayıf tip şek-      kişilik davranışları arasında bir fark olmadığı,
+linde ayrıma gitmektedir (AnaBritannica              pekiştirme, cezalandırma, genelleme ve ayırt
+1989:363).                                           etme gibi kavramlarla kişiliğin açıklanabileceği
+                                                     üzerinde durmaktadırlar (Cüceloğlu 1993:432).
+
+132
+Kişilik ve İletişim Tipleri (125-140)
+
+Biyolojik yaklaşımda olduğu gibi, Davranışçı       Kişiliğin oluşumunu inanç sistemine bağlayan
+yaklaşımın da önemli simalarından olan Ivan        Rotter, sosyal-bilişsel teorisiyle, bireyin davra-
+Pavlov, klasik şartlanma deneyiyle öğrenmenin      nış potansiyeli, beklenen sonuçlar ve verilen
+temel ilkelerini ortaya çıkarmıştır. Pavlov,       değer bağlamında davranışlarını seçtiğini ileri
+köpekler üzerine yaptığı deneyde, yemek ver-       sürmektedir (Friedman ve Schustack, 2003:
+meden önce zili çalmakta sonrasında yemeğini       267). Rotter’ın beklenti-değer yaklaşımına
+vermektedir. Normalde zil çalmasının tükürük       göre, kişi belirli bir davranışı, o davranıştan
+salgılayıcı bir işlevi olmamasına rağmen, belli    belirli bir sonuç beklediği için yapmaktadır.
+bir deneyimden sonunda sadece zilin çalmasıy-      Birey için bu davranıştan elde edeceği düşün-
+la köpek tükürük salgılamaya başlamaktadır.        düğü sonucun bir değeri bulunmaktadır. Her-
+Böylece köpek zilin çalmasının yemek anlamı-       hangi bir durumda beklenti veya değerden biri
+na geldiğini öğrenmektedir.                        çok düşükse davranış ortaya çakmamaktadır.
+                                                   Buradaki beklenti kavramı temelde algılamaya
+Edimsel koşullamanın (yapıldığında bir ödüle       ve bilişsel süreçlere dayanmaktadır. Değer ise,
+götüren davranışın gittikçe kuvvetleneceği,        algılama düzeyinde bir ödüllendirmedir.
+davranışın ödülle örtüştüğü) kişiliği oluşturan
+temel etmenlerden biri olduğunu ileri süren        Bireyin herhangi bir davranışı öğrenmesi için
+Skinner ise, kişiliği çevresel şartlar tarafından  bir başkasını belirli davranışları yaparken göz-
+organize edilen öğrenilmiş bir davranış reper-     lemlemesi gerektiği, bunun için ödülün gerek
+tuarı olarak görmektedir. Çocuklar üzerinde de     şart olmadığı düşüncesine katılan Bandura da,
+çalışan Skinner, yaşamını ve kişiliğini çevresel   sosyal ortama ve gözlemlemeye önem vererek,
+olayların kontrol ettiği çocuğun güvercinler       insan algılamasını yani bilişsel süreçleri ön
+gibi çevrenin fonksiyonu olduğunu, kişilik         planda tutar (Cüceloğlu 1993:426-427).
+gelişmesinde ödül ve cezanın önemli bir rolü
+olduğunu belirtmektedir (Friedman ve Schus-        Bazı durumlarda, ilgili teorilerin, doğrudan
+tack 2003:229).                                    konunun içindeki teorilerden daha fazla bu
+                                                   teorilerin varsayımlarına katkıda bulundukları
+Freud’un ileri sürdüğü kişilik kavramlarının       görülmektedir. Kurt Lewin’in Gestalt yaklaşı-
+öğrenme süreçleriyle açıklanabileceğini ileri      mı da aynı şekilde bilişsel yaklaşıma önemli bir
+süren Miller ve Donald, bir öğrenmenin ger-        destek sağlamaktadır. Gestalt yaklaşımı, algı ve
+çekleşebilmesi için bireyin bir şeyi istemesi,     problem çözümünü ele alarak, bunu kişilik
+dikkate alması, yapması ve elde etmesi gerek-      teorileri sahasında geliştirmiştir (Friedman ve
+tiğini söylemektedirler. Uyarı ve cevap arasın-    Schustack 2003:266).
+daki bağlantıyı alışkanlık olarak adlandırdıkla-
+rından, kişilikten bahsettiklerinde, öncelikle     2.6. Özellikçi Yaklaşım
+alışkanlığın oluşumunu ve çeşitli alışkanlıklar
+arasındaki ilişkileri kastederler (Friedman ve     Özellik yaklaşımı, bireyin kişiliğini, temel
+Schustack 2003:229).                               özelliklerinin bir sentezi olarak görmektedirler.
+                                                   Bu özelliklerin bilinmesiyle bireyin kişiliği de
+2.5. Bilişsel Yaklaşım                             öğrenilmiş olacaktır. Böylece, kişilik testleri ve
+                                                   dereceleme ölçekleri ile ölçülebilecek belirli
+Dünyamızdaki olayları nasıl anlıyoruz, doğayı      sayıdaki bir takım özelliklerin bir araya geti-
+ve diğer insanların eylemlerini nasıl anlıyoruz,   rilmesi gerekmektedir. Bu özellikler daha çok
+sosyal çevremizden nasıl öğreniyoruz, davra-       birbirine zıt sıfatlar halinde ifade edilen iyi-
+nışlarımızı nasıl kontrol ediyoruz ve anlıyoruz    kötü, gergin-rahat, sevimli-sevimsiz vb. yakış-
+soruları üzerinde duran Bilişsel söylem, kişili-   tırmalarla ifade edilmektedir (Cüceloğlu
+ğin temeline zihinsel süreçlerle, algıyı koymak-   1993:416-417). Bireyin kişiliği, bu ifadelerin
+tadır (Friedman ve Schustack 2003:232).            kullanıldığı kişilik testleriyle veya herhangi bu
+                                                   kişiyi tanıyan yargıcılara özellik derecelendir-
+Bilişsel yaklaşım içinde yer alan Kelly, önce-     mesi yaptırmak yoluyla ölçülmektedir (Morgan
+likle kişiler arası ilişki üzerine odaklanmakta-   1998:312). Ancak, özellik yaklaşımında kulla-
+dır. Kelly’e göre, her insan anlamak ve davra-     nılan sınırlı sayıdaki özelliklerin kişiliği özet-
+nışı tahmin edebilmek için benzersiz bir siste-    lemekte faydalı olmasına rağmen bunların
+me sahiptir.
+
+                                                   133
+Selçuk İletişim 4, 2, 2006
+
+sayısı hala tartışma yaratmaktadır (Friedman ve     Fromm, yaptığı kişilik tipleştirmelerinde, yara-
+Schustack 2003:305).                                tıcı olmayan yöneliş ile yaratıcı yönelişi ele
+                                                    almaktadır. Kendine mal etme sürecinde yara-
+Özellik yaklaşımının önemli simalarından olan       tıcı olmayan yöneliş 1) alıcı (kabul eden), 2)
+ve 1930’larda modern kişilik teorilerinin şekil-    sömürücü (zorla alan), 3) biriktirici (saklayan),
+lenmesinde önemli bir rolü olan Allport, kişili-    4) pazarlayıcı (değiş-tokuş eden) kişilikleri
+ği tümüyle bireysel ve tekil özelliklerinden        ortaya koyarken, sosyalleşme düzeyinde 1)
+oluşan bir bütün olarak ele alarak, insan davra-    mazoşisttik (aşırı bağlı), 2) sadisttik (otoriter),
+nışının değişmeyen, öznel ve tekil kişilik özel-    3) yıkıcı (kendini gösteren, ön plana çıkaran),
+liklerine göre belirlendiğini ileri sürmektedir.    4) ilgisiz (yalnızca çekici görünmeye çalışan)
+                                                    tipleri önermektedir. Olumlu bir imaj çizen
+Kişiliğin gereksinimler içinde oluştuğunu sa-       yaratıcı yöneliş ise, kendine mal etme sürecin-
+vunan Murray’ın, hazırladığı gereksinimler          de çalışan, sosyalleşme sürecinde ise seven,
+listesi kişiliğin istatistik yöntemleriyle çözüm-   düşünen tipleri ortaya çıkarmaktadır (Fromm
+lenmesine dayalı testlerin temelini oluşturmak-     1995:134-135)
+tadır. Bu testlerin bilinçdışı davranışları ortaya
+çıkarma amacı taşıması, kişiliğin de bilinçdışı     Rogers’a göre ise, her birey doğuştan mutlulu-
+süreçlerin ürünü olduğu düşüncesine yol aç-         ğu arar, potansiyellerini geliştirmek ister. Bu
+mıştır.                                             insanın doğasında vardır. Bir kişinin benlik
+                                                    bilinci onun kendisiyle ilgili düşüncelerini,
+McDougall ise, kişiliği kalıtsal (birincil) ve      algılamalarını ve kanaatlerini içerir. Olumlu bir
+öğrenilmiş (ikincil) özellikler bütünü olarak       benlik bilincinin gelişmesi için ise koşulsuz
+görmektedir (AnaBritannica 1989:363).               sevgi (ne yaparsa yapsın onun sevgi ve saygıya
+                                                    layık olması) içinde yetişmesi gerekmektedir.
+2.7. Hümanist Yaklaşım
+                                                    2.8. Etkileşimci Yaklaşım
+Hümanist yaklaşım varoluşçulukla birlikte,
+kişisel ve etik değerler üzerinde yoğunlaşmak-      Etkileşimci yaklaşım, sosyal durumlardan yola
+ta, dünyanın insansız, insanın da dünyasız          çıkmaktadır. Eğer durumdan duruma insanların
+olamayacağını ileri sürmektedir.                    kişilikleri değişiyorsa, kişilikle ilgili nasıl ko-
+                                                    nuşabiliriz sorusundan yola çıkan etkileşimci-
+Benlik kuramını da içinde bulunduran bu yak-        ler, kişiliğin sosyal durumlarla nasıl bir ilişki
+laşıma göre, yaşamını doyumluluğa ulaştırma         içinde olduğunu araştırmaya başlamışlardır.
+yönünde sürekli seçim yapan birey, son derece       Yaklaşım, kişiliğin zaman içinde ufak değişik-
+karmaşık bir organizmadır ve kendi kaderi           liklere uğrayacağını, insanın iradesinin sınırsız
+üzerinde karar verme gücüne sahiptir. İyiye         olmamak kaydıyla özgür olarak belirlendiğini
+gitme, gelişme ve mutluluğa ulaşma yönünde          ileri sürmektedir.
+kararlar verir (Cüceloğlu 1993:428).
+                                                    Kurt Lewin’in Alan Teorisinden etkilenen ve
+İnsancıl yaklaşımın önde gelenlerinden              daha önce özellik yaklaşımında da gördüğümüz
+Fromm, karakterin temel yapısının libido’nun        Henry Murray, zaman perspektifini öne alarak,
+çeşitli şekillerinden değil de, bireyin dünya ile   kişisel etkileşim ve insanların hayatları boyu
+olan özel ilişkilerinden kaynaklandığını ileri      karşılaştıkları durumları analiz ederek, tipik bir
+sürmektedir. Ona göre, süreç içinde birey dış       ihtiyaçlar kombinasyonu (birleşmek, özerklik,
+dünya ile nesneleri elde ederek ve kendine mal      egemenlik, sergileme, kötülüğü önlemek, yar-
+ederek, kendisini başka insanlar ile ilişkili hale  dımcı olmak, düzenlemek, oyun, erotizm, yar-
+getirerek bağlantı kurar. Birincisine kendine       dımcı olmak, anlamak) önermiştir (Friedman
+mal etme süreci, ikincine de sosyalleşme süreci     ve Schustack 2003:349).
+demektedir. İnsanların ihtiyaçlarını karşılama-
+ları için onları elde etmesi aynı zamanda da        Sosyal self kavramını ele alan ve kültürel etki-
+başkaları ile ilişki kurması gerekir (Fromm         lerin de göz önüne alınması gereğini Amerika
+1995:79).                                           Birleşik Devletlerinde ilk gören (Horney
+                                                    1986:20) Sullivan ise, farklı durumların farklı
+
+134
+Kişilik ve İletişim Tipleri (125-140)
+
+insanları oluşturduğunu ileri sürmektedir. Do-      iletişim, grup iletişim, örgüt iletişimi, toplum-
+layısıyla yeni bir kasabaya taşınan kişilerin taze  sal iletişim, grup ilişkilerinin yapısına göre;
+bir başlangıç yapmaları, yeni arkadaşlara, kom-     biçimsel olmayan/yatay iletişim, biçim-
+şulara, iş arkadaşlarına yeni bir imaj sunmaları    sel/dikey iletişim, kullanılan kanallara ve araç-
+gibi sahip olduğumuz kişiler arası durumlar         lara göre; görsel iletişim, işitsel iletişim, görsel-
+kadar kişilikler oluşmaktadır (Friedman ve          işitsel iletişim, dokunma ile iletişim, telekomü-
+Schustack 2003:375).                                nikasyon, kitle iletişimi ya da doğal araçlarla
+                                                    iletişim, yapay araçlarla iletişim, kullanılan
+3. İletişim Tipleri                                 kodlara göre; sözlü iletişim, yazılı iletişim,
+                                                    sözsüz iletişim, zaman ve mekan boyutlarında;
+İletişim tipleri, kullanılan iletişim sürecinin ne  yüz yüze iletişim, uzaktan iletişim olarak sınıf-
+anlamda farklı olduğunu ortaya koymak, ileti-       landırmaktadır . Ancak, daha basite indirgenir-
+şimi daha kolay anlamlandırmak için tercih          se, kendi kendine iletişim, kişiler arası iletişim
+edilmektedir. Zıllıoğlu (1993:18-21), bir top-      ve kitle iletişiminden bahsetmek olanaklıdır.
+lumsal ilişkiler sistemi olarak; kişiler arası
+
+Tablo 2. İletişim Tiplerinin Farklılıkları
+
+       KENDİ KENDİNE KİŞİLER ARASI                      KİTLE
+
+       İLETİŞİM                        İLETİŞİM         İLETİŞİMİ
+
+KAYNAK Birey                           Birey ile Birey  Kuruluşlar
+
+ARAÇ   Düşünce                         Söz, Mimik ve Jestler Kitle İletişim Araçları
+
+HEDEF  Bireyin Kendisi Diğer Bireyler (Daha Az Bütün Toplum veya Toplumlar
+
+       (Bilinen)                       Bilinen)         (Çok Daha Az Bilinen)
+
+FEEDBACK Otomatik, Anında Hızlı                         Yavaş
+
+Kişiyi güdüleyen, motive eden, gereksinimle-        güdülenen düşünce ön plana çıkarken, kişiler
+riyle kişinin kafasındaki ben kavramını ortaya      arası iletişim de bu söz, mimik ve jestler, kitle
+çıkaran kendi kendine iletişime (Usluata            iletişiminde ise kitle iletişim araçları kullanıl-
+1994:45), söz, jest ve mimiklerle kendisi dışın-    maktadır.
+daki kişileri algılamayı, onlara kendini anlat-
+mayı sağlayan kişiler arası iletişime ve kitle      İletişimde bulunularak etkilenmek istenen
+iletişim araçlarını kullanarak kütlesel bir üreti-  hedef, kendi kendine iletişimde özellikleri
+min söz konusu olduğu kitle iletişimine göre        diğerlerine oranla çok iyi olarak bilinen bireyin
+iletişimin kullanımı farklılık gösterebilmekte-     kendisi olurken, kişiler arası iletişimde nitelik-
+dir. Bu farklılıklar, genellikle iletişim süreci    leri daha az bilinen diğer bireyler, kitle iletişi-
+içinde yer alan kaynak, araç, hedef ve feedback     minde çok daha az bilgi sahibi olunulan toplum
+gibi kavramlardan ortaya çıkmaktadır.               söz konusudur.
+
+Genel iletişim sürecinin bir kaynakla başladığı,    Son olarak, iletişimin varlığı ve başarısı konu-
+kaynağın oluşturduğu iletileri bir araçla hedefe    sunda yaşamsal bir öneme sahip olan feedback
+ulaştırdığı ve bunun sonucunda bir feedback         devreye girdiğinde, kendi kendine iletişimde
+alarak iletişimi buna göre değiştirdiği, tekrarla-  bunun anında hatta otomatik olarak gerçekleş-
+dığı veya sonlandırdığı göz önüne alınırsa,         tiği, kişiler arası iletişimde ise kendi kendine
+iletişim tiplerine göre bu süreç içinde yer alan    iletişim kadar olmasa da hızlı olduğu, ancak
+unsurların da farklı kullanıldığı ortaya çıkmak-    kitle iletişiminde çok yavaş tezahür ettiği gö-
+tadır. Kendi kendine iletişimi veya kişiler arası   rülmektedir.
+iletişimi kullanan bireyin kaynağı yine kendisi
+olurken, kitle iletişiminde bu daha çok kuruluş-    4. Kişilik ve İletişim Tipleri
+lar olmaktadır.
+
+Kendi kendine iletişimde araç olarak beyinsel
+                                                             İletişimin amacı, iletişimcinin içeriğini belirle-
+
+elektrik dalgaları, hormanlar vb. tarafından
+                                                             diği iletilerin, uygun kanallar ve araçlar vasıta-
+
+                                                                                      135
+Selçuk İletişim 4, 2, 2006
+
+sıyla alıcıya ulaşması ve onda istenen bir etki-     ve burada baskın özelliklere göre belirgin tipler
+nin oluşmasıdır. Dolayısıyla da ileti amaca          ortaya çıkmaktadır (Timur Demirtaş, www.
+yakın bir ikna edici niteliğe haiz olmalıdır.        kriminoloji.com).
+Alıcıyı ikna edebilmek, uygun kanalları bula-
+bilmek, iletiyi şekillendirmek için ise onun         Kişiliğin zekayla ilgili olduğunu da ileri süre-
+kişiliği dikkate alınmalıdır. Bu yüzden, belli       rek, IQ’su 120 olan bir kişinin, 80 olan bir
+bir toplumsal kişilikte, belirgin olan insanca       diğerinden daha fazla kompleks ve çok boyutlu
+ihtiyaçlara yanıt verebildiği ölçüde ikna edici      kişiliğe sahip olduğunu belirten (Schultz ve
+ileti etkili bir güç haline gelebilmektedir          Schultz 1998:268) ve diğer bir çok çağdaş
+(Fromm 1993:243).                                    araştırmacı gibi kişilik tiplemeleri içedönük-
+                                                     dışadönük ayrımına tabi tutan Eysenck, bunlara
+İkna edici iletilerde temel olarak ele alınacak      oturmuş (dengeli) ve uçarı (dengesiz) sınıflan-
+nokta, kişiliğin, çevre, ortam, konjonktür, za-      dırmalarını eklemektedir.
+man, kalıtım gibi faktörlere dayandığı ve belli
+bir dille yapıldığıdır.                              Tablo 3. Eysenck’in Kişilik Tiplemesi
+
+Zaten kişilikle ilgili, dilimizdeki veya dünya                        İÇEDÖNÜK  DIŞADÖNÜK
+dillerinde kelimelerin çokluğu, ikna edici ileti-    OTURMUŞ Oturmuş-           Oturmuş-
+lerin bunları bilinçli veya bilinçsiz kullandığını                              Dışadönük
+ortaya çıkarmaktadır. Allport İngilizce’de kişi-                      İçedönük  Uçarı-
+lik çizgilerini ifade eden 17.953 kelime bul-        UÇARI Uçarı-               Dışadönük
+muştur. Bu bütün İngilizce dağarcığının %
+45’ini oluşturmaktadır. Bunların % 25’lik ilk                         İçedönük
+grubu en dar anlamıyla kişilik çizgilerini veren
+nazik, kaba, dalgın gibi kelimelerden oluşmak-       Kaynak: Cüceloğlu D (1993) İnsan ve Davra-
+tadır. Yine % 25’lik ikinci grubunda, şaşkın,        nışı, Remzi Kitabevi, İstanbul, s. 422.
+neşeli, kendinden geçmiş gibi geçici psikolojik
+durumları belirleyen kelimeler yer almaktadır.       Eysenck’e göre, dış dünyaya yönelen dışadö-
+% 29’luk bir kısmı, anlamsız, saçma, sevimli         nük kişiler, diğer insanlarla birlikte olmayı
+gibi kişi üzerindeki değer yargılarını içermek-      tercih etme, sosyal, atılgan, iddialı, baskın olma
+tedir. Son grupta yer alan % 21’i ise, heterojen     ve tehlikeye atılma eğilimindeyken, içedönük-
+bir nitelik taşımaktadır. Bunlar içinde, şımarık,    ler bunun tersidir. Araştırmacı bu farklılığın
+çocuk gibi davranış açıklayıcı, tombul yanaklı,      biyolojik ve genetik temelleriyle ilgilenerek,
+tıknaz, babacan gibi fiziksel çizgileri psikolojik   dışadönük olanların, içedönüklere oranla korti-
+çizgilerle ilişkilendiren, yetenekli, çalışkan       kal uyarımlarının daha düşük olduğunu ileri
+verimli gibi yetenek ve becerileri belirleyen        sürmüştür (Schultz ve Schultz 1998:269). Bu
+sınıflandırmalar yer almaktadır (Tolan               yüzden dışadönükler, heyecan ve uyarıcı araya-
+1985:399).                                           rak kortikal bir dengeye gitmeye çalışmaktadır.
+                                                     Bunun tersi olarak da, içedönükler kortikal
+Biyolojik ve Özellik yaklaşımları içinde kabul       uyarılarının fazla olmasıyla heyecan ve uyarı-
+edilen Hans Eysenck, hiyerarşik açıdan kişiliği      lardan uzak durmakta ve bu yönde bir dengeye
+oluşturan faktörleri sıralamaktadır. Dört fak-       ihtiyaç duymaktadırlar. Dolayısıyla, dış dünya-
+törlük bu süreç içinde kişiliğin en alt sınırını     dan gelen duygusal uyarılar konusunda düşük
+oluşturan ilk düzeyi, çok özel tepkileri içererek,   etkilenme eşiğine sahip olduklarından daha
+belirli uyarıları, biyolojik ve katılımsal özellik-  tepkisel olan içedönükler küçük bir uyarıyla
+leri taşır. Bireyin bulunduğu ortamlardan elde       etkilenebilirken, benzer bir etkiye sahip ola-
+ettiği alışkınlıklara dayalı özellikle ilgili olan   bilmek için dışadönükler daha büyük bir çaba-
+ikinci düzeyden sonra, eğilimleri içeren ve          ya gerek duymaktadır.
+kişinin bir çok alışılmış davranışları arasından
+eğilimler (süreklilik, değişmezlik, bireysel         Eysenck’ini yaptığı ikinci açılım oturmuş-uçarı
+dengesizlik, doğruluk ve değişkenlik, heyecan-       ayrımıdır. Ona göre, oturmuşlar çevrelerine
+lılık özelliklerinin olduğu) kazanma evresi olan     daha iyi uyum sağlarlarken, uçarılarda uyum
+üçüncü düzey gelir. Son düzey ise tip safhasıdır     problemleri ortaya çıkmaktadır.
+
+                                                     Dörtlü çerçevede ise, sakin, güvenilir, dikkatli
+                                                     olan oturmuş-içedönük kendini denetim altında
+
+136
+Kişilik ve İletişim Tipleri (125-140)
+
+tutabilir. Diğer yandan, oturmuş-dışadönük,         nin duygu ve düşüncelerini umursamamak
+hoş sohbet, aldırmaz, atılgan ve önderlik özel-     veya tam tersi olarak gereğinden fazla umur-
+likleri olan, uçarı-içedönük, topluluktan kaçan,    samak arasında gidip geldiği, en azından ileti-
+karamsar, katı, kaygılı, ne zaman neşeli ne         şim kurduğu veya kurmadığı/kuramadığı diğer
+zaman kızgın olacağı bilinmeyen ve uçarı-           bireylerin kendisini ciddiye aldığı veya alma-
+dışadönük hemen alınganlaşan, saldırgan, ça-        dığı görülmektedir. Kendi kendine iletişimi
+buk heyecanlanan, çabuk değişebilen, hareketli      kullanma konusunda oturmuş-içedönükler ile
+bireyleri temsil etmektedir.                        uçarı-içedönükler arasında yine bir fark oluş-
+                                                    maktadır. Oturmuş-içedönükler diğer iletişim
+Eyseck’in ayrımı dikkate alındığında, ikna          tiplerini de mümkün olduğunca kullanma yolu-
+edici iletinin fonksiyonel olabilmesi için ileti-   nu tercih etmekteyken, uçarı-içedönükler özel-
+şim tiplerine göre farklı yönelimler gerekmek-      likle kendi kendine iletişimi benimsemektedir-
+tedir.                                              ler. Böylece kendi kendileriyle daha çok bir
+                                                    arada olmakta, dışarıdan gelecek olası tehlike-
+İçedönük kişilikler ister oturmuş olsun ister       leri (özellikle manevi tehlikeler) azaltmaktadır.
+uçarı olsun, kişiler arası iletişim yerine daha     Uçarı-içedönük kişiliğin, çoğu kez kişiler arası
+çok, kendi kendine iletişim ile kitle iletişimi     iletişimden kaçarak, kendi kendine iletişime
+tercih etmektedir. Yine de kişiler arası iletişime  sığınmasının altında, kişiler arası iletişimde
+verdiği önem derecesinde içedönük kişilikleri       başarısız olma korkusu (ki bu yargılayıcı dav-
+oturmuş veya uçarı olarak nitelendirmek olası-      ranış karşısında artmaktadır), insanların kendi
+dır. Oturmuş-içedönükler kişiler arası iletişimi    hakkındaki görüşlerini gereğinden fazla ciddiye
+kullanmakla, özellikle, kendileri için önemli bir   alma gibi faktörler yatabilmektedir.
+rol üstlenen topluluk içinde kontrol mekaniz-
+masını ele alarak savunucu iletişim davranışları    Kitle iletişimin her iki tipte de (oturmuş-
+içinde yer alan denetimci davranışı kabullenir-     içedönük ve uçarı-içedönük) farklı amaçlarla
+ler. Örneğin topluluk halinde bir yürüme sıra-      da olsa yoğun olarak kullanıldığı görülmekte-
+sında, oturmuş-içedönük olanların toplulukla        dir. Oturmuş-içedönük, kitle iletişimiyle, dik-
+birlikte, ancak birkaç santim geriden yürüdü-       katli ve sakin bir yapısı olduğundan diğer ge-
+ğünü görmek olasıdır. Bunun nedeni toplulu-         reksinmelerinin yanında yaşamında kullanabi-
+ğun yönelimini ölçmek isteğinden kaynaklanan        leceği bilgileri elde ederken, uçarı-içedönükler,
+bu birkaç santimin kendilerine verdiği denetim      doğrudan kendilerini hedef almayan bu tip
+işlevidir. Benzer bir durumda ise uçarı-            iletişimle, bir boşalma yaşamakta ve diğerleriy-
+içedönükler o yürüyen topluluk içinde olma-         le ilgili elde ettikleri bilgileri kendi ben’leriyle
+mayı, mecburiyet durumunda ise oldukça geri-        kıyaslamaktadırlar.
+den gelmeyi tercih edeceklerdir. Amaçları
+kontrol mekanizmasından daha çok, toplulukla        Genel olarak içedönüklerde, iletinin daha az
+ilişkilerini en aza indirmektir. Hatta bir ara      yoğun ancak kısa tekrarlara dayanan (piramit-
+onların yok olduklarını bile sanabilirsiniz.        önce girişlerin yapıldığı ve sonlara doğru temel
+Topluluğun denetimine kişiler arası iletişim        argümanın verildiği) şeklinin seçilmesi daha
+yoluyla girmeleri, girmemelerinin onlara geti-      faydalı olabilecektir. Duygusal, kendisiyle
+receği zararları gördüklerinde daha mümkün-         meşgul ve alıngan niteliklere sahip olan içedö-
+dür. Kaldı ki topluluk üyelerinin, uçarı-           nük kişilik, yoğun içerikli iletileri kendisine
+içedönüklerin uçarı-dışadönükler gibi hangi         karşı bir tehdit unsuru olarak göreceğinden,
+olaya nasıl tepki verecekleri belli olmadığın-      oturmuştan uçarıya kadar bu tip iletilerin mev-
+dan, onlara çekinerek yaklaşmaları bu kişileri      cut dengelerinde azdan çoğa doğru bir sarsıl-
+biraz daha toplum dışına itmekte ve yine savu-      maya yol açması olanaklıdır. İletinin kısa süre-
+nucu iletişim içinde yer alan umursamaz dav-        lerle tekrarlanması ise, bu kişiliğin nevrotik bir
+ranışı kabullenmelerini sağlamaktadır.              yapıya dönüşmesini engellemek için gereklidir.
+
+Kendi kendine iletişim ise, kişiyi güdülemekte,     Dışadönük kişilik tiplemelerinde ise, kendi
+kişinin düşüncelerindeki “ben”inin farkına          kendine iletişim belki de diğerlerine oranla pek
+varmasını sağlamaktadır. Bireyin “ben”ini fark      zaman ayrılamadığından içedönük olanlardan
+etmesi ve sorgulamaya başlaması ile, diğerleri-     daha az kullanılmakta, kullanıldığında da top-
+
+                                                    137
+Selçuk İletişim 4, 2, 2006
+
+luluk içinde gerçekleştiğinden neredeyse bir        Oturmuş-dışadönükler toplum içinde tartışma
+grup terapisi niteliğine bürünebilmekte ve yine     yaratabilecek, kendilerinin toplumdaki konum-
+toplulukla ilgili planlanmaktadır. İçedönükler-     larını arttırabilecek konularla ilgili olan kitle
+de olduğu gibi oturmuş-dışadönük ile uçarı          iletişim iletilerini daha revaçta bulmakta ve
+dışadönük arasında kişiler arası iletişimi kul-     toplum tarafından kabul edilen tavır ve davra-
+lanma konusunda farklar oluşmaktadır. Yuka-         nışları öğrenmek için (kendilerinin de kabul
+rıdaki örnek dikkate alındığında toplulukla         edilebilirliğini arttıracağı savıyla) çaba sarf
+birlikte bir yerden bir yere giderken, oturmuş-     etmektedirler. Buna karşın uçarı-dışadönükler
+dışadönük kişiliğin diğerleriyle birlikte ama       kitle iletişim araçlarını kullanarak kendilerine
+biraz önde, uçarı-dışadönük kişiliğin ise diğer-    uygun savları kabullenerek, aleyhtekiler konu-
+lerinin epey önünde hatta onlardan bağımsız         sunda saldırgan bir tepki içinde bulunurken,
+gibi davrandığı ve savunucu davranışlardan          toplumun kabul edeceği davranışlar yerine,
+üstünlük taşıyan davranış özellikleri taşıdığı ya   kendilerinin daha çok kaile alınacağını düşün-
+da böyle algılandığı görülebilir. Oturmuş-          dükleri pek hoşa gitmeyecek davranışlarla
+dışadönük atılgan olması ve önder niteliğinden      sivrilmek yolunu seçeceklerdir. Dolayısıyla,
+dolayı diğerleriyle iletişim içinde ancak onlara    toplumun sevgiye dayalı olarak onları kabul-
+liderin kim olduğunu gösterme niyetindedir.         lenmesinden çok, korku ve endişeye dayalı bir
+Topluluğun biraz önünde olmak, onları yön-          kabulü yaymaya çalışacaklardır.
+lendirmek ve bir ölçüde kontrol etmek için
+önemli bir avantajı beraberinde getirmektedir.      Favori iletişim tiplemesi, kişiler arası iletişim
+Buna karşın uçarı-dışadönük ise, saldırgan          olan dışadönük kişilik için diğer bireylerle
+kişiliğiyle, topluluğun epey önünde, beni kim       karşılıklı etkileşim içinde olmak, olmazsa ol-
+takip ederse etsin, ben yine bildiğimi okurum       maz bir nitelik taşımaktadır. İçedönük olanların
+tarzını yansıtır. Dolayısıyla çoğu kez arkasına     kendi kendine iletişim ile sağladığı bireyin
+bile bakmayacak, her şeyi belirleyecek, belki       kendi varlığının farkına varması süreci, dışadö-
+de diğerlerini pek dinlemeden en çok o konu-        nük kişilik yapısında grup veya toplum içinde
+şacak ve kişiler arası iletişimi tek yönlü olarak   sağlandığından, daha yüksek yoğunluk taşıyan
+kullanarak kesinlik taşıyan bir davranış kalıbı     ancak sık sık tekrarlanan ikna edici iletiler
+içinde olacaktır. Dışadönük kişilik tipleri de-     etkin olabilecektir. Bu tipler, kendilerini bir
+şarj olma vasıtası olarak diğer insanları, grupla-  yerde topluma adadıklarından, sosyal ilişkileri
+rı gördüklerinden onların favori iletişim tiple-    ve yayılımları fazla olduğundan, yoğun olma-
+mesi kişiler arası iletişim olacaktır.              yan içerikli bir iletiyle yeteri kadar ilgilenme-
+                                                    yecekler ve ilgilerini kolaylıkla benimsetmek
+Dışadönüklerin kendi kendine iletişimi çok          istediğimiz iletinin dışındaki iletilere kaydırabi-
+fazla kullandığını söylemek zordur. Ancak,          leceklerdir. Dolayısıyla da yoğun içerikli (ters
+belki de bu göründüğünden veya beklendiğin-         piramit-temel argümanın başta verildiği ve
+den daha fazla tezahür etmektedir. Topluluk         giderek geliştirildiği) iletilerin çok tekrarla
+içinde bir oraya bir buraya koşan, yalnız kal-      verilmesi, onlarda topluluk içinde kendilerine
+maktan hoşlanmayan ve mecbur kaldığı bu             bir mevzuu açması bakımından da faydalı ola-
+durumlarda eline telefon alarak birileriyle ko-     bilecektir.
+nuşan kişilik tipleri bile bir şekilde kendi ken-
+dine iletişimi kullanarak bir iç muhasebe yolu-     İçedönük olanların genellikle cezalandırılacak-
+na gitmektedirler. Bu muhasebe uçarı-               larını, dışadönük olanların ise ödüllendirilecek-
+dışadönüklerde, oturmuş-dışadönüklere oranla        lerini sanmalarından dolayı –ki genelde toplum
+daha çok gerçekleşmektedir. Tıpkı uçarı-            onlara bu şekilde davranmaktadır-, bu pekişti-
+içedönükler gibi alıngan ve çabuk değişebilen       rici unsurlar tersine kullanılarak, iletinin daha
+bir kişiliğe sahip olan uçarı-dışadönükler mu-      kolay kabullenilmesi ve kalıcı olması sağlana-
+hasebelerinin sonucunda onlardan farklı olarak      bilir. İçedönük olanların cezalandırılmayı bek-
+tepkilerini daha çok saldırganlık olarak ortaya     lemeleri, bunun tersi olarak da dışadönük olan-
+koymaktadırlar.                                     ların ödüllendirilmeyi ummaları yüzünden,
+                                                    onların beklentilerinin tersine içedönüklerde
+Kitle iletişimi ise, dışadönükler arasında kişiler  ödül, dışadönüklerde ceza imajı yaratmasıyla
+arası iletişime oranla daha az kullanılmaktadır.    ileti daha etkin olabilecektir.
+
+138
+Kişilik ve İletişim Tipleri (125-140)
+
+Her iki tipin de bir şekilde sorunu veya mutlu-      dıkları düşünülüyorsa da bu sadece bir nicelik
+luğu toplum olduğu için ödül ve cezanın da           sorunu olarak belirmektedir. Herhangi bir ileti-
+daha etkili olabilmesi için toplumsal çevreler       şim tipini biri diğerinden sadece biraz daha
+içinde verilmesi gerekecektir. Ancak, ödül           fazla kullanmaktadır. Asıl farklılık uçarı özel-
+veya cezanın derecelerini belirlerken, her iki       likler gösterenlerde ortaya çıkmaktadır. Bun-
+tipteki kişilerin (içedönük ve dışadönük), ne        lardan içedönük olanlar bazen neredeyse top-
+derecede ortalamaya yakın oldukları (oturmuş-        lumla bütün ilişkilerini koparacak noktaya
+içedönük ve oturmuş dışadönük) veya ne dere-         kadar gelebilmektedirler. Dışadönük olanların
+cede ortalamadan saptıkları (uçarı-içedönük ve       ise saldırganlık ve hareketlerindeki tahmin
+uçarı-dışadönük) göz önüne alınmalıdır. Orta-        edilemez değişkenlikler yüzünden toplumdan
+lamadan sapmış her iki tipte de aşırıya varacak      dışlanmaları söz konusu olabilmektedir.
+dozlardaki ödül-ceza, içinde olabilecekleri
+nevrotik durumu her an şizofrenik bir duruma         İletinin yeteri kadar uyarıda bulunabilmesi için,
+çevirebilecektir. Dolayısıyla da ikna edici ileti-   konjonktürel etkenlerin yanında bireysel etken-
+şimi kullanan iletişimci, kaş yapayım derken         lerin de dikkate alınması gerekmektedir. Ancak
+göz çıkarabilir.                                     bu, sadece iletinin alıcı tarafından anlaşılması
+                                                     konusunda değil, bunun yanında belki de gön-
+SONUÇ                                                dericinin ileti sayesinde alıcı üzerinde istenme-
+                                                     yen etkilere yol açmaması konusunda da önem-
+Bir insanın diğerlerinden duygu, düşünce, ilgi,      lidir.
+tutum ve davranış ölçütleriyle farklı olarak
+algılanması, kişiliklerden bahsetmemizi ola-         KAYNAKLAR
+naklı kılmaktadır. Kişiliklerin parmak izi gibi,
+her birey için farklılık arz etmesi ve ilişkileri-   Adler A (1997) İnsan Tabiatını Tanıma, Ayda
+mizde, tavırlarımızda konjonktür ile birlikte        Yörükan (çev), Türkiye İş Bankası Yayınları,
+belirleyici olması, konu üzerinde önemli çalış-      Ankara.
+malar yapılmasına ve kuramsal – modelsel
+denemelerin hızlanmasına yol açmaktadır.             AnaBritannica Ansiklopedisi (1989) Kişilik
+Bunlar içinde, literatüre önemli katkılarda          Maddesi, Cilt.13, Ana Yayıncılık A.Ş. ve
+bulunmuş birisi olarak Biyolojik ve Özellik          Encyclopaedia Britannica, Inc, İstanbul.
+yaklaşımları içinde görülen Hans Eysenck
+kişilik tiplerini oturmuş-içedönük, oturmuş-         Ankay A (1992) Ruh Sağlığı ve Davranış Bo-
+dışadönük, uçarı-içedönük ve uçarı-dışadönük         zuklukları, Turhan Kitabevi, Ankara.
+şeklinde sınıflandırmaktadır.
+                                                     Carrel A (1973) İnsan Denen Meçhul, Refik
+İleri sürülen bu dörtlü skala dahilinde, ikna        Özdek (çev), Yağmur Yayınevi, İstanbul.
+edici iletinin etkin olabilmesi için kişilik yapı-
+larına ve iletişim tiplerine göre biçimlendiril-     Cüceloğlu D (1993) İnsan ve Davranışı, Remzi
+mesi gerekmektedir.                                  Kitabevi, İstanbul.
+
+Sakin, güvenilir, özdenetimi yüksek oturmuş-         Demirtaş T (2005) http://www.kriminoloji.com
+içedönük kişilik ile toplulukla ilişkilerini sınır-
+layan, karamsar, kaygılı uçarı-içedönük kişilik-     Friedman H S ve Schustack (2003) Personality
+lerde kendi kendine iletişim ile kitle iletişim      Classic Theories and Modern Research, Allyn
+(alıcı olarak) daha çok tercih edilmektedir.         and Bacon, Boston.
+Bunun tersine hoş sohbet, atılgan, önder özel-
+likleri bünyesinde bulunduran oturmuş-               Fromm E (1993) Özgürlükten Kaçış, Selçuk
+dışadönük ile saldırgan, çabuk değişebilen           Budak (çev), Öteki Yayınları, Ankara.
+uçarı-dışadönük bireyler kişilerarası iletişim ile
+psikolojik doyumlarını sağlamakta, kendi den-        Fromm E (1995) Erdem ve Mutluluk, Ayda
+gelerini kurmaktadırlar. Ancak burada dikkati        Yörükan (çev), Türkiye İş Bankası Yayınları,
+çeken husus, oturmuş-içedönükler ile oturmuş         Ankara.
+dışadönüklerin farklı iletişim tiplerini kullan-
+                                                     Geçtan E (1988) Psikanaliz ve Sonrası, Remzi
+                                                     Kitabevi, İstanbul.
+
+                                                     Güvenç B (1984) İnsan ve Kültür, Remzi Kita-
+                                                     bevi, İstanbul.
+
+                                                     139
+Selçuk İletişim 4, 2, 2006
+
+Hall C S ve ark (1985) Introduction to Theories
+of Personality, John Wiley & Sons, New York.
+Horney K (1986) Günümüzün Nevrotik İnsanı,
+A. Erdem Bagatur (çev), Yaprak Yayınları,
+İstanbul.
+Kağıtçıbaşı Ç (1977) İnsan ve İnsanlar, Duran
+Ofset, İstanbul.
+Köknel Ö (1986) Kişilik, Altın Kitapları, İstan-
+bul.
+Morgan C T (1998) Psikolojiye Giriş, Hüsnü
+Arıcı vd. (çev), Hacettepe Üniversitesi Psikolo-
+ji Bölümü Yayınları, Ankara.
+Schultz D ve Schultz S E (1998) Theories of
+Personality, 6th Ed, Brooks/Cole Publishing
+Company, California.
+Sennett R (1996) Kamusal İnsanın Çöküşü,
+Serpil Durak ve Abdullah Yılmaz (çev), Ayrın-
+tı Yayınları, İstanbul.
+Songar A (1977) Psikiyatri, Modern Psikobiyo-
+loji ve Ruh Hastalıkları, Geçit Kitabevi, İstan-
+bul.
+Sokullu-Akıncı F (1999) Kriminoloji, Beta
+Yayınları, İstanbul.
+Soyaslan D (1996) Kriminoloji, A.Ü. Hukuk
+Fakültesi Yayınları, Ankara.
+Tolan B (1985) Toplum Bilimlerine Giriş, G.Ü.
+Yayınları, Ankara.
+Usluata A (1994) İletişim, İletişim Yayınları,
+İstanbul.
+Zıllıoğlu M (1993) İletişim Nedir?, Cem Yayı-
+nevi, İstanbul.
+
+140
+

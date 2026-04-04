@@ -8,8 +8,10 @@ void main() {
   ) async {
     await tester.pumpWidget(const MatchProfileApp());
 
-    expect(find.textContaining('Date sonrası'), findsOneWidget);
+    expect(find.byKey(const Key('welcome_start_button')), findsOneWidget);
 
+    await tester.ensureVisible(find.byKey(const Key('welcome_start_button')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('welcome_start_button')));
     await tester.pumpAndSettle();
 
@@ -49,11 +51,11 @@ void main() {
 
     await tester.enterText(
       find.byKey(const Key('reflection_context_field')),
-      'İlk akşam yemeği buluşması',
+      'First dinner date',
     );
     await tester.enterText(
       find.byKey(const Key('reflection_debrief_field')),
-      'Nazikti, soru sordu ama bazı anlarda ısrarcıydı ve biraz rahatsız oldum.',
+      'Nazikti, soru sordu ama bazen israrciydi ve biraz rahatsiz oldum.',
     );
     await tester.scrollUntilVisible(
       find.byKey(const Key('reflection_analyze_button')),
@@ -78,13 +80,21 @@ void main() {
     expect(find.byKey(const Key('validation_screen')), findsOneWidget);
 
     await tester.scrollUntilVisible(
-      find.text('Doğru').first,
+      find.byKey(const Key('validation_dogru_positive-curiosity')),
       160,
       scrollable: find.byType(Scrollable).first,
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Doğru').first);
+    await tester.tap(find.byKey(const Key('validation_dogru_positive-curiosity')));
     await tester.pump();
+    await tester.enterText(
+      find.byKey(const Key('validation_missing_context_field')),
+      'Ikincide ne kadar tutarli olacagini henuz bilmiyoruz.',
+    );
+    await tester.enterText(
+      find.byKey(const Key('validation_least_accurate_field')),
+      'Takip niyeti kismi erken olabilir.',
+    );
     await tester.scrollUntilVisible(
       find.byKey(const Key('save_to_journal_button')),
       240,
@@ -94,14 +104,14 @@ void main() {
     await tester.tap(find.byKey(const Key('save_to_journal_button')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Reflection kaydedildi'), findsOneWidget);
+    expect(find.byKey(const Key('go_to_journal_button')), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Journal’a git'));
+    await tester.ensureVisible(find.byKey(const Key('go_to_journal_button')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Journal’a git'));
+    await tester.tap(find.byKey(const Key('go_to_journal_button')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Journal'), findsWidgets);
-    expect(find.text('İlk akşam yemeği buluşması'), findsOneWidget);
+    expect(find.byKey(const Key('journal_screen')), findsOneWidget);
+    expect(find.text('First dinner date'), findsOneWidget);
   });
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'controller.dart';
-import 'screens.dart';
+import 'home.dart';
 import 'theme.dart';
 
 class MatchProfileApp extends StatefulWidget {

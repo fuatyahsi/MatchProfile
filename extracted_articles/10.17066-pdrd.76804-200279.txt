@@ -1,0 +1,799 @@
+Türk Psikolojik Danışma ve Rehberlik Dergisi
+2014, 5 (42), 148-159
+
+Üniversite Öğrencilerinin Romantik İlişki İnançlarının
+Çeşitli Değişkenler Açısından İncelenmesi1
+
+An Investigation of University Students’ Romantic Relationship
+Beliefs Related to Some Variables
+
+Müzeyyen KÜÇÜKARSLAN2 ve Cem Ali GİZİR3
+
+Öz: Bu araştırmanın amacı, üniversite öğrencilerinin romantik ilişkilere yönelik inançlarının cinsiyet,
+öğrenim gördükleri sınıf düzeyi ve romantik ilişki yaşama durumu değişkenlerine göre farklılaşıp
+farklılaşmadığını incelemektir. Araştırmanın örneklemini, 2010-2011 eğitim-öğretim yılında lisans
+düzeyinde öğrenim görmekte olan 957 (559 kız, 398 erkek) üniversite öğrencisi oluşturmaktadır. Bu
+çalışmada, veri toplama araçları olarak araştırmacılar tarafından geliştirilen “Kişisel Bilgi Formu” ile
+Türkçe’ye uyarlaması yapılan “Romantik İnançlar Ölçeği” kullanılmıştır. Araştırma verileri t-testi ve
+tek yönlü varyans analizi (ANOVA) teknikleri kullanılarak analiz edilmiştir. Araştırma bulgularına
+göre, üniversite öğrencilerinin romantik ilişkilere yönelik inançları, cinsiyet, sınıf düzeyi ve romantik
+ilişki yaşama durumuna göre farklılık göstermiştir. Bulgular cinsiyet açısından ele alındığında, erkek
+öğrencilerin kızlara oranla romantik ilişkilere yönelik inançlar arasında yer alan aşk bir yol bulur ve
+ilk görüşte aşk inançlarına daha yüksek düzeyde sahip oldukları görülmüştür. Sınıf düzeyi dikkate
+alındığında ise birinci ve ikinci sınıf öğrencilerinin ilk ve tek ile idealleştirme inançlarının dördüncü
+sınıf öğrencilerine oranla daha yüksek düzeyde olduğu gözlenmiştir. Son olarak, romantik ilişki yaşama
+durumu açısından incelendiğinde, “daha önce yaşamayıp, şimdi romantik bir ilişki yaşayan” öğrencilerin
+aşk bir yol bulur, ilk ve tek ile idealleştirme inançlarının diğer gruplardaki öğrencilere göre daha yüksek
+düzeyde olduğu belirlenmiştir.
+
+Anahtar Sözcükler: romantik ilişki, gerçekçi olmayan romantik ilişki inançları, üniversite öğrencileri
+
+Abstract: The purpose of the present study is to determine whether there is a difference among university
+students’ romantic relationship beliefs in regard to gender, grade level and dating status. The sample
+consisted of 957 (559 female, 398 male) undergraduate students attending a university during 2010-
+2011 academic year. Two instruments, namely, “Demographic Data Form” and “Romantic Beliefs Scale”
+adapted to Turkish were used in the present study. One way analysis of variance (ANOVA) and t-test were
+used to analyze the data. The results of the study revealed that university student’ romantic relationship
+beliefs differed significantly in terms of gender, grade level and dating status. Specifically, males were
+significantly more likely to have beliefs about love finds a way and love at first sight than females.
+When grade level considered, it was observed that freshman and sophomore students have one and
+only and idealization beliefs more than the senior students. Lastly, when students’ romantic relationship
+experiences were taken into consideration, it was found that the students “experiencing a romantic
+relationship for the first time” were significantly more likely to have beliefs on love finds a way, one and
+only and idealization than the other three groups of students.
+
+Keywords: romantic relationship, irrational romantic relationship beliefs, university students
+
+    Üniversite yaşamı, yeni akademik ve sosyal               ve ergenlikten yetişkinliğe geçiş sürecinin sağlıklı
+yaşama uyum sağlama, kimlik ve kişilik gelişimini            bir şekilde tamamlanmasında yakın ilişkilerin
+tamamlama ile yakın ilişkiler kurabilme gibi beliren         önem kazanması (Mosher ve Danoff-Burg, 2007;
+yetişkinlik dönemine özgü birçok gelişimsel görevi           Moss ve Schwebel, 1993; Ponzetti ve Cate, 1988)
+içinde barındıran zorlu bir süreçtir. Bu süreçte,            nedeniyle üniversite öğrencileri yakın ilişkiler
+özellikle sosyal ve duygusal uyumun hızlanması               kurmaya ya da varolan ilişkilerini geliştirmeye çaba
+
+1 Yazar Notu: Bu çalışma, Yrd. Doç. Dr. Cem Ali GİZİR danışmanlığında hazırlanan birinci yazarın yüksek lisans tez çalışmasından alınmıştır.
+2 Uzm., Mersin Üniversitesi, Mersin, E-posta: mkarslan82@gmail.com
+3 Yrd. Doç. Dr., Mersin Üniversitesi, Mersin, E-posta: cagizir@mersin.edu.tr
+
+Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+                                                           ROMANTİK İLİŞKİ İNANÇLARI 149
+
+sarf etmektedirler. Yakın ilişkiler kapsamında ele         yönelik belirli idealleri oluşturan algı ve beklentiler
+alınan ve bu ilişkilerin özel bir bölümünü oluşturan       olarak tanımlanmaktadır (Eidelson ve Epstein, 1982).
+romantik ilişkiler ise genç yetişkinlerin yaşamlarının     Araştırmalara göre, romantik ilişkilere yönelik
+neredeyse merkezini oluşturmakta (Demir, 2008)             inançlar yüksek düzeyde olduklarında ilişkiye bir
+ve 18-26 yaş arasındaki üniversite öğrencilerinin          takım gerçek dışı özellikler yüklenmektedir. Aslında
+en önemli psikososyal gelişim görevleri arasında           bu özellikler, ilişkiye güç vermek açısından bir
+gösterilmektedir (Erikson, 1968; Kuttler ve Greca,         dereceye kadar gereklidir (Sharp ve Ganong, 2000;
+2004).                                                     Sprecher ve Metts, 1999). Ancak, romantik ilişkiye
+                                                           yönelik inanç ve düşünceler abartıldıklarında, eşlerin
+    Romantik ilişkiler öncelikle ergenlik döneminde        olumsuz özelliklerine odaklanmaya ve ardından hayal
+ortaya çıksa da, aslında bu tür ilişkilerin tam olarak     kırıklıklarına, çatışmalara ve romantik ilişkilerin
+yetişkinliğe geçiş sürecinde keşfedildiği ve yaşandığı     bitmesine yol açabilmektedirler (James, Hunsley
+varsayılmaktadır. Bir başka deyişle, ergenlik              ve Hemsworth, 2002; Medora, Larson, Hortaçsu ve
+döneminde yaşanan romantik ilişkiler, çoğunlukla           Dave, 2002; Metts ve Cupach, 1990). Dolayısıyla,
+eğlence ve ortaklaşa deneyimler edinme amacıyla            bireylerin ilişkilerinin nasıl olması gerektiği ile ilgili
+kurulup kısa sürmekte (Feiring, 1996), yetişkinliğe        değişen beklentileri ve bu beklentilerin temelinde yer
+geçiş aşamasında ise daha ciddi olmakta, yakınlık          alan çeşitli kaynakları bilmeleri önem arz etmektedir
+ve bağlılık duygularını içermektedir (Montgomery,          (Honeycutt ve Cantrill, 2001).
+2005). Bu nedenle, üniversite öğrencilerinin romantik
+ilişkileri hakkındaki algı, beklenti ve görüşleri, onlara      Bu bakış açısıyla, bu çalışmada üniversite
+“ilişkisel bir bakış açısı” kazandırmakta (Furman          öğrencilerinin romantik ilişkilere yönelik inançlarının
+ve Shaffer, 1999) kimlik ve kişilik gelişimlerini          cinsiyet, öğrenim gördükleri sınıf düzeyi ve romantik
+etkileyerek genç yetişkinlik döneminde yaşanan             ilişki yaşama durumu değişkenlerine göre farklılaşıp
+ilişkilerin gelişiminde (Davies, 2006; Q’sullivan,         farklılaşmadığının belirlenmesi amaçlanmıştır.
+Cheng, Harris ve Brooks-Gunn, 2007; Raley ve               Bu çalışmada romantik ilişkilere yönelik inançlar,
+Sullivan, 2010) ve gelecekteki evlilik yaşamlarının        dört boyutta ele alınmaktadır. Aşk bir yol bulur,
+niteliğinde (Furman, 2002) önemli bir rol                  bireyin romantik ilişkisini, her türlü engel, sorun
+oynamaktadır.                                              ve farklılığa rağmen yürütebileceğine, ilk ve tek ise
+                                                           gerçek aşkın sonsuza dek süreceğine ve birey için
+    İlgili alan yazında, romantik ilişkilerin, bireylerin  sadece bir tek gerçek aşk olacağına yönelik inançları
+iyi oluş düzeylerini önemli ölçüde etkilediği              kapsamaktadır. Bununla birlikte idealleştirme,
+belirtilmekte (Assad ve Donnellan, 2007; Collins,          bireyin romantik ilişkisinde her şeyin mükemmel
+2003; Florsheim ve Moore, 2008; Neff ve Suizzo,            olacağına, aşık olduğu kişinin mükemmel bir sevgili
+2006), sağlıklı romantik ilişki yaşayan bireylerin         olacağına yönelik inançları kapsarken, ilk görüşte
+yüksek özgüven ve benlik algısına sahip oldukları          aşk bireyin gerçek aşkı bulduğunu onunla tanışır
+ve olumlu bir kişilik geliştirdikleri vurgulanmaktadır     tanışmaz anlayabileceğine yönelik inançlar olarak
+(Furman, 2002). Romantik ilişkilerdeki olumsuz             tanımlanmaktadır (Sprecher ve Metts, 1999).
+yaşantıların ise üniversite öğrencilerinde strese yol
+açtığı ve beraberinde kişiler arası çatışmaları, cinsel        İlgili alan yazın incelendiğinde, romantik ilişkilere
+duygularla baş etme sorunlarını, romantik ve sosyal        yönelik inançlara odaklanan çalışmaların genellikle
+ilişkilerini kontrol etme ile ilgili çeşitli güçlükleri    yurtdışında yapıldığı gözlenmektedir. Türkiye’de
+ortaya çıkardığı belirtilmektedir (Creasey ve Ladd,        gerçekleştirilen çalışmaların ise çoğunlukla evli
+2004; Shi, 2003; Zimmer-Gembeck, 2002).                    bireylerin romantik ilişki inançları (Güven, 2005;
+                                                           Hamamcı, 2005) üzerine odaklandığı ve üniversite
+    Bununla birlikte, son dönemlerde yapılan               öğrencilerinin romantik ilişkilerdeki inançlarına
+çalışmalarda romantik ilişkilerin başlamasını ve           yönelik çalışmaların sınırlı sayıda gerçekleştirildiği
+gelişimini büyük oranda etkilediği öngörülen (Knee,        görülmektedir. Dolayısıyla, özellikle üniversitede
+1998) ve ilişkilerde çatışmalara yol açan nedenler         öğrenim gören kız ve erkek öğrencilerin öğrenim
+arasında gösterilen romantik ilişki inançları sıklıkla     gördükleri sınıf düzeyine ve romantik ilişki yaşama
+ele alınmaktadır (Eidelson ve Epstein, 1982; Fokkert       durumlarına göre romantik ilişkilerdeki inançlarının
+ve van Kooten, 2009; Romans ve DeBord, 1995;               ortaya konulmasının ilgili alan yazına katkı
+Sprecher ve Metts, 1999). Romantik inanç ya da             sunacağı düşünülmektedir. Aynı zamanda, üniversite
+beklentiler (Hazan ve Shaver, 1987; Sprecher ve            öğrencilerinin üniversite psikolojik danışma ve
+Metts, 1999), gerçekçi olmayan ilişki standartları         rehberlik merkezlerine en sık başvurma nedenlerden
+(DeBord, Romans ve Krieshok, 1996) ya da işlevsel          birinin romantik ilişkilerinde yaşadıkları zorluklar
+olmayan inançlar (Sharp ve Ganong, 2000) olarak            olduğu belirtilmektedir (Creasey, Kershaw ve Boston,
+ifade edilen romantik ilişki inançları, bir ilişkiye
+
+                                                           Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+150 Müzeyyen KÜÇÜKARSLAN ve Cem Ali GİZİR
+
+1999). Üniversite öğrencilerinin romantik ilişkilerine           Romantik İnançlar Ölçeği (RİÖ): Romantik
+yönelik temel algı, tutum ve beklentilerinin anlaşılması,    İnançlar Ölçeği, 1989 yılında Sprecher ve Metts
+bu konuda üniversitelerde gerçekleştirilecek başta           tarafından geliştirilmiştir. Romantik ilişkilere yönelik
+psikolojik danışma ve rehberlik hizmetleri olmak             belirlenen rasyonel olmayan temel inançları ölçmek
+üzere çeşitli önleyici ve gelişimsel çalışmalara da ışık     amacıyla kullanılan ölçek, ilgili alan yazındaki analiz
+tutacaktır. Bu sayede, üniversite öğrencilerinin romantik    içeriklerinden özgün bir biçimde tasarlanmış ve bir
+ilişkilerini sağlıklı bir şekilde biçimlendirmelerine ve     ideoloji olarak romantik aşkın temel özelliklerinden
+gelişimsel özellikleri çerçevesinde ortaya çıkan bu temel    derlenmiştir (Weaver ve Ganong, 2004). Özgün
+gereksinimlerini olumlu yönde gerçekleştirmelerine           ölçek toplam onbeş maddeden oluşmakta ve dört alt
+destek sağlanabileceği düşünülmektedir.                      boyut içermektedir. Sprecher ve Metts (1989), özgün
+                                                             ölçeğin Cronbach Alpha güvenirlik katsayısını,
+                           Yöntem                            cinsiyet değişkeni ele alındığında, erkekler için .87 ve
+Örneklem                                                     kızlar için .88 olarak bildirmişlerdir. Ölçeğin toplam
+                                                             puanından elde dilen Cronbach Alpha değeri .81 olup,
+    Araştırmanın örneklemi, Akdeniz bölgesindeki bir         test tekrar test güvenirliği ise .75 olarak belirlenmiştir.
+devlet üniversitesinin Eğitim, Fen-Edebiyat, İktisadi ve
+İdari Bilimler ile Mühendislik Fakültelerinde öğrenim            Ölçeğin Türkçe’ye uyarlama ile geçerlik ve
+gören 957 lisans öğrencisinden oluşmaktadır. Araştırma       güvenirlik çalışmaları (Küçükarslan ve Gizir, 2013)
+örnekleminin belirlenmesinde izlenen aşamalar                temelinde yapı geçerliliğini belirlemek ve faktör
+şöyledir: Öncelikle ilgili üniversite bünyesindeki           yapısını incelemek amacıyla kullanılan açıklayıcı
+fakülteler içinde kuruluşu en eski, öğrenci ve öğretim       ve doğrulayıcı faktör analizi sonucunda ölçeğin
+üyesi sayısı en çok olan ve bünyesinde tüm sınıf             13 madde ile belirlenen ve “aşk bir yol bulur”, “ilk
+düzeylerini (1., 2., 3., ve 4. sınıf) bulunduran fakülte     ve tek”, “idealleştirme” ve “ilk görüşte aşk” olarak
+ve bölümler belirlenmiştir. Ardından, yukarıda adı           adlandırılan dört faktöre ayrıldığı saptanmıştır.
+geçen fakülteler arasından seçkisiz örnekleme yoluyla        Beşli Likert tipi derecelendirmenin kullanıldığı
+her fakülte için iki bölüm olmak üzere toplam sekiz          RİÖ’nün Türkçe formundan alınabilecek en düşük
+bölüm (Sınıf Öğretmenliği, İlköğretim Matematik              puan 13 ve en yüksek puan ise 65’tir. Benzer ölçek
+Öğretmenliği, Matematik, Tarih, Gıda Mühendisliği,           geçerliği kapsamında yapılan analizlerde de RİÖ ile
+Çevre Mühendisliği, İşletme ve Maliye) belirlenmiş           Romans ve DeBord (1995) tarafından geliştirilen ve
+ve bu bölümlerin lisans düzeyindeki tüm sınıfları            Gizir (2012) tarafından Türkçe’ye uyarlanan İlişki
+örnekleme dahil edilmiştir.                                  İnançları Ölçeği (İİÖ) puanları arasında pozitif yönde
+                                                             anlamlı bir ilişki (r=.76, p<.001) olduğu bildirilmiştir.
+    Örneklemin 559’u (% 58.4) kız ve 398’i (% 41.6)          RİÖ’nün güvenirlik çalışmaları sonuçlarına göre ise
+erkek öğrencilerden oluşmaktadır. Öğrencilerin yaş           ölçeğin iç tutarlık katsayısını belirlemek üzere elde
+uzamı 18 ile 30 arasında değişmekte olup, ortalaması         edilen Cronbach Alfa değeri .84 olup, test-tekrar test
+21.51 (SS=1.89) olarak belirlenmiştir. Sınıf düzeyine        güvenirliği ise .83 olarak bulunmuştur.
+göre değerlendirildiğinde, öğrencilerin 248’i (%
+25.9) birinci, 271’i (% 28.3) ikinci, 234’ü (% 24.5)             Bu çalışma kapsamında ele alınan verilere göre
+üçüncü ve 204’ü (% 21.3) dördüncü sınıfta öğrenim            RİÖ’nün iç tutarlık katsayıları “aşk bir yol bulur”
+görmektedir. Örneklemin romantik ilişki yaşama               için .79, “ilk ve tek”, için .69, “idealleştirme” için .50
+durumları incelendiğinde ise öğrencilerin 149’u (%           ve “ilk görüşte aşk” için .67’dir. Cinsiyet değişkeni
+15.6) “daha önce yaşamayıp, şimdi romantik bir               temelinde incelendiğinde ise ölçeğin Cronbach Alfa
+ilişki yaşayanlar” grubunu, 238’i (% 25.9) “daha             güvenirlik katsayısı, kızlar için .85 ve erkekler için
+önce yaşayıp şimdi romantik bir ilişki yaşamayanlar”         .82 olarak belirlenmiştir.
+grubunu, 296’sı (% 30.9) “daha önce ve şimdi
+romantik bir ilişki yaşayanlar” grubunu ve son olarak                                    İşlem
+274’ü (% 28.6) ise “hiç romantik ilişki yaşamayanlar”            Araştırma verileri, 2010-2011 eğitim-öğretim
+grubunu oluşturmaktadır.                                     yılı Bahar dönemini kapsayan Nisan-Mayıs
+                                                             aylarında üniversite bünyesindeki Eğitim, Fen-
+Veri Toplama Araçları                                        Edebiyat, Mühendislik ile İktisadi ve İdari Bilimler
+    Kişisel Bilgi Formu: Örneklem grubunu                    Fakültelerinin ilgili bölümlerinde öğrenim görmekte
+                                                             olan 1., 2., 3. ve 4. sınıf öğrencilerine uygulanan
+tanımlayabilmek amacıyla katılımcıların bölüm,               ölçme araçları aracılığıyla elde edilmiştir. Uygulama
+sınıf, yaş, cinsiyet ve romantik ilişki yaşayıp              sınıf ortamında gerçekleştirilmiş ve öğrencilerin bu
+yaşamadıklarını belirlemek üzere araştırmacılar              çalışmaya gönüllü katılımı esas alınmıştır. Uygulama
+tarafından hazırlanan soru formu, “Kişisel Bilgi             sürecinde, öğrencilere araştırmanın amacı ve
+Formu” adı altında uygulanmıştır.
+
+Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+                                                                                  ROMANTİK İLİŞKİ İNANÇLARI 151
+
+ölçeklerin uygulanmasına ilişkin temel yönergeler        olmadığını belirlemek amacıyla yapılan bağımsız
+açıklanmıştır. Sınıf içindeki uygulamalar, yaklaşık
+15-20 dakika sürmüştür.                                  gruplar t-testi analizi sonuçları Tablo 1’de
+
+                     Verilerin Analizi                   verilmiştir. Analiz sonuçlarına göre, romantik
+    Verilerin analizi, SPSS 15 paket programı            ilişkilere yönelik inançlar arasında yer alan aşk bir
+kullanılarak yapılmıştır. Gruplar arasındaki farkın      yol bulur (t =-7. 113, p<0.05) ve ilk görüşte aşk
+anlamlı olup olmadığını belirlemek amacıyla cinsiyet
+değişkeni açısından bağımsız gruplar t-testi, sınıf                               (955)
+düzeyi ve romantik ilişki yaşama durumu değişkenleri
+açısından ise tek yönlü varyans analizi (ANOVA) ve       (t(955)=-4.459, p<0.05) alt ölçeklerinden elde edilen
+LSD teknikleri kullanılmıştır. Araştırmada anlamlılık    puanlar, öğrencilerin cinsiyetlerine göre istatistiksel
+düzeyi .05 olarak kabul edilmiştir.
+                                                         olarak anlamlı bir farklılık göstermektedir.
+                          Bulgular
+                                                         Cinsiyetler arası farkın hangi gruplar arasında
+Romantik İlişki İnançlarının Cinsiyete Göre              olduğuna bakıldığında, erkek öğrencilerin aşk bir
+İncelenmesine İlişkin Bulgular                           yol bulur (X =16.11) ve ilk görüşte aşk (X =5.10) alt
+
+    Öğrencilerin cinsiyetleri ile RİÖ’nün alt            ölçeklerinden elde ettikleri puan ortalamalarının
+ölçeklerinden elde ettikleri puanlar arasında            kızlara oranla (sırasıyla, X =13.94 ve X =4.50)
+istatistiksel olarak anlamlı bir farlılık olup
+                                                         istatistiksel olarak daha yüksek olduğu
+
+                                                         görülmektedir.
+
+                                                            Diğer yandan, romantik ilişkilere yönelik inançlar
+
+                                                         arasında yer   alan ilk ve tek   (t(955)= -.536, p>0.05) ve
+                                                         idealleştirme  (t(955)= -1.759,  p>0.05) alt ölçeklerinden
+
+                                                         elde edilen toplam puanlar ile öğrencilerin cinsiyetleri
+
+                                                         arasında ise istatistiksel olarak anlamlı bir fark
+
+                                                         bulunmamıştır.
+
+Tablo 1. Cinsiyete Göre Romantik İlişkilere Yönelik İnançların t-testi Sonuçları
+
+Alt Boyutlar       Cinsiyet  n                           X      ss                sd      t      p
+
+Aşk Bir Yol Bulur  Kız       559                         13.94  4.80              955     -7.11  .000
+                   Erkek
+                             398                         16.11  4.42
+
+İlk ve Tek         Kız       559                         8.22   3.41              955     -.546  .592
+                   Erkek
+                             398                         8.34   3.48
+
+İdealleştirme      Kız       559                         9.34   3.01              955     -1.76  .079
+                   Erkek
+                             398                         9.68   2.95
+
+İlk Görüşte Aşk    Kız       559                         4.50   1.97              955     -4.46  .000
+                   Erkek
+                             398                         5.10   2.13
+
+Romantik İlişki İnançlarının Sınıf Düzeyine Göre             Sınıf düzeyleri arasındaki farkın hangi gruplar
+İncelenmesine İlişkin Bulgular
+                                                         arasında olduğunu belirlemek amacıyla yapılan LSD
+    Öğrenim gördükleri sınıf düzeylerine göre            testi sonuçlarına göre RİÖ’de yer alan ilk ve tek alt
+
+üniversite öğrencilerinin RİÖ’nün alt ölçeklerinden      ölçeği açısından bu farklılığın istatistiksel olarak
+                                                         birinci sınıf (X =8.58) ile dördüncü sınıf (X =7.69)
+aldıkları puan ortalamaları arasında istatistiksel       öğrencileri ve ikinci sınıf (X =8.60) ile dördüncü sınıf
+                                                         (X =7.69) öğrencileri arasında olduğu görülmektedir.
+olarak anlamlı bir farklılık olup olmadığını belirlemek
+                                                         Bir başka deyişle, birinci ve ikinci sınıf öğrencilerinin
+amacıyla ise tek yönlü ANOVA yapılmıştır. Tablo 2’de     ilk ve tek inancı dördüncü sınıf öğrencilerinden
+
+yer alan analiz sonuçları incelendiğinde, öğrencilerin   istatistiksel olarak anlamlı düzeyde daha yüksektir.
+                                                         RİÖ’de yer alan idealleştirme alt ölçeği açısından
+romantik ilişkilere yönelik inançları arasında yer alan  incelendiğinde ise, yine birinci sınıf (X =9.83) ve
+ilk ve tek (F(3,953)=3.747, p<0.05) ve idealleştirme     dördüncü sınıf öğrencileri ile ikinci sınıf (X =9.76) ve
+(F(3,953)= 5.122, p<0.05) alt ölçeklerinden elde edilen  dördüncü sınıf (X =8.87) öğrencileri arasında
+puanlar, öğrencilerin sınıf düzeyine göre istatistiksel
+                                                         istatistiksel olarak anlamlı farklılıklar görülmüştür.
+olarak anlamlı bir farklılık göstermektedir. Başka bir
+ifade ile öğrencilerin ilk ve tek ve idealleştirme ile   Kısaca, birinci ve ikinci sınıf öğrencilerinin
+                                                         idealleştirme inancı, dördüncü sınıf öğrencilerinden
+ilgili romantik ilişkilere yönelik inançları, öğrenim
+
+gördükleri sınıf düzeyine bağlı olarak istatistiksel
+
+açıdan anlamlı bir şekilde değişmektedir.
+
+                                                                Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+152 Müzeyyen KÜÇÜKARSLAN ve Cem Ali GİZİR
+
+Tablo 2. Sınıf Düzeyine Göre Romantik İlişkilere Yönelik İnançların ANOVA Sonuçları
+
+Alt Boyutlar               Varyans                           Kareler                              Kareler  F                       p
+                           Kaynağı                           Toplamı                 sd Ortalaması
+
+                           Gruplararası                      170.240                    3  56.747
+
+Aşk Bir Yol Bulur          Grupiçi                           21550.979  953                22.614 2.509                            .057
+
+                           Toplam                            21721.218  956
+
+                           Gruplararası                        131.773                  3  43.924
+                           Grupiçi                           11170.210
+İlk ve Tek                                                              953                11.721 3.747                            .011
+
+                           Toplam                            11301.983  956
+
+                           Gruplararası                       135.602                   3  45.201
+                           Grupiçi                           8409.251
+İdealleştirme                                                           953                8.824 5.122                             .002
+
+                           Toplam                            8544.853   956
+
+                           Gruplararası                      29.148                     3  9.716
+
+İlk Görüşte Aşk            Grupiçi                           4025.657   953                4.224 2.300                             .076
+
+                           Toplam                            4054.805   956
+
+istatistiksel olarak anlamlı düzeyde daha yüksektir.                    a) daha önce yaşamayıp, şimdi romantik bir ilişki
+                                                                        yaşayanlar, b) daha önce yaşayıp şimdi romantik
+Diğer yandan, romantik ilişkilere yönelik inançlar                      bir ilişki yaşamayanlar, c) daha önce ve şimdi
+                                                                        romantik bir ilişki yaşayanlar ile d) hiç romantik ilişki
+arasında yer alan aşk bir yol bulur inancı (F =                         yaşamayanlar olarak adlandırılmıştır.
+                                                     (3,953)
+2.509,  p>0.05)  ile  ilk  görüşte  aşk  inancı
+                                                 (F(3,953)=
+
+2.300, p>0.05) açısından ise öğrencilerin sınıf
+
+düzeylerine göre istatistiksel olarak anlamlı bir                       Tablo 3’te yer alan analiz sonuçları incelendiğinde,
+
+farklılık gözlemlenmemiştir.                                            romantik ilişki yaşama durumları açısından üniversite
+
+                                                                        öğrencilerinin RİÖ’nün alt ölçeklerinden aldıkları
+
+Romantik İlişki İnançlarının Romantik İlişki                            puan ortalamaları incelendiğinde aşk bir yol bulur
+Yaşama Durumuna Göre İncelenmesine İlişkin
+Bulgular                                                                (F = 28.801, p<0.01), ilk ve tek (F = 17.321,
+                                                                            (3,953)                                       (3,953)
+    Romantik ilişki yaşama durumları açısından                                       ve    idealleştirme   (F(3,953)=              p<0.01)
+üniversite öğrencilerinin RİÖ’nün alt ölçeklerinden                     p<0.01)                                        8.303,
+aldıkları puan ortalamaları arasında istatistiksel
+olarak anlamlı bir farklılık olup olmadığını                            puanları temelinde gruplar arasında istatistiksel olarak
+belirlemek amacıyla yapılan ANOVA analizinde
+öğrencilerin romantik ilişki yaşama durumları                           anlamlı farklılıklar olduğu görülmektedir. Diğer
+dört temel grup altında incelenmiştir. Bu gruplar:                      yandan, RİÖ’de yer alan ilk görüşte aşk alt ölçeğinden
+
+                                                                        aldıkları puan ortalamaları incelendiğinde, üniversite
+
+                                                                        öğrencilerinin puanları temelinde gruplar arasında
+
+                                                                        istatistiksel olarak anlamlı bir fark bulunmamıştır
+
+                                                                        (F(3,953)= 1.595, p>0.05).
+
+Tablo 3. Romantik İlişki Yaşama Durumuna Göre ANOVA Sonuçları
+
+Alt Boyutlar               Varyans                           Kareler    sd                     Kareler     F                       p
+                           Kaynağı                           Toplamı                       Ortalaması
+
+                           Gruplararası                      1805.651                3     601.884
+                           Grupiçi
+Aşk Bir Yol Bulur                                            19915.567  953                20.898 28.801                           .000
+
+                           Toplam                            21721.218  956
+
+                           Gruplararası                      584.388                 3     194.796
+                           Grupiçi
+İlk ve Tek                                                   10717.595  953                11.246 17.321                           .000
+
+                           Toplam                            11301.983  956
+
+İdealleştirme              Gruplararası                      217.646                 3     72.549
+                           Grupiçi
+                                                             8327.207   953                8.738 8.303                             .000
+
+                           Toplam                            8544.853   956
+
+                           Gruplararası                      20.257                  3     6.752
+
+İlk Görüşte Aşk            Grupiçi                           4034.547   953                4.234 1.595                             .189
+
+                           Toplam                            4054.805   956
+
+Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+                                                            ROMANTİK İLİŞKİ İNANÇLARI 153
+
+    Romantik ilişki yaşama düzeyleri arasındaki             diğer üç grupta bulunan daha önce yaşayıp şimdi
+                                                            romantik bir ilişki yaşamayanlar (X =9.17), daha
+farkın hangi gruplar arasında olduğunu belirlemek           önce ve şimdi romantik bir ilişki yaşayanlar (X =9.54),
+                                                            ve hiç romantik bir ilişki yaşamayanlar (X =9.17)
+amacıyla yapılan LSD testi sonuçlarına göre RİÖ’de          arasında olduğu görülmektedir. Sonuç olarak, daha
+yer alan aşk bir yol bulur alt ölçeği açısından tüm         önce yaşamayıp, şimdi romantik bir ilişki yaşayan
+                                                            öğrencilerin idealleştirme inancı diğer gruptakilere
+gruplar arasında istatistiksel olarak anlamlı farklılıklar  göre istatistiksel açıdan anlamlı düzeyde daha yüksek
+gözlenmektedir. Özetle, aşk bir yol bulur inancı            görülmektedir.
+
+açısından gruplar arasındaki farkın istatistiksel olarak                              Tartışma
+daha önce yaşamayıp, şimdi romantik bir ilişki                  Araştırma bulguları, üniversite öğrencilerinin
+yaşayan öğrenciler (X =17.06) ile diğer üç grupta           romantik ilişkilere yönelik inançlarının cinsiyet,
+bulunan daha önce yaşayıp şimdi romantik bir ilişki         sınıf düzeyi ve romantik ilişki yaşama durumlarına
+yaşamayanlar (X =14.19), daha önce ve şimdi                 göre anlamlı olarak farklılaştığını ortaya koymuştur.
+romantik bir ilişki yaşayanlar (X =15.99) ve hiç            Cinsiyet değişkeni açısından incelendiğinde, romantik
+romantik bir ilişki yaşamayanlar (X =13.32) arasında        ilişki inançları arasında yer alan aşk bir yol bulur
+olduğu görülmektedir. Buna göre, daha önce                  inancına, erkek öğrencilerin kız öğrencilere oranla
+yaşamayıp, şimdi romantik bir ilişki yaşayan                daha yüksek düzeyde sahip oldukları görülmektedir.
+öğrencilerin aşk bir yol bulur inancı diğer üç gruptaki     İlgili alan yazın incelendiğinde Carlson ve Rose
+                                                            (2007), kadınların romantik ilişkinin iyi gidip
+öğrencilere göre istatistiksel olarak anlamlı düzeyde       gitmediğine yönelik kaygılarının erkeklerden daha
+                                                            fazla olduğunu belirtmektedirler. Bu kaygılar
+daha yüksek görülmektedir.                                  nedeniyle, kadınların ilişki sürecindeki beklentileri
+    Bununla birlikte, aşk bir yol bulur inancı açısından,   erkeklerden daha ayrıntılı olmakta ve kadınlar kendi
+                                                            ilişkilerini erkeklere oranla daha dikkatli ve yakından
+daha önce ve şimdi romantik bir ilişki yaşayan (X           incelemektedirler. Bir başka deyişle kadınlar,
+=15.99) öğrencilerin aşk bir yol bulur inancı alt           romantik ilişkilerde yaşanan problemlere erkeklere
+ölçeğinden aldıkları puanlar daha önce yaşayıp şimdi        göre daha duyarlı olmakta (Choo, Levine ve Hatfield,
+romantik bir ilişki yaşamayan (X =14.19) ve hiç             1996) ve ilişkilerde yaşanan anlaşmazlıkları,
+romantik bir ilişki yaşamayan (X =13.32) öğrencilere        aşka ve ilişkiye yönelik önemli bir tehdit olarak
+                                                            algılamaktadırlar (Stackert ve Bursik, 2003). Buna ek
+göre yine istatistiksel olarak anlamlı düzeyde daha         olarak, kadınların “anlaşmazlık yıkıcıdır” biçiminde
+yüksek görülmektedir. Aynı zamanda, daha önce               ifade edilen inanca erkeklerden daha fazla sahip olma
+yaşayıp şimdi romantik bir ilişki yaşamayan (X              eğiliminde oldukları (Beştav, 2007; Bradbury ve
+=14.19) öğrencilerin aşk bir yol bulur inancına             Fincham, 1993), erkeklerin ise romantik ilişkilerde
+yönelik puanları, hiç romantik bir ilişki yaşamayan (       yaşanan çatışmalarda kadınlara oranla romantik
+X =13.32) öğrencilerin puanlarına göre istatistiksel        eşlerine daha çok uyum sağladıkları ve çatışmalardan
+olarak daha yüksek bulunmuştur. Sonuç olarak, daha          kaçınmayı daha fazla tercih ettikleri belirtilmektedir
+önce yaşamayıp, şimdi romantik bir ilişki yaşayan           (Can, 2006). Bu bulgular, romantik ilişkide yaşanan
+öğrencilerin aşk bir yol bulur inancı diğer gruptakilere    sorun, çatışma ya da problemlere karşı kadınların
+göre istatistiksel olarak anlamlı düzeyde yüksek, hiç       daha duyarlı, nesnel ve yüzleşmeci, erkeklerin ise
+romantik bir ilişki yaşamayan öğrencilerin ise diğer        daha öznel ve kaçınmacı bir tutum sergiledikleri
+                                                            biçiminde değerlendirilmektedir. Dolayısıyla,
+gruptakilere göre anlamlı düzeyde düşük olduğu              erkeklerin kadınlara oranla aşkın, her türlü sorunun
+                                                            üstesinden gelebileceğine dair daha iyimser bir bakış
+saptanmıştır.                                               açısıyla aşk bir yol bulur inancına sahip olmaları olası
+    RİÖ’de yer alan ilk ve tek alt ölçeği açısından         görünmektedir.
+                                                                Cinsiyet değişkeni açısından elde edilen bir
+gruplar arasındaki farklılıklar incelendiğinde, LSD         diğer bulgu ise, romantik ilişki inançları arasında
+testi sonuçlarına göre, daha önce yaşamayıp, şimdi          yer alan ilk görüşte aşk inancına, erkek öğrencilerin
+romantik bir ilişki yaşayan öğrenciler (X =10.04) ile       kız öğrencilere oranla daha yüksek düzeyde sahip
+diğer üç grupta bulunan daha önce yaşayıp şimdi             olduklarıdır. İlgili alan yazında, romantik eş seçiminde
+romantik bir ilişki yaşamayanlar (X =7.84), daha            erkeklerin fiziksel çekiciliği ön planda tutarken,
+önce ve şimdi romantik bir ilişki yaşayanlar (X =8.21)
+ve hiç romantik bir ilişki yaşamayanlar (X =7.80)
+
+arasında istatistiksel olarak anlamlı farklılıklar olduğu
+görülmektedir. Buna göre, daha önce yaşamayıp,
+şimdi romantik bir ilişki yaşayan öğrencilerin ilk ve
+tek inancı diğer gruptakilere göre istatistiksel olarak
+
+anlamlı düzeyde daha yüksek görülmektedir. Benzer
+şekilde, RİÖ’de yer alan idealleştirme alt ölçeği
+
+açısından gruplar arasındaki fark istatistiksel olarak
+incelendiğinde yine daha önce yaşamayıp, şimdi
+romantik bir ilişki yaşayan öğrenciler (X =10.53) ile
+
+                                                            Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+154 Müzeyyen KÜÇÜKARSLAN ve Cem Ali GİZİR
+
+kadınların çoğunlukla toplumsal ve ekonomik                  kullanarak ileriyi düşünme ve davranışlarını
+statü, hırs, güçlü bir karakter ve zekaya dikkat             şekillendirme kapasitesini geliştirmektedir. Bu
+ettikleri görülmektedir. Diğer bir deyişle, ilişkilerin      nedenle, yaş ilerledikçe romantik ilişkiye yönelik
+başlangıcında erkeklerin doğurganlık değerine dair           deneyim de artış göstermektedir. Dolayısıyla dördüncü
+işaretler (dış görünüş, fiziksel çekicilik ve gençlik),      sınıf öğrencilerinin, geçmiş ilişki deneyimlerine
+kadınların ise kaynak edinme becerisine dair işaretler       bağlı olarak kendilerine, romantik eşlerine ve
+(olgunluk, yüksek eğitim düzeyi ve ekonomik                  ilişkilerine yönelik daha gerçekçi değerlendirmelerde
+güvence) aradığı belirtilmektedir (Coleman ve                bulunabildikleri düşünülebilir.
+Ganong, 1992; Medora, Larson, Hortaçsu ve Dave,
+2002; Pines, 2010). Dolayısıyla, ilk izlenimlerin                Romantik ilişki yaşama durumu değişkeni ele
+oluşturulduğu ilk temas ve ilk görüş temelinde               alındığında ortaya çıkan bulgular ise ‘daha önce
+erkeklerin romantik ilgi ve ilişkiden etkilenme              yaşamayıp, şimdi romantik bir ilişki yaşayan’
+düzeyleri kadınlara oranla daha fazla olabilmektedir.        öğrencilerin aşk bir yol bulur inancının, diğer
+Bu nedenle, erkeklerin fiziksel görünüm ve çekiciliğe        gruplardaki öğrencilerden daha yüksek olduğunu
+atfettikleri anlama bağlı olarak ilk görüşte aşka dair       göstermektedir. Aşık olmanın öz güveni arttırıp,
+ilişki inançlarının kadınlara oranla daha yüksek             benlik algısını güçlendirdiği ve bireyi duygusal olarak
+düzeyde olabileceği düşünülmektedir.                         olgunlaştırarak daha olumlu bir kişilik geliştirmesini
+                                                             sağladığı vurgulanmaktadır (Pines, 2010). Bu nedenle,
+    Bulgular sınıf düzeyi değişkeni açısından ele            üniversite öğrencilerinin romantik ilişkilerde uzun
+alındığında, birinci ve ikinci sınıf öğrencilerinin          ömürlü ve dayanıklı ilişkiler için çaba gösterdikleri
+idealleştirme romantik ilişki inancına, dördüncü             görülmektedir (Collins, 2003). Bu bilgiler ışığında,
+sınıf öğrencilerine oranla daha yüksek düzeyde               öğrencilerin bağlılığı ve ilişki süresini arttırmak adına
+sahip oldukları görülmektedir. Montgomery                    ilişkilerine yönelik engelleri görmezden gelmeye
+(2005), üniversite öğrencilerinin idealleştirme              ve problemlerle baş etmeye yönelik bir tutum
+inançlarının lise öğrencilerinden daha düşük                 geliştirebilecekleri, özellikle de ilk kez romantik bir
+düzeyde olduğunu belirtmektedir. Bir başka                   ilişki yaşayan öğrencilerin, ilişkilerinin başlangıç
+deyişle, beliren yetişkinlik döneminin başladığı             aşamasında daha heyecanlı, sorunlarla baş etme
+dönemde ve sonrasında öğrencilerin romantik                  konusunda daha istekli ve engeller karşısında daha
+eşlerini daha az idealleştirdikleri ifade edilmektedir.      iyimser olabilecekleri ileri sürülebilir.
+Benzer şekilde Knox ve Sporakowski (1968),
+üniversite öğrencilerinin ilişki deneyimleri arttıkça,           Bu konudaki bir başka bulgu ise ‘daha önce ve
+yaşadıkları aşka ve sevgililerine yönelik gerçekçi           şimdi romantik bir ilişki yaşayan’ öğrencilerin aşk
+algı ve değerlendirmelerinin de artacağını ifade             bir yol bulur inançlarının ‘daha önce yaşayıp şimdi
+etmektedirler. Diğer bir deyişle, yaş ve sınıf düzeyi        romantik bir ilişki yaşamayan’ ve ‘hiç romantik
+arttıkça bireylerin birbirlerini daha az idealize            bir ilişki yaşamayan’ öğrencilere göre daha yüksek
+ettikleri görülmektedir. Bu bilgiler ışığında bu bulgu,      olduğu yönündedir. Elde edilen bu bulgu Tüfekçi
+birinci sınıf üniversite öğrencilerinin yeni başladıkları    (2008) ve Bahadır’ın (2006) araştırma bulgularıyla
+ilişkilerine ya da yeni tanıdıkları sevgililerine birçok     paralellik göstermektedir. Söz edilen bu çalışmalar
+hayali ve olumlu özellikler atfedebildikleri, son sınıf      sonucunda ulaşılan romantik ilişki sayısı ile
+öğrencilerinin ise aşkı daha gerçekçi tanımlamayı            ilişkiye yönelik güven hissi ve ilişkideki çatışma
+öğrendiklerinden sevgililerinin bir birey olarak             sıklığı arasında negatif yönlü bir ilişki olduğu
+hayallerindeki niteliklerle uyuşmayabileceklerini            bulgusu dikkate alındığında, ‘daha önce ve şimdi
+anladıkları şeklinde yorumlanabilir.                         bir romantik ilişki yaşayan’ öğrencilerin halen
+                                                             yaşamakta oldukları ilişkilerde kendilerini daha az
+    Sınıf düzeyi değişkeni açısından elde edilen bir         güvende hissettikleri ve daha az çatışma yaşama
+diğer bulgu ise, romantik ilişki inançları arasında          eğiliminde oldukları düşünülebilir. Bu durum,
+yer alan ilk ve tek inancına, birinci ve ikinci sınıf        öğrencilerin ilişki deneyimleri arttıkça aşkın her
+öğrencilerinin dördüncü sınıf öğrencilerine oranla           koşulda yürümeyebileceğine ve romantik ilişkinin
+daha yüksek düzeyde sahip olduklarına yöneliktir.            bitebileceğine yönelik gerçekçi inançlarının
+Bandura’nın (1999) Sosyal Bilişsel Öğrenme                   arttığı, dolayısıyla ilişkinin asla bitmeyeceğine
+Kuramı’na göre cinsiyet, yaş, tutumlar gibi bireysel         yönelik güven hissinin kaybolduğu ve ilişkideki
+özellikler bireyin bilişsel süreçlerini ve davranışlarını    çatışmaları azaltmaya yönelik daha uzlaşmacı
+etkilemektedir. Birey, birlikte olduğu kişi ile paylaştığı   bir tutum göstermeye başladıkları biçiminde
+yaşantılarda, deneme yanılma yoluyla işlevsel olan           değerlendirilebilir.
+düşünce sistemlerini ve davranışlarını geliştirme
+olanağına sahip olabilmekte, böylece önbilgilerini               Romantik ilişki inançları arasında yer alan ilk ve
+                                                             tek inancı açısından elde edilen bulgular ise ‘daha
+
+Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+                                                             ROMANTİK İLİŞKİ İNANÇLARI 155
+
+önce yaşamayıp, şimdi romantik bir ilişki yaşayan’           üniversite yaşamı sürecinde yaşadıkları problemler
+öğrencilerin ilk ve tek inançlarının, diğer tüm              karşısında yararlandıkları en önemli sosyal destek
+gruplardan daha yüksek olduğunu göstermektedir.              kaynaklarından birinin de akran grupları olması dikkate
+Sprecher ve Metts (1999), ilk ve tek inancının, bir          alınarak, üniversite PDR merkezleri bünyesinde sosyal
+ilişkinin gelişim aşamasında bireyin davranışlarını,         ilişkilerin geliştirilmesi temelinde yakın ve romantik
+ilişki dinamiğini ve ilişki dayanıklılığını olumlu           ilişkilerin de ele alındığı akran rehberliği uygulamaları
+yönde etkilediğini ifade etmektedirler. Genellikle           gerçekleştirilebilir.
+ilk romantik ilişkilerine, ilk aşklarıyla sonsuza dek
+birlikte olmaları gerektiğine yönelik beklentilere sahip         Bilindiği üzere, romantik ilişkilere yönelik
+olmaları nedeniyle ilk kez romantik bir ilişki yaşayan       inançlar, temelde romantik bir ideolojiye bağlı
+öğrencilerin, romantik eşlerinin yaşamlarındaki ilk ve       olarak gelişmektedirler. Özellikle romantik ilişki
+son kişi olmalarına yönelik bir inanç geliştirmeleri         sorunlarına yönelik destek almak için üniversite
+olası görünmektedir.                                         PDR merkezlerine başvuran öğrencilerin, romantik
+                                                             ilişkilere yönelik çatışma, kıskançlık, yalnızlık,
+    Son olarak, ‘daha önce yaşamayıp, şimdi                  problem çözme ve özgüven gibi konularda yaşanan
+romantik bir ilişki yaşayan’ öğrencilerin idealleştirme      sorunları dile getirdikleri gözlemlenmektedir. Bu
+inançlarının, diğer gruplardan daha yüksek olduğu            durumlar, çoğunlukla romantik ilişkilere yönelik
+bulgular arasında yer almaktadır. Pines (2010),              abartılı beklentilerin ya da gerçekçi olmayan
+sevgiliyi idealize etmenin “kendini gerçekleştiren           inançların bir ürünü olabilmektedir. Bu anlamda,
+kehanet” gibi işlediğini ifade etmektedir. Pines’e göre      bireysel psikolojik danışma sürecinde üniversite
+sevgililer, birbirlerini ne kadar idealize ederlerse,        öğrencilerinin sahip oldukları rasyonel olmayan
+birlikte kalma olasılıkları da o kadar güçlü olmaktadır.     inançlara yönelik farkındalık kazanmalarını
+Bu nedenle, ilişkinin başlangıcında birbirlerini             kolaylaştırmak ve gerektiğinde bu inançlarını
+daha çok idealize eden çiftlerin, ilişkiden aldıkları        değiştirmelerine yardımcı olmak amacıyla özellikle
+doyumda da bir artış olmaktadır.                             bilişsel yaklaşım temelli stratejiler kullanılabilir.
+
+    Sonuç olarak, bu çalışmadan elde edilen bulgular             Bu çalışmada, üniversite öğrencilerinin romantik
+doğrultusunda, üniversite psikolojik danışma ve rehberlik    ilişkilere yönelik inançları kapsamında dört temel
+(PDR) merkezleri bünyesinde öğrencilerin romantik            inanç (aşk bir yol bulur, ilk ve tek, idealleştirme ve
+ilişki inançlarına yönelik çeşitli rehberlik etkinlikleri    ilk görüşte aşk) üzerinde çalışılmıştır. Gelecekte
+(söyleşi, çalışma grubu, broşür vb.) sunulmasının,           yapılacak çalışmalarda, romantik ilişkilere yönelik
+üniversite öğrencilerinin gerçekçi olmayan romantik          farklı ilişki inançlarının ele alınmasının bu konuda
+ilişki inançlarına yönelik farkındalık kazanmalarına         daha detaylı bir alan yazın oluşumuna büyük ölçüde
+önemli katkılar sağlayacağı düşünülmektedir. Böylece,        katkı sağlayacağı düşünülmektedir. Bununla birlikte,
+öğrencilerin kendi romantik ilişki inançlarını yeniden       romantik ilişkilere yönelik inançların kültüre dayalı
+gözden geçirmeleri ve ilişkilerinde yaşayabilecekleri        olarak farklılıklar gösterdiği (Sprecher ve Toro-Morn,
+olası sorunlar karşısında yardım alabilecekleri kaynakları   2002) düşünüldüğünde, bu konuda kültürlerarası
+kullanmaları konusunda müşavirlik hizmetleri de              araştırmaların yapılması ilgili alan yazına önemli
+sunulmuş olacaktır. Bununla birlikte, öğrencilerin           katkılar sunacaktır.
+
+Kaynaklar
+
+Assad, K. K. ve Donnellan, M. B. (2007). Optimism: An             ilişkin tutumlar arasındaki ilişkinin incelenmesi.
+     enduring resource for romantic relationships. Journal        Yayınlanmamış Yüksek Lisans Tezi. Hacettepe
+     of Personality and Social Psychology, 93(2), 285-297.        Üniversitesi, Sosyal Bilimler Enstitüsü, Ankara.
+                                                              Bradbury, T. N. ve Fincham, F. D. (1988). Individual
+Bahadır, Ş. (2006). Romantik ilişkilerde bağlanma stilleri,       difference variables in close relationships: A contextual
+     çatışma çözme stratejileri ve olumsuz duygu durumu           model of marriage as an integrative framework.
+     düzenleme arasındaki ilişki. Yayınlanmamış Doktora           Journal of Personality and Social Psychology, 54(4),
+                                                                  713-21.
+     Tezi. Ankara Üniversitesi, Sosyal Bilimler Enstitüsü,   Can, S. (2006). Genç yetişkinlik döneminde bireylerin
+                                                                  karşı cinsle duygusal ilişkilerindeki çatışma çözme
+     Ankara.                                                      biçimlerinin incelenmesi. Yayınlanmamış Yüksek
+                                                                  Lisans Tezi. Ankara Üniversitesi, Sosyal Bilimler
+Bandura, A. (1999). Social cognitive theory: An agentic           Enstitüsü, Ankara.
+     perspective. Asian Journal of Social Psychology, 2,
+
+     21-41.
+Beştav, G. (2007). Romantik ilişki doyumu ile cinsiyet,
+
+     bağlanma stilleri, rasyonel olmayan inançlar ve aşka
+
+                                                             Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+156 Müzeyyen KÜÇÜKARSLAN ve Cem Ali GİZİR
+
+Carlson, W. ve Rose, A. J. (2007). The role of reciprocity    Fokkert, J. ve Van Kooten, A. M. (2009). Relationship
+                                                                   beliefs: their association with entering into a
+     in romantic relationships in middle childhood and             relationship, their change over time and with
+     early adolescence. Merrill-Palmer Quarterly, 53,              transitions in relationship status. Unpublished Master
+
+     262–290.                                                      Thesis. Utrecth University, Netherlands. [Online]
+
+Choo, P., Levine, T. ve Hatfield, E. (1996). Gender, love          Retrieved on 22-November-2011, at URL: http://
+     schemas, and reactions to a romantic break-up. Journal
+     of Social Behavior and Personality, 11, 143-160.              igitur-archive.library.uu.nl
+
+Coleman, M. ve Ganong, L. (1992). Gender differences          Gizir, C. A. (2012). İlişki İnançları Ölçeği’nin uyarlanması:
+     in expectations of self and future partner. Journal of        Geçerlik ve güvenirlik çalışmaları. Mersin Üniversitesi
+     Family Issues, 33, 55-61.                                     Eğitim Fakültesi Dergisi, 8(2), 37-45.
+
+Collins, W. A. (2003). More than myth: The developmental      Güven, N. (2005). İlişkilerle ilgili bilişsel çarpıtmalar ve
+                                                                   evlilikte problem çözme becerilerinin evlilik doyumu
+     significance of romantic relationship during                  ile ilişkisi. Yayınlanmamış Yüksek Lisans Tezi.
+     adolescence. Journal of Reserach of Adolescence, 13,
+                                                                   Ankara Üniversitesi, Eğitim Bilimleri Enstitüsü,
+     1-24.
+                                                                   Ankara.
+Creasey, G. ve Ladd, A. (2004). Negative mood regulation
+                                                              Hamamcı, Z. (2005). Dysfunctional relationship beliefs in
+     expectancies and conflict behaviors in late adolescent        marital satisfaction and adjustment. Social Behavior
+                                                                   and Personality, 33(4), 313-328.
+     college student romantic relationships: The moderating
+     role of generalized attachment representations. Journal  Hazan, C. ve Shaver, P. (1987). Romantic love
+     of Research on Adolescence, 14(2), 235–255.                   conceptualized as an attachment process. Journal of
+                                                                   Personality and Social Psychology, 52, 511–524.
+Creasey, G., Kershaw, K. ve Boston, A. (1999). Conflict
+                                                              Honeycutt, J. ve Cantrill, J. (2001). Cognition,
+     management with friends and romantic partners: The            communication and romantic relationships. Mahwah,
+
+     role of attachment and negative mood regulation               NJ: Erlbaum.
+     expectancies. The Journal of Youth and Adolescence,
+     28(5), 523-543.                                          James, S., Hunsley, J. ve Hemsworth, D. (2002). Factor
+                                                                   structure of the relationship belief inventory. Cognitive
+Davies, M. F. (2006). Irrational beliefs and unconditional         Therapy and Research, 26(6), 729–744.
+
+     self-acceptance: Correlational evidence linking two      Knee, C. R. (1998). Implicit theories of relationships:
+     key features of REBT. Journal of Rational-Emotive
+     and Cognitive-Behavior Therapy, 24(2), 113-124.               Assessment and prediction of romantic relationship
+                                                                   initiation, coping and longevity. Journal of Personality
+DeBord, J., Romans, J. S .C. ve Krieshok, T. (1996).               and Social Psychology, 74, 360–370.
+
+     Predicting dyadic adjustment from general and            Knox, D. H. ve Sporakowski, M. J. (1968). Attitudes of
+     relationship-specific beliefs. Journal of Psychology,         college students toward love. Journal of Marriage and
+     130, 263-280.                                                 The Family, 30(4), 638-642.
+
+Demir, M. (2008). Sweetheart, you really make me              Kuttler, A. F. ve Greca, A. M. L. (2004). Linkages
+
+     happy: Romantic relationship quality and personality          among adolescent girls’romantic relationships, best
+     as predictors of happiness among emerging adults.             friendships and peer networks. Journal of Adolescence,
+     Journal of Happiness Studies, 9, 57–277.                      27, 395– 414.
+
+Eidelson, R. J. ve Epstein, N. (1982). Cognition and          Küçükarslan, M. ve Gizir, C. A. (2013). Romantik İnançlar
+
+     relationship maladjustment: Development of a                  Ölçeği’nin uyarlanması: Geçerlik ve güvenirlik
+     measure of dysfunctional relationship beliefs. Journal        çalışmaları. Mersin Üniversitesi Eğitim Fakültesi
+     of Consulting and Clinical Psychology, 50, 715–720.           Dergisi, 9(2), 461-469.
+Erikson, E. H. (1968). Identity: Youth and crisis. New York:
+                                                              Medora, N. P., Larson, J. H., Hortaçsu, N. ve Dave, P.
+     W.W. Norton ve Company, Inc.
+                                                                   (2002). Perceived attitudes towards romanticism: A
+Feiring, C. (1996). Concepts of romance in 15-years-olds.
+     Journal of Research on Adolescence, 6, 181-200.               cross-cultural study of American, Asian-Indian and
+                                                                   Turkish young adults. Journal of Comparative Family
+Furman, W. (2002). The emerging field of adolescent                Studies, 35(2), 155-76.
+     romantic relationships. Current Directions in
+     Psychological Science, 11, 177–180.                      Metts, S. ve Cupach, W. R. (1990). The influence of
+
+Furman, W. ve Shaffer, L. A. (1999). A story of adolescence:       relationship beliefs and problem solving responses
+     The emergence of other-sex relationships. Journal of          on satisfaction in romantic relationships. Human
+     Youth and Adolescence, 28, 513–522.                           Communication Research, 17, 170–185.
+
+Florsheim, P. ve Moore, D. R. (2008). Observing differences   Montgomery, M. J. (2005). Psychosocial intimacy and
+
+     between healthy and unhealthy adolescent romantic             identity: From early adolescence to emerging adulthood.
+                                                                   Journal of Adolescent Researh, 20(3), 346-374.
+     relationships: Substance abuse and interpersonal
+     process. Journal of Adolescence, 31, 795–814.
+
+Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+                                                              ROMANTİK İLİŞKİ İNANÇLARI 157
+
+Mosher, C. ve Danoff-Burg, S. (2007). College students’       Shi, L. (2003). The association between adult attachment
+
+     life priorities: The influence of gender and gender-          styles and conflict resolution in romantic relationships.
+     linked personality traits. Gender Issues, 24, 21-33.          The American Journal of Family Therapy, 31, 143–157.
+
+Moss, B. F. ve Schwebel, A. I. (1993). Defining intimacy in   Sprecher, S. ve Metts, S. (1999). Romantic beliefs: Their
+     romantic relationships. Family Relations, 42(1), 31-37.
+                                                                   influence on relationships and patterns of change over
+Neff, K. D. ve Suizzo, M. A. (2006). Culture, power,               time. Journal of Social and Personal Relationships,
+                                                                   16, 834– 851.
+     authenticity and psychological wellbeing within
+                                                              Sprecher, S. ve Metts, S. (1989). Development of the
+     romantic relationships: A comparison of European
+     American and Mexican Americans. Cognitive                     Romantic Beliefs Scale and examination of the effects
+     Development, 21, 441–457.                                     of gender and gender-role orientation. Journal of
+Pines, A. M. (2010). Aşık olmak: Sevgililerimizi neye göre         Social and Personal Relationships, 6, 387– 411.
+     seçeriz? (Çev. M. Y. Uluengin) İstanbul: İletişim
+                                                              Sprecher, S. ve Toro-Morn, M. (2002). A study of men
+     Yayınları.
+                                                                   and women from different sides of earth to determine
+Ponzetti, J. J. ve Cate, R. M. (1988). The relationship
+                                                                   if men are from Mars and women are from Venus in
+     of personal attributes and friendship variables in            their beliefs about love and romantic relationships. Sex
+     predicting loneliness. Journal of College Student             Roles, 46, 131-147.
+     Development, 29(4), 292-298.
+                                                              Stackert, R. A. ve Bursik, K. (2003). Why am I unsatisfied?
+Q’sullivan, F. C. Cheng, M. M., Harris, M. H. ve Brooks-
+                                                                   Adult attachment style, gendered irrational relationship
+     Gunn, J. (2007). I wanna hold your hand: The
+                                                                   beliefs and young adult romantic relationship
+     progression of social, romantic and sexual events in          satisfaction. Personality and Individual Differences,
+     adolescent relationships. Perspectives on Sexual and          34, 1419–142.
+     Reproductive Health, 39(2), 100-107.                     Tüfekçi, S. (2008). Romantik ilişkilerde genç yetişkinlerin
+                                                                   aşka ilişkin tutumları ve kişilik özellikleri: Transaksiyonel
+Raley, R. K. ve Sullivan, M. K. (2010). Social-contextual          analiz ego durumları açısından bir değerlendirme.
+
+     influences on adolescent romantic involvement:                Yayınlanmamış Yüksek Lisans Tezi. Marmara
+
+     The constarnints of being a numerical minority.               Üniversitesi, Eğitim Bilimleri Enstitüsü, İstanbul.
+     Sociological Spectrum, 30, 65–89.
+                                                              Weaver, S. E. ve Ganong, L. H. (2004). The factor structure
+Romans, J. S. C. ve DeBord, J. (1995). Development of
+     the Relationship Beliefs Questionnaire. Psychological         of the Romantic Beliefs Scale for African Americans
+     Reports, 76, 1248–1250.                                       and European Americans. Journal of Social and
+                                                                   Personal Relationships, 21(2), 171–185.
+Sharp, E. A. ve Ganong, L. H. (2000). Raising awareness
+                                                              Zimmer-Gembeck, M. J. (2002). The development of
+     about marital expectations: Are unrealistic beliefs
+     changed by integrative teaching? Family Relations,            romantic relationships and adaptations in the system of
+     49, 71-76.                                                    peer relationships. The Journal of Adolescent Health,
+                                                                   31, 216–225.
+
+                                                              Türk Psikolojik Danışma ve Rehberlik Dergisi / 2014, 5 (42)
+158
+
+Turkish Psychological Counseling and Guidance Journal
+2014, 5 (42), 148-159
+
+Extended Summary
+
+An Investigation of University Students’ Romantic
+Relationship Beliefs Related to Some Variables
+
+Müzeyyen KÜÇÜKARSLAN and Cem Ali GİZİR
+
+    Forming close relationships (as a sense of                        is limited, especially in Turkey. It is obvious that
+intimacy) including romantic relationships is a basic                 university counseling centers might be aware of the
+need and developmental task for most university                       importance of romantic relationships in the lives of
+students and it is supposed to be one of the most                     university students and the developmental sequence
+important key aspect of the development of healthy                    regarding their beliefs on love. For this reason, the
+personal identity (Demir, 2008; Erikson, 1968;                        purpose of this research is to determine whether there
+Kuttler & Greca, 2004). Research has indicated that                   is a difference among university students’ romantic
+satisfying romantic relationship is also associated                   relationship beliefs in regard to gender, grade level
+with well-being of individuals (Assad & Donnellan,                    and dating status.
+2007; Collins, 2003; Florsheim & Moore, 2008; Neff
+& Suizzo, 2006). Moreover, there is a growing body                                               Method
+of research has focused on the negative impacts of                        The sample of the study consisted of 957 (559
+unsatisfying romantic relationship experiences on the                 female, 398 male) undergraduate students enrolled at
+levels of stress, interpersonal conflicts, and difficulties           a state university during 2010-2011 academic year.
+living in romantic and social relationships (Creasey &                The age of students ranged from 18 to 30 with a
+Ladd, 2004; Shi, 2003; Zimmer-Gembeck, 2002).                         mean of 21.51 (SD=1.89). Two instruments, namely,
+                                                                      “Demographic Data Form” and “Romantic Beliefs
+    One of the most striking incompetence of                          Scale” (Sprecher & Metts, 1989) adapted to Turkish
+developing and/or maintaining romantic relationships                  were used in the present study. One way analysis of
+is based commonly on pre-existing beliefs                             variance (ANOVA) and t-test were used to analyze
+individuals hold about what relationships should                      the data.
+be like (Knee, 1998; Sprecher & Metts, 1999). In
+the related literature, there are diverse terms used                                   Results and Discussion
+for these relationship beliefs including “generalized                     The results of the study revealed that university
+relationship expectations or beliefs” (Hazan &                        student’ romantic relationship beliefs differed
+Shaver, 1987; Sprecher & Metts, 1999), “unrealistic                   significantly in terms of gender, grade level and
+relationship standards” (DeBord, Romans, &                            dating status. Specifically, males were significantly
+Krieshok, 1996), and “irrational relationship beliefs”                more likely to have beliefs about “love finds a way”
+(Sharp & Ganong, 2000). According to Sprecher and                     than females. Research indicated that women are
+Metts (1989; 1999), these generalized relationship                    more sensitive than men to potential problems in a
+expectations represent an idealistic romanticism                      relationship (Choo, Levine, & Hatfield, 1996) and
+include: (a) love at first sight can be possible; (b) there           they seem to be more likely to view disagreement as
+can be only one ideal partner; (c) idealization of the                threatening to a romantic love (Stackert & Bursik,
+experiencing romantic relationship; and (d) love can                  2003). In other words, women are more sensitive
+conquer any barrier and finds a way. Based on this                    and objective while men are more subjective and
+formalization of idealistic romanticism, the present                  avoidant in front of the conflicts or challenges
+study mainly focused on the irrational romantic                       emerging in the romantic relationships. So, it seems
+relationship beliefs of university students. The related              that women take a more pragmatic approach while
+literature indicated that most research available on                  men tend to be more likely optimistic and hopeful in
+the topic of irrational relationship beliefs generally                their beliefs about “love finds a way” (Sprecher &
+focuses on married couples but the number of studies                  Toro-Morn, 2002).
+available in this area related to university students
+
+Turkish Psychological Counseling and Guidance Journal / 2014, 5 (42)
+                                                          ROMANTIC RELATIONSHIP BELIEFS 159
+
+    The results also indicated that men reported a            When dating status of students considered, it was
+higher level of relationship belief in “love at first     found that the students who involved in a romantic
+sight” than women. Related research showed that           relationship for the first time were significantly more
+men give emphasis to physical attractiveness (quality     likely to have romantic beliefs, namely “love finds a
+of physical health and potential for healthy offspring)   way”, “one and only love partner” and “idealization”
+and women tend to emphasize economic potential            than the other groups of students, including students
+(intelligent, being well educated, having a good job and  who have a romantic breakup and/or single students.
+a high salary) when selecting a future mate (Coleman      The possible explanation for this difference might be
+& Ganong, 1992; Medora, Larson, Hortaçsu, & Dave,         found in the literature. For example, Sprecher and
+2002; Pines, 2010). The basic premise of this position    Metts (1999) proposed that these three beliefs may
+is that men tend to view their relationships in more      be influential on relational affect and behaviors of
+idealistic or romantic terms (Sprecher & Metts, 1989)     students only at the beginning stage of relationship
+because of selecting a romantic mate on the basis of      and may not influence the dynamics of the romantic
+physical attractiveness.                                  relationship after it has been established. On the other
+                                                          hand, they stated that a significant decline in idealistic
+    When grade level is taken into consideration, the     romantic beliefs as “one and only” and “love finds
+results showed that both freshman and sophomore           a way” can be observed among students who have a
+students were significantly more likely to have           romantic breakup after their relationships ended.
+beliefs about “idealization” and “one and only love
+partner” than senior students. Knox and Sporakowski                                Conclusion
+(1968) explained that unlike the freshman, the senior         Results of the present study revealed that assessing
+students usually have a more realistic perception of      irrational romantic beliefs of university students
+their partner and romantic relationships because of       provide fruitful direction for university counseling
+their increasing romantic relationship experiences.       center staff working with students seeking assistance
+In other words, freshman may still idealize their         with romantic relationship issues. Counselors may
+romantic relationships (love will be nearly perfect) or   design and offer outreach activities related to various
+attribute much more positive characteristics to their     relationship beliefs and their impact on the behaviors
+first romantic partner with a preconceived image such     of romantic partners. Further research is needed with
+as finding the right mate in the first date. However,     various samples and different irrational romantic
+senior students have learned to evaluate their partner    beliefs to replicate the findings and to examine potential
+and romantic relationship more realistically over a       explanations for the results of the present study.
+period of years within their dating experiences.
+
+                                                          Turkish Psychological Counseling and Guidance Journal / 2014, 5 (42)
+
