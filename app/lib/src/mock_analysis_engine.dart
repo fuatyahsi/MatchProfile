@@ -7,7 +7,7 @@ class MockAnalysisEngine {
     required String sessionId,
   }) {
     final String combined =
-        '${draft.dateContext} ${draft.debrief} ${draft.clarificationAnswers.join(' ')}'
+        '${draft.dateContext} ${draft.sensoryObservations} ${draft.specificDialogs} ${draft.valueTests} ${draft.emotionalReactions} ${draft.clarificationAnswers.join(' ')}'
             .toLowerCase();
 
     final bool safetyEscalated =
@@ -43,6 +43,39 @@ class MockAnalysisEngine {
       'Eksik veri': 0,
     };
 
+    final List<String> nlpBiasFlags = <String>[];
+    final List<String> consistencyFlags = <String>[];
+
+    // ── Simulate World Embedding & Deep Character Analysis ──
+    if (profile.blindSpots.contains('Çok hızlı eleme ve vazgeçme') &&
+        _containsAny(draft.emotionalReactions.toLowerCase(), const <String>['sıkıldım', 'bunaldım', 'soğudum'])) {
+      nlpBiasFlags.add('Internal/External Attribution Bias: Karşındakinin hatasından çok kendi kaçınma refleksin devrede olabilir.');
+    }
+
+    if (draft.sensoryObservations.toLowerCase().contains('nazik') &&
+        (draft.specificDialogs.toLowerCase().contains('sert') || draft.emotionalReactions.toLowerCase().contains('gergin'))) {
+      consistencyFlags.add('Tutarlılık Kontrolü (Evidence Source): "Nazik" vücut dili raporladın ama diyalog veya histe "sert/gergin" bir taraf var. Bu çelişki tehlikeli olabilir.');
+    }
+
+    // ── Personalized Guidance (Dynamic System Prompt) ──
+    String uniqueDir = 'Bu eşleşmede temel sınırların aşıldığına dair net bir sapma görülmedi.';
+    if (profile.values.isNotEmpty) {
+      final String coreValue = profile.values.first;
+      if (!combined.contains(coreValue.toLowerCase().substring(0, (coreValue.length > 4 ? 4 : coreValue.length)))) {
+        uniqueDir = "Senin profilinde '$coreValue' en yüksek değerin. Ancak bu date'in diyalog ve değer testlerinde bu değerinle uyumlu olunduğuna dair hiçbir veri yok. Heyecanın bunu göz ardı etmene neden de olsa, verilerimiz bunun senin için bir 'Kırmızı Çizgi' (Dealbreaker) olduğunu hatırlatıyor.";
+      } else {
+        uniqueDir = "Senin profilindeki '$coreValue' değeriyle rezonans var. Vektörel karar uzayına göre bu çok nadir ve güçlü bir eşleşme sinyali.";
+      }
+    }
+
+    final String tone = profile.coreTraits.contains('Analitik') ? 'analitik ve doğrudan' : 'empatik ve destekleyici';
+    final String antiCliche = 'Herkes için "zaman ver" iyi bir tavsiye olabilir ama senin vizyonunda, $tone bir dille söylüyorum: Bu belirsizlik senin temponla (${profile.pacingPreference.label}) çelişiyor.';
+
+    final PersonalizedGuidance personalizedGuidance = PersonalizedGuidance(
+      uniqueDirection: uniqueDir,
+      antiClicheLanguage: antiCliche,
+    );
+
     // ── Positive signal: mutual curiosity ──
     if (_containsAny(combined, const <String>[
       'dinledi',
@@ -63,7 +96,7 @@ class MockAnalysisEngine {
           signalType: 'curiosity',
           confidenceLabel: ConfidenceLabel.medium,
           evidenceItems: <EvidenceItem>[
-            EvidenceItem(source: 'user_reported_fact', text: draft.debrief),
+            EvidenceItem(source: 'user_reported_fact', text: '${draft.sensoryObservations} ${draft.emotionalReactions}'),
           ],
         ),
       );
@@ -267,7 +300,7 @@ class MockAnalysisEngine {
           signalType: 'safety',
           confidenceLabel: ConfidenceLabel.high,
           evidenceItems: <EvidenceItem>[
-            EvidenceItem(source: 'user_reported_fact', text: draft.debrief),
+            EvidenceItem(source: 'user_reported_fact', text: '${draft.sensoryObservations} ${draft.emotionalReactions}'),
           ],
         ),
       );
@@ -488,6 +521,9 @@ class MockAnalysisEngine {
       memoryUpdates: memoryUpdates,
       dimensions: dimensions,
       evidenceMix: evidenceMix,
+      personalizedGuidance: personalizedGuidance,
+      nlpBiasFlags: nlpBiasFlags,
+      consistencyFlags: consistencyFlags,
     );
   }
 

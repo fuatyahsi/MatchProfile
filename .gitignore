@@ -3,3 +3,7 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+api_keys.txt
+dart_define.txt
+*.local.bat
+*.local.cmd

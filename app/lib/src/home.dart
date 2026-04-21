@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'controller.dart';
+import 'pages/chat_onboarding_page.dart';
 import 'pages/daily_pages.dart';
 import 'pages/main_pages.dart';
 import 'pages/reflection_pages.dart';
@@ -25,7 +26,7 @@ class _MatchProfileHomeState extends State<MatchProfileHome> {
       builder: (BuildContext context, Widget? _) {
         if (!widget.controller.hasCompletedOnboarding) {
           if (_showOnboarding) {
-            return OnboardingPage(
+            return ChatOnboardingPage(
               controller: widget.controller,
               onComplete: () => setState(() {}),
             );
@@ -70,7 +71,7 @@ class AppShell extends StatelessWidget {
                   ),
                 );
               },
-              label: const Text('Yeni reflection'),
+              label: const Text('Yeni yansıtma'),
               icon: const Icon(Icons.graphic_eq_rounded),
             )
           : null,
@@ -81,7 +82,7 @@ class AppShell extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.space_dashboard_outlined),
             selectedIcon: Icon(Icons.space_dashboard_rounded),
-            label: 'Dashboard',
+            label: 'Ana Sayfa',
           ),
           NavigationDestination(
             icon: Icon(Icons.favorite_outline_rounded),
@@ -91,17 +92,17 @@ class AppShell extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.menu_book_outlined),
             selectedIcon: Icon(Icons.menu_book_rounded),
-            label: 'Journal',
+            label: 'Kayıtlar',
           ),
           NavigationDestination(
             icon: Icon(Icons.auto_awesome_mosaic_outlined),
             selectedIcon: Icon(Icons.auto_awesome_mosaic_rounded),
-            label: 'Pattern',
+            label: 'Döngü',
           ),
           NavigationDestination(
             icon: Icon(Icons.tune_outlined),
             selectedIcon: Icon(Icons.tune_rounded),
-            label: 'Settings',
+            label: 'Ayarlar',
           ),
         ],
       ),

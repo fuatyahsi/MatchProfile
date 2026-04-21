@@ -1,163 +1,233 @@
 import 'package:flutter/material.dart';
 
 // ══════════════════════════════════════════════════
-//  Dark Luxe Palette — Noir Rose · Charcoal · Rose Gold
-//  Hiç mor/purple yok. Koyu arka plan. Premium feminen.
+//  MatchProfile — Sarı / Altın Premium Açık Tema
+//  ──────────────────────────────────────
+//  Açık gri zemin, canlı altın vurgular,
+//  beyaz kartlar, koyu profil başlıkları.
+//  Referans: Hotline-style social app UI.
 // ══════════════════════════════════════════════════
 
-const Color noir = Color(0xFF1A1418);            // Deepest background
-const Color charcoal = Color(0xFF252023);         // Card background dark
-const Color graphite = Color(0xFF312B30);         // Elevated surface
-const Color smoky = Color(0xFF3E363C);            // Border / divider
-const Color roseGold = Color(0xFFD4A08A);         // Primary accent — warm rose gold
-const Color blushRose = Color(0xFFCF8E8E);        // Secondary accent
-const Color dustyRose = Color(0xFFB87878);        // Tertiary rose
-const Color peach = Color(0xFFE8B89D);            // Warm highlight
-const Color warmGold = Color(0xFFD4B896);         // Gold accent
-const Color goldAccent = Color(0xFFC9A96E);       // Rich gold
-const Color ivoryText = Color(0xFFF2E8E0);        // Primary text — warm ivory
-const Color softText = Color(0xFFA89A94);         // Secondary text
-const Color mutedText = Color(0xFF7A6E6A);        // Tertiary/dim text
-const Color roseCaution = Color(0xFFD4736C);      // Warning/caution — warm red
-const Color softGreen = Color(0xFF7BAF8E);        // Positive signals
-const Color amber = Color(0xFFDBA76A);            // Moderate warning
-const Color deepCard = Color(0xFF1E191C);         // Card base dark
-const Color shimmer = Color(0x18D4A08A);          // Subtle glow overlay
+// ── Yeni Açık Tema Renkleri ──
+const Color scaffoldBg = Color(0xFFF4F4F4);
+const Color cardWhite = Color(0xFFFFFFFF);
+const Color surfaceElevated = Color(0xFFFAFAFA);
+const Color borderLight = Color(0xFFE8E8E8);
+const Color dividerColor = Color(0xFFEEEEEE);
+const Color primaryYellow = Color(0xFFF5C518);
+const Color primaryDark = Color(0xFFD4A800);
+const Color primaryTextAccent = Color(0xFFB8930F);  // Darker yellow for readable text on light backgrounds
+const Color primaryLight = Color(0xFFFFF3C4);
+const Color primarySoft = Color(0xFFFFF8E1);
+const Color accentOrange = Color(0xFFFF9800);
+const Color warmBg = Color(0xFFFFFBF0);
+const Color textPrimary = Color(0xFF1A1A1A);
+const Color textSecondary = Color(0xFF6B7280);
+const Color textMuted = Color(0xFF9CA3AF);
+const Color textOnDark = Color(0xFFF5F5F5);
+const Color textOnYellow = Color(0xFF1A1A1A);
+const Color successGreen = Color(0xFF22C55E);
+const Color cautionRed = Color(0xFFEF4444);
+const Color warningAmber = Color(0xFFF59E0B);
+const Color infoBlue = Color(0xFF3B82F6);
+
+// ── Koyu Yüzeyler (Profil hero, koyu kartlar) ──
+const Color darkBg = Color(0xFF1A1A1A);
+const Color darkCard = Color(0xFF2A2A2A);
+const Color darkSurface = Color(0xFF3A3A3A);
+
+// ═══════════════════════════════════════════════════
+//  GERİYE UYUMLULUK — eski isimleri yeni açık temaya eşle
+//  Tüm mevcut widget/page kodlarında t.noir, t.charcoal vb
+//  kullanılıyor. Onları doğrudan açık karşılıklarına eşliyoruz.
+// ═══════════════════════════════════════════════════
+
+// Zemin → açık eşdeğerleri
+const Color noir = scaffoldBg;             // eski: koyu arka plan → yeni: açık gri
+const Color charcoal = cardWhite;          // eski: koyu kart → yeni: beyaz kart
+const Color graphite = surfaceElevated;    // eski: koyu yüzey → yeni: açık yüzey
+const Color smoky = borderLight;           // eski: koyu kenar → yeni: açık kenar
+const Color slate = borderLight;
+
+// Vurgu → altın sarı eşdeğerleri
+const Color roseGold = Color(0xFF92600F);    // Deep amber — readable on white
+const Color blushRose = Color(0xFF8B5E3C);   // Warm brown — readable on white
+const Color dustyRose = textMuted;
+const Color peach = accentOrange;
+const Color warmGold = Color(0xFF92600F);    // Same deep amber
+const Color goldAccent = Color(0xFFB8930F);  // Slightly lighter but still readable
+
+// Metin → koyu eşdeğerleri
+const Color ivoryText = textPrimary;       // eski: açık metin → yeni: koyu metin
+const Color softText = textSecondary;
+const Color mutedText = textMuted;
+const Color whisperText = textMuted;
+
+// Durum
+const Color roseCaution = cautionRed;
+const Color softGreen = successGreen;
+const Color amber = warningAmber;
+const Color deepCard = cardWhite;
+const Color shimmer = Color(0x10F5C518);
 
 ThemeData buildAppTheme() {
   final ColorScheme colorScheme = ColorScheme.fromSeed(
-    seedColor: roseGold,
-    brightness: Brightness.dark,
-    surface: noir,
+    seedColor: primaryYellow,
+    brightness: Brightness.light,
+    surface: scaffoldBg,
   ).copyWith(
-    primary: roseGold,
-    secondary: blushRose,
-    tertiary: warmGold,
-    onSurface: ivoryText,
-    surface: noir,
-    onPrimary: noir,
+    primary: primaryYellow,
+    secondary: primaryDark,
+    tertiary: accentOrange,
+    onSurface: textPrimary,
+    surface: scaffoldBg,
+    onPrimary: textOnYellow,
   );
 
   return ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: noir,
+    brightness: Brightness.light,
+    scaffoldBackgroundColor: scaffoldBg,
     splashFactory: InkSparkle.splashFactory,
-    textTheme: TextTheme(
-      headlineLarge: const TextStyle(
-        fontSize: 34,
-        fontWeight: FontWeight.w800,
-        color: ivoryText,
-        height: 1.08,
-        letterSpacing: -1.2,
-      ),
-      headlineMedium: const TextStyle(
-        fontSize: 26,
-        fontWeight: FontWeight.w800,
-        color: ivoryText,
-        height: 1.12,
-        letterSpacing: -0.6,
-      ),
-      headlineSmall: const TextStyle(
-        fontSize: 21,
+    textTheme: const TextTheme(
+      headlineLarge: TextStyle(
+        fontSize: 32,
         fontWeight: FontWeight.w700,
-        color: ivoryText,
+        color: textPrimary,
+        height: 1.12,
+        letterSpacing: -0.8,
+      ),
+      headlineMedium: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: textPrimary,
         height: 1.16,
+        letterSpacing: -0.4,
+      ),
+      headlineSmall: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: textPrimary,
+        height: 1.2,
         letterSpacing: -0.2,
       ),
-      titleLarge: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: ivoryText,
+      titleLarge: TextStyle(
+        fontSize: 17,
+        fontWeight: FontWeight.w600,
+        color: textPrimary,
         letterSpacing: -0.1,
       ),
-      titleMedium: const TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
-        color: ivoryText,
+      titleMedium: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: textPrimary,
+        letterSpacing: 0.1,
       ),
       bodyLarge: TextStyle(
-        fontSize: 15,
-        color: ivoryText.withValues(alpha: 0.9),
-        height: 1.55,
+        fontSize: 15.5,
+        fontWeight: FontWeight.w400,
+        color: textSecondary,
+        height: 1.6,
       ),
       bodyMedium: TextStyle(
-        fontSize: 13.5,
-        color: ivoryText.withValues(alpha: 0.85),
-        height: 1.5,
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: textSecondary,
+        height: 1.55,
       ),
-      bodySmall: const TextStyle(
+      bodySmall: TextStyle(
         fontSize: 12,
-        color: softText,
+        fontWeight: FontWeight.w400,
+        color: textMuted,
         height: 1.4,
       ),
-      labelLarge: const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        color: ivoryText,
-        letterSpacing: 0.3,
+      labelLarge: TextStyle(
+        fontSize: 13,
+        fontWeight: FontWeight.w600,
+        color: textPrimary,
+        letterSpacing: 0.5,
       ),
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
-      foregroundColor: ivoryText,
+      foregroundColor: textPrimary,
       elevation: 0,
       centerTitle: false,
       scrolledUnderElevation: 0,
     ),
     cardTheme: CardThemeData(
       elevation: 0,
-      color: charcoal.withValues(alpha: 0.85),
+      color: cardWhite,
       margin: EdgeInsets.zero,
-      shadowColor: Colors.black.withValues(alpha: 0.3),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+      shadowColor: Colors.black.withValues(alpha: 0.06),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: graphite.withValues(alpha: 0.7),
-      labelStyle: const TextStyle(
-        color: roseGold,
-        fontWeight: FontWeight.w600,
-        fontSize: 13.5,
+      fillColor: cardWhite,
+      alignLabelWithHint: true,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: TextStyle(
+        color: primaryDark.withValues(alpha: 0.8),
+        fontWeight: FontWeight.w500,
+        fontSize: 13,
       ),
-      hintStyle: TextStyle(color: softText.withValues(alpha: 0.5), fontSize: 13.5),
+      floatingLabelStyle: TextStyle(
+        color: primaryDark.withValues(alpha: 0.9),
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+      ),
+      helperStyle: TextStyle(
+        color: textMuted.withValues(alpha: 0.7),
+        fontSize: 12,
+        height: 1.4,
+      ),
+      hintStyle: TextStyle(
+        color: textMuted.withValues(alpha: 0.5),
+        fontSize: 14,
+        height: 1.4,
+      ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: smoky.withValues(alpha: 0.6)),
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: borderLight),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: roseGold, width: 1.4),
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide(color: primaryYellow, width: 1.5),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: cautionRed, width: 1.5),
+      ),
+      contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: graphite,
-      selectedColor: roseGold.withValues(alpha: 0.2),
-      side: BorderSide(color: smoky.withValues(alpha: 0.5)),
+      backgroundColor: primarySoft,
+      selectedColor: primaryLight,
+      side: BorderSide(color: primaryYellow.withValues(alpha: 0.3)),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       labelStyle: const TextStyle(
-        color: ivoryText,
-        fontWeight: FontWeight.w600,
+        color: textPrimary,
+        fontWeight: FontWeight.w500,
         fontSize: 13,
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
-      checkmarkColor: roseGold,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      checkmarkColor: primaryDark,
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: roseGold,
-        foregroundColor: noir,
-        disabledBackgroundColor: roseGold.withValues(alpha: 0.2),
-        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        backgroundColor: primaryYellow,
+        foregroundColor: textOnYellow,
+        disabledBackgroundColor: primaryYellow.withValues(alpha: 0.3),
+        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         textStyle: const TextStyle(
-          fontSize: 15,
+          fontSize: 14,
           fontWeight: FontWeight.w700,
           letterSpacing: 0.3,
         ),
@@ -165,89 +235,99 @@ ThemeData buildAppTheme() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: roseGold,
-        side: BorderSide(color: roseGold.withValues(alpha: 0.35)),
-        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 15),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        foregroundColor: primaryDark,
+        side: BorderSide(color: primaryYellow.withValues(alpha: 0.5)),
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      height: 78,
-      backgroundColor: charcoal.withValues(alpha: 0.98),
+      height: 72,
+      backgroundColor: cardWhite,
       surfaceTintColor: Colors.transparent,
-      indicatorColor: roseGold.withValues(alpha: 0.15),
+      indicatorColor: primaryLight,
       labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>(
         (Set<WidgetState> states) => TextStyle(
-          fontSize: 11,
+          fontSize: 10.5,
           fontWeight: states.contains(WidgetState.selected)
-              ? FontWeight.w800
-              : FontWeight.w500,
-          color: states.contains(WidgetState.selected) ? roseGold : mutedText,
+              ? FontWeight.w700
+              : FontWeight.w400,
+          color: states.contains(WidgetState.selected)
+              ? textPrimary
+              : textMuted,
+          letterSpacing: 0.3,
         ),
       ),
       iconTheme: WidgetStateProperty.resolveWith<IconThemeData?>(
         (Set<WidgetState> states) => IconThemeData(
           size: 22,
           color: states.contains(WidgetState.selected)
-              ? roseGold
-              : mutedText.withValues(alpha: 0.7),
+              ? textPrimary
+              : textMuted,
         ),
       ),
     ),
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith<Color?>(
-        (Set<WidgetState> states) => ivoryText,
+        (Set<WidgetState> states) =>
+            states.contains(WidgetState.selected) ? primaryYellow : textMuted,
       ),
       trackColor: WidgetStateProperty.resolveWith<Color?>(
         (Set<WidgetState> states) => states.contains(WidgetState.selected)
-            ? roseGold.withValues(alpha: 0.5)
-            : smoky,
+            ? primaryLight
+            : borderLight,
       ),
     ),
     sliderTheme: SliderThemeData(
-      activeTrackColor: roseGold,
-      inactiveTrackColor: smoky,
-      thumbColor: ivoryText,
-      overlayColor: roseGold.withValues(alpha: 0.12),
-      trackHeight: 5,
-      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 11),
+      activeTrackColor: primaryYellow,
+      inactiveTrackColor: borderLight,
+      thumbColor: primaryYellow,
+      overlayColor: primaryYellow.withValues(alpha: 0.12),
+      trackHeight: 3,
+      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
     ),
-    progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: roseGold,
-      linearTrackColor: graphite,
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: primaryYellow,
+      linearTrackColor: borderLight,
     ),
     dividerTheme: DividerThemeData(
-      color: smoky.withValues(alpha: 0.5),
-      thickness: 1,
+      color: dividerColor,
+      thickness: 0.5,
     ),
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith<Color?>(
         (Set<WidgetState> states) =>
-            states.contains(WidgetState.selected) ? roseGold : Colors.transparent,
+            states.contains(WidgetState.selected) ? primaryYellow : Colors.transparent,
       ),
-      checkColor: WidgetStateProperty.all(noir),
-      side: BorderSide(color: smoky.withValues(alpha: 0.8), width: 1.5),
+      checkColor: WidgetStateProperty.all(textOnYellow),
+      side: BorderSide(color: borderLight, width: 1.5),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     ),
     dropdownMenuTheme: DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: graphite,
+        fillColor: cardWhite,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: smoky.withValues(alpha: 0.6)),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: borderLight),
         ),
       ),
     ),
     dialogTheme: DialogThemeData(
-      backgroundColor: charcoal,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      backgroundColor: cardWhite,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: charcoal,
+      backgroundColor: cardWhite,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: primaryYellow,
+      foregroundColor: textOnYellow,
+      elevation: 4,
+      shape: StadiumBorder(),
     ),
   );
 }

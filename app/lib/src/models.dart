@@ -1,3 +1,5 @@
+import 'text_analysis_engine.dart';
+
 // ──────────────────────────────────────────────
 // Enums
 // ──────────────────────────────────────────────
@@ -33,11 +35,11 @@ enum RelationshipExperience {
 }
 
 enum CommunicationPreference {
-  frequentContact('Sık temas'),
-  balancedRegular('Düzenli ama dengeli'),
-  spaceGiving('Alan tanıyan'),
-  deepConversation('Derin konuşma'),
-  lightFun('Hafif ve eğlenceli');
+  frequentContact('Sık mesajlaşma ve temas'),
+  balancedRegular('Düzenli ama bunaltmayan iletişim'),
+  spaceGiving('Aralıklı iletişim, bol alan'),
+  deepConversation('Seyrek ama derin konuşmalar'),
+  lightFun('Hafif, eğlenceli ve düşük baskılı iletişim');
 
   const CommunicationPreference(this.label);
   final String label;
@@ -45,21 +47,23 @@ enum CommunicationPreference {
 
 enum AmbiguityResponse {
   wait('Beklerim'),
-  ask('Sorarım'),
+  ask('Açıkça sorarım'),
   withdraw('Geri çekilirim'),
-  overthink('Fazla düşünürüm'),
-  testInterest('İlgiyi test ederim');
+  overthink('Kafamda fazla büyütürüm'),
+  testInterest('İlgisini test ederim'),
+  assumeAndDecide('Tahmin edip kendi kendime sonuca varırım');
 
   const AmbiguityResponse(this.label);
   final String label;
 }
 
 enum ConflictStyle {
-  talkItOut('Konuşup çözmek'),
-  coolDownFirst('Önce sakinleşmek'),
-  shutDown('İçine kapanmak'),
-  distance('Mesafe koymak'),
-  overEngage('Fazla yoğunlaşmak');
+  talkItOut('Hemen konuşup çözmeye çalışırım'),
+  coolDownFirst('Önce sakinleşir, sonra konuşurum'),
+  shutDown('İçe kapanır, kısa cevaplara düşerim'),
+  distance('Uzaklaşır, temasımı azaltırım'),
+  overEngage('Üstüne gider, çok yoğunlaşırım'),
+  appease('Alttan alır, ortamı yumuşatmaya çalışırım');
 
   const ConflictStyle(this.label);
   final String label;
@@ -208,11 +212,45 @@ enum DimensionState {
 }
 
 // ──────────────────────────────────────────────
+// Deep Profile (Psyche Anchor)
+// ──────────────────────────────────────────────
+
+class SensitiveContextMemory {
+  const SensitiveContextMemory({
+    required this.summary,
+    required this.impact,
+    required this.acknowledgementLine,
+    this.tags = const <String>[],
+  });
+
+  final String summary;
+  final String impact;
+  final String acknowledgementLine;
+  final List<String> tags;
+}
+
+class UserPsycheAnchor {
+  const UserPsycheAnchor({
+    required this.mirrorReport,
+    required this.coreRealities,
+    required this.attachmentStyle,
+    required this.hiddenTriggers,
+    this.sensitiveMemories = const <SensitiveContextMemory>[],
+  });
+
+  final String mirrorReport;
+  final List<String> coreRealities;
+  final String attachmentStyle;
+  final List<String> hiddenTriggers;
+  final List<SensitiveContextMemory> sensitiveMemories;
+}
+
+// ──────────────────────────────────────────────
 // Onboarding Profile — Romantik Karar Profili
 // ──────────────────────────────────────────────
 
 class OnboardingProfile {
-  const OnboardingProfile({
+  OnboardingProfile({
     // Section 1: Kendini anlat
     required this.displayName,
     required this.selfDescription,
@@ -221,6 +259,9 @@ class OnboardingProfile {
     required this.datingChallenge,
     required this.freeformAboutMe,
 
+    this.friendDescription = '',
+    this.threeExperiences = '',
+
     // Section 2: İlişki niyeti ve zamanlama
     required this.goal,
     required this.pacingPreference,
@@ -228,6 +269,7 @@ class OnboardingProfile {
     required this.trustBuilder,
     required this.relationshipExperience,
     required this.recentDatingChallenge,
+    this.idealDay = '',
 
     // Section 3: Değerler ve vazgeçilmezler
     required this.values,
@@ -235,6 +277,7 @@ class OnboardingProfile {
     required this.dealbreakers,
     required this.lifestyleFactors,
     required this.potentialVsBehavior,
+    this.valueConflict = '',
 
     // Section 4: İletişim ve yakınlık stili
     required this.communicationPreference,
@@ -243,6 +286,7 @@ class OnboardingProfile {
     required this.messagingImportance,
     required this.ambiguityResponse,
     required this.conflictStyle,
+    this.unheardFeeling = '',
 
     // Section 5: Kör noktalar ve pattern'ler
     required this.blindSpots,
@@ -250,6 +294,8 @@ class OnboardingProfile {
     required this.feedbackFromCloseOnes,
     required this.biggestMisjudgment,
     required this.judgmentCloudedBy,
+    this.stayedTooLong = '',
+    this.feelingsChanged = '',
 
     // Section 6: Aşka dair inançlar (1-7 scale)
     required this.beliefRightPersonFindsWay,
@@ -268,6 +314,7 @@ class OnboardingProfile {
     required this.jealousyLevel,
     required this.fatigueResponse,
     required this.boundaryDifficulty,
+    this.safetyExperience = '',
 
     // Section 8: Açık alan ve doğrulama
     required this.attachmentHistory,
@@ -287,6 +334,8 @@ class OnboardingProfile {
     // Legal
     required this.ageConfirmed,
     required this.policyAccepted,
+
+    this.psycheAnchor, // [NEW] Deep profile anchor from LLM
   });
 
   // Section 1
@@ -296,6 +345,8 @@ class OnboardingProfile {
   final String currentLifeTheme;
   final String datingChallenge;
   final String freeformAboutMe;
+  final String friendDescription;
+  final String threeExperiences;
 
   // Section 2
   final RelationshipGoal goal;
@@ -304,6 +355,7 @@ class OnboardingProfile {
   final String trustBuilder;
   final RelationshipExperience relationshipExperience;
   final String recentDatingChallenge;
+  final String idealDay;
 
   // Section 3
   final List<String> values;
@@ -311,6 +363,7 @@ class OnboardingProfile {
   final List<String> dealbreakers;
   final List<String> lifestyleFactors;
   final String potentialVsBehavior;
+  final String valueConflict;
 
   // Section 4
   final CommunicationPreference communicationPreference;
@@ -319,6 +372,7 @@ class OnboardingProfile {
   final String messagingImportance;
   final AmbiguityResponse ambiguityResponse;
   final ConflictStyle conflictStyle;
+  final String unheardFeeling;
 
   // Section 5
   final List<String> blindSpots;
@@ -326,6 +380,8 @@ class OnboardingProfile {
   final String feedbackFromCloseOnes;
   final String biggestMisjudgment;
   final String judgmentCloudedBy;
+  final String stayedTooLong;
+  final String feelingsChanged;
 
   // Section 6 — Romantik İnanç Skalası (1-7)
   final int beliefRightPersonFindsWay;
@@ -344,6 +400,7 @@ class OnboardingProfile {
   final String jealousyLevel;
   final FatigueResponse fatigueResponse;
   final String boundaryDifficulty;
+  final String safetyExperience;
 
   // Section 8
   final String attachmentHistory;
@@ -364,18 +421,63 @@ class OnboardingProfile {
   final bool ageConfirmed;
   final bool policyAccepted;
 
+  // Deep Profile Analysis
+  UserPsycheAnchor? psycheAnchor;
+
+  // ══════════════════════════════════════════════
+  //  Metin Analizi (tembel hesaplama, cache'li)
+  // ══════════════════════════════════════════════
+
+  CompositeAnalysis? _cachedAnalysis;
+
+  CompositeAnalysis get textAnalysis {
+    return _cachedAnalysis ??= TextAnalysisEngine.analyzeProfile(
+      selfDescription: selfDescription,
+      friendDescription: friendDescription,
+      threeExperiences: threeExperiences,
+      datingChallenge: datingChallenge,
+      freeformAboutMe: freeformAboutMe,
+      idealDay: idealDay,
+      openingUpTime: openingUpTime,
+      trustBuilder: trustBuilder,
+      recentDatingChallenge: recentDatingChallenge,
+      respectSignal: respectSignal,
+      valueConflict: valueConflict,
+      showsInterestHow: showsInterestHow,
+      messagingImportance: messagingImportance,
+      unheardFeeling: unheardFeeling,
+      recurringPattern: recurringPattern,
+      feedbackFromCloseOnes: feedbackFromCloseOnes,
+      biggestMisjudgment: biggestMisjudgment,
+      judgmentCloudedBy: judgmentCloudedBy,
+      stayedTooLong: stayedTooLong,
+      feelingsChanged: feelingsChanged,
+      boundaryDifficulty: boundaryDifficulty,
+      safetyExperience: safetyExperience,
+      attachmentHistory: attachmentHistory,
+      freeformForProfile: freeformForProfile,
+      selectedBlindSpots: blindSpots,
+      conflictStyleLabel: conflictStyle.label,
+      assuranceNeedLabel: assuranceNeed.label,
+      fatigueResponseLabel: fatigueResponse.label,
+      ambiguityResponseLabel: ambiguityResponse.label,
+    );
+  }
+
   // ══════════════════════════════════════════════
   //  Computed Profile Scores
   // ══════════════════════════════════════════════
 
   double get idealizationScore {
-    return (beliefRightPersonFindsWay +
+    final double base = (beliefRightPersonFindsWay +
             beliefChemistryFeltFast +
             beliefStrongAttractionIsSign +
             beliefFeelsRightOrNot +
             beliefFirstFeelingsAreTruth +
             beliefPotentialEqualsValue) /
         42.0;
+    // Metin analizi düzelticisi (negatif idealleştirme sinyalleri skoru artırır)
+    return (base - textAnalysis.idealizationModifier).clamp(0.0, 1.0);
   }
 
   double get romanticRealismScore => 1.0 - idealizationScore;
@@ -387,20 +489,25 @@ class OnboardingProfile {
     if (assuranceNeed == AssuranceNeed.high) risk += 0.3;
     if (fatigueResponse == FatigueResponse.seekCloseness) risk += 0.15;
     if (fatigueResponse == FatigueResponse.test) risk += 0.2;
-    if (blindSpots.contains('Çok erken bağlanma')) risk += 0.2;
-    if (blindSpots.contains('Kendi ihtiyacını geri plana atma')) risk += 0.15;
+    if (blindSpots.contains('Çok erken duygusal bağlanma')) risk += 0.2;
+    if (blindSpots.contains('Kendi ihtiyacını sürekli geri plana atma')) risk += 0.15;
     if (vulnerabilityArea == 'Terk edilme') risk += 0.15;
+    // Metin analizi: bağımlılık sinyalleri riski artırır
+    risk -= textAnalysis.dependencyModifier; // negatif mod = risk artışı
     return risk.clamp(0.0, 1.0);
   }
 
   double get selfProtectionScore {
     double score = 0;
-    if (blindSpots.contains('Fazla hızlı eleme')) score += 0.25;
+    if (blindSpots.contains('Çok hızlı eleme ve vazgeçme')) score += 0.25;
     if (conflictStyle == ConflictStyle.distance) score += 0.2;
     if (conflictStyle == ConflictStyle.shutDown) score += 0.2;
     if (fatigueResponse == FatigueResponse.pullAway) score += 0.15;
     if (ambiguityResponse == AmbiguityResponse.withdraw) score += 0.15;
+    if (ambiguityResponse == AmbiguityResponse.assumeAndDecide) score += 0.1;
     if (alarmTriggers.length >= 5) score += 0.15;
+    // Metin analizi: koruma sinyalleri skoru artırır
+    score -= textAnalysis.protectionModifier; // negatif mod = skor artışı
     return score.clamp(0.0, 1.0);
   }
 
@@ -409,17 +516,23 @@ class OnboardingProfile {
     if (boundaryDifficulty.trim().isNotEmpty) score -= 0.2;
     if (alarmTriggers.isNotEmpty) score += 0.1;
     if (dealbreakers.length >= 3) score += 0.15;
-    if (blindSpots.contains('Kendi ihtiyacını geri plana atma')) score -= 0.2;
-    if (blindSpots.contains('Red flag\'i rasyonalize etme')) score -= 0.15;
+    if (blindSpots.contains('Kendi ihtiyacını sürekli geri plana atma')) score -= 0.2;
+    if (blindSpots.contains('Uyarı işaretlerini mantığa bürüme')) score -= 0.15;
+    if (respectSignal.trim().length > 30) score += 0.1;
+    if (valueConflict.trim().length > 30) score += 0.05;
+    if (safetyExperience.trim().length > 30) score += 0.05;
+    // Metin analizi: sınır sinyalleri skoru etkiler
+    score += textAnalysis.boundaryModifier;
     return score.clamp(0.0, 1.0);
   }
 
   /// Communication-action alignment: how consistent words vs behavior are
   double get communicationAlignmentScore {
     double score = 0.7; // assume decent
-    if (directVsSoft == 'Doğrudan' &&
+    if (directVsSoft == 'Doğrudan ve net' &&
         (conflictStyle == ConflictStyle.shutDown ||
-            conflictStyle == ConflictStyle.distance)) {
+            conflictStyle == ConflictStyle.distance ||
+            conflictStyle == ConflictStyle.appease)) {
       score -= 0.3;
     }
     if (communicationPreference == CommunicationPreference.deepConversation &&
@@ -442,6 +555,15 @@ class OnboardingProfile {
     if (feedbackFromCloseOnes.trim().isNotEmpty) score += 0.1;
     if (biggestMisjudgment.trim().isNotEmpty) score += 0.1;
     if (freeformForProfile.trim().isNotEmpty) score += 0.1;
+    if (selfDescription.trim().length > 100) score += 0.05;
+    if (judgmentCloudedBy.trim().isNotEmpty) score += 0.1;
+    if (freeformAboutMe.trim().length > 50) score += 0.05;
+    if (friendDescription.trim().length > 50) score += 0.05;
+    if (threeExperiences.trim().length > 80) score += 0.05;
+    if (stayedTooLong.trim().length > 30) score += 0.05;
+    if (feelingsChanged.trim().length > 30) score += 0.05;
+    // Metin analizi: öz farkındalık sinyalleri + anlatı derinliği + tutarlılık
+    score += textAnalysis.selfAwarenessModifier;
     return score.clamp(0.0, 1.0);
   }
 
@@ -451,10 +573,17 @@ class OnboardingProfile {
     if (conflictStyle == ConflictStyle.talkItOut) score += 0.2;
     if (conflictStyle == ConflictStyle.coolDownFirst) score += 0.15;
     if (conflictStyle == ConflictStyle.overEngage) score -= 0.2;
+    if (conflictStyle == ConflictStyle.appease) score -= 0.1;
     if (fatigueResponse == FatigueResponse.overAnalyze) score -= 0.15;
     if (fatigueResponse == FatigueResponse.test) score -= 0.2;
     if (ambiguityResponse == AmbiguityResponse.overthink) score -= 0.15;
+    if (ambiguityResponse == AmbiguityResponse.assumeAndDecide) score -= 0.1;
     if (ambiguityResponse == AmbiguityResponse.ask) score += 0.15;
+    final int totalFreeTextLength = selfDescription.length + recurringPattern.length + judgmentCloudedBy.length + freeformForProfile.length + unheardFeeling.length + feelingsChanged.length;
+    if (totalFreeTextLength > 300) score += 0.1;
+    if (unheardFeeling.trim().length > 30) score += 0.05;
+    // Metin analizi: düzenleme sinyalleri
+    score += textAnalysis.emotionalRegulationModifier;
     return score.clamp(0.0, 1.0);
   }
 
@@ -474,10 +603,22 @@ class OnboardingProfile {
   bool get isFirstRelationship =>
       relationshipExperience == RelationshipExperience.first;
   bool hasBlindSpot(String spot) => blindSpots.contains(spot);
-  bool get hasFastAttachment => blindSpots.contains('Çok erken bağlanma');
-  bool get hasFastElimination => blindSpots.contains('Fazla hızlı eleme');
+  bool get hasFastAttachment => blindSpots.contains('Çok erken duygusal bağlanma');
+  bool get hasFastElimination => blindSpots.contains('Çok hızlı eleme ve vazgeçme');
   bool get highBoundarySensitivity =>
       alarmTriggers.length >= 4 || boundaryDifficulty.trim().isNotEmpty;
+
+  /// Metin analizinden tespit edilen psikolojik kalıplar
+  List<String> get detectedNarrativePatterns => textAnalysis.detectedPatterns;
+
+  /// Metin-seçim çapraz doğrulama bayrakları
+  List<CrossReferenceFlag> get crossReferenceFlags => textAnalysis.crossReferenceFlags;
+
+  /// Anlatı derinliği skoru (0.0–1.0)
+  double get narrativeDepthScore => textAnalysis.narrativeDepthScore;
+
+  /// Metin-seçim tutarlılık skoru (0.0–1.0)
+  double get textConsistencyScore => textAnalysis.consistencyScore;
 
   // ══════════════════════════════════════════════
   //  Inconsistency Detection
@@ -527,9 +668,10 @@ class OnboardingProfile {
     }
 
     // 5. Direct communication but shuts down in conflict
-    if (directVsSoft == 'Doğrudan' &&
+    if (directVsSoft == 'Doğrudan ve net' &&
         (conflictStyle == ConflictStyle.shutDown ||
-            conflictStyle == ConflictStyle.distance)) {
+            conflictStyle == ConflictStyle.distance ||
+            conflictStyle == ConflictStyle.appease)) {
       issues.add(const ProfileInconsistency(
         title: 'Doğrudan iletişim vs çatışmada kapanma',
         explanation:
@@ -648,11 +790,12 @@ class OnboardingProfile {
 
     // 16. Many dealbreakers but rationalizes red flags
     if (dealbreakers.length >= 4 &&
-        blindSpots.contains('Red flag\'i rasyonalize etme')) {
-      issues.add(const ProfileInconsistency(
-        title: 'Çok sayıda dealbreaker vs red flag rasyonalizasyonu',
+        blindSpots.contains('Uyarı işaretlerini mantığa bürüme')) {
+      final String dbCount = dealbreakers.length.toString();
+      issues.add(ProfileInconsistency(
+        title: 'Çok sayıda vazgeçilmez ama uyarı toleransı',
         explanation:
-            'Teoride ${dealbreakers.length} vazgeçilmezin var ama pratikte red flag\'leri rasyonalize ediyorsun. Bu, sınırların kafanda net ama kalpte uygulanamaz olduğunu gösteriyor.',
+            'Teoride $dbCount vazgecilmezin var ama pratikte olumsuz isaretleri tolere ediyorsun. Bu, sinirlarin kafanda net ama kalpte uygulanamaz oldugunu gosteriyor.',
         severity: InconsistencySeverity.significant,
       ));
     }
@@ -694,6 +837,15 @@ class OnboardingProfile {
     if (highIdealization) items.add('İdealizasyon eğilimi');
     if (highAssurance) items.add('Yüksek güvence ihtiyacı');
     if (emotionalDependencyRisk > 0.5) items.add('Duygusal bağımlılık riski');
+    // Metin analizinden gelen kalıplar
+    if (narrativeDepthScore > 0.7) items.add('Derin anlatı kapasitesi');
+    if (textConsistencyScore < 0.5) items.add('Öz algı tutarsızlığı');
+    if (detectedNarrativePatterns.isNotEmpty) {
+      // İlk tespit edilen kalıbın kısa versiyonunu ekle
+      final String first = detectedNarrativePatterns.first;
+      final String short = first.contains(':') ? first.split(':').first.trim() : first;
+      items.add(short);
+    }
     return items;
   }
 
@@ -706,7 +858,7 @@ class OnboardingProfile {
       PacingPreference.balanced => 'dengeli tempoda ilerleyen',
       PacingPreference.fastButClear => 'hızlı ama netlik arayan',
     };
-    sb.write('$paceDesc');
+    sb.write(paceDesc);
 
     if (highIdealization) {
       sb.write(', idealizasyona eğilimli');
@@ -727,11 +879,15 @@ class OnboardingProfile {
     }
 
     final String commDesc = switch (communicationPreference) {
-      CommunicationPreference.frequentContact => ', sık temas isteyen',
+      CommunicationPreference.frequentContact => ', sık mesajlaşmayı seven',
+      CommunicationPreference.balancedRegular =>
+        ', dengeli iletişim seven',
       CommunicationPreference.deepConversation =>
-        ', derin konuşmalara değer veren',
-      CommunicationPreference.spaceGiving => ', alan tanımayı önemseyen',
-      _ => '',
+        ', derin konuşmalardan beslenen',
+      CommunicationPreference.spaceGiving =>
+        ', alan tanıyan bir tempo isteyen',
+      CommunicationPreference.lightFun =>
+        ', hafif ve rahat iletişimi seven',
     };
     sb.write(commDesc);
 
@@ -757,6 +913,25 @@ class OnboardingProfile {
     if (blindSpots.isNotEmpty) {
       sb.write(
           ' En kritik kör noktan: ${blindSpots.first.toLowerCase()}.');
+    }
+
+    // Metin analizi sonuçları
+    final List<String> patterns = detectedNarrativePatterns;
+    if (patterns.isNotEmpty) {
+      sb.write(' Anlatılarından tespit edilen ana kalıp: ${patterns.first.toLowerCase()}');
+    }
+
+    final List<CrossReferenceFlag> highFlags = crossReferenceFlags
+        .where((CrossReferenceFlag f) => f.severity == FlagSeverity.high)
+        .toList();
+    if (highFlags.isNotEmpty) {
+      sb.write(' Önemli bir çapraz doğrulama bulgusu: ${highFlags.first.issue.toLowerCase()}');
+    }
+
+    if (narrativeDepthScore > 0.7) {
+      sb.write(' Anlatı derinliğin yüksek — bu, içgörülerin daha isabetli olmasını sağlıyor.');
+    } else if (narrativeDepthScore < 0.3) {
+      sb.write(' Açık uçlu sorulara daha detaylı cevaplar verdikçe profil analizi keskinleşir.');
     }
 
     return sb.toString();
@@ -819,20 +994,21 @@ class OnboardingProfile {
           ? 'Sınır farkındalığın iyi seviyede. Ama fark etmek ile uygulamak farklı şeyler. Sınır ihlali yaşadığında ne kadar çabuk tepki verdiğine dikkat et.'
           : boundaryHealthScore > 0.35
               ? 'Sınır bilincin var ama uygulamada zorluklar yaşıyorsun. Özellikle hoşlandığın birinden gelen sınır ihlallerini normalleştirme eğilimin olabilir.'
-              : 'Sınır sağlığın kritik seviyede. Kendi ihtiyaçlarını geri plana atma ve red flag rasyonalize etme eğilimin birleşince, seni zor duruma düşürebilecek ilişkilere açık hale gelirsin.',
+              : 'Sınır sağlığın kritik seviyede. Kendi ihtiyaçlarını geri plana atma ve uyarı işaretlerini mantığa bürüme eğilimin birleşince, seni zor duruma düşürebilecek ilişkilere açık hale gelirsin.',
       score: boundaryHealthScore,
       scoreLabel: 'Sınır gücü',
     ));
 
     // Communication truth
     String commNote;
-    if (directVsSoft == 'Doğrudan' &&
+    if (directVsSoft == 'Doğrudan ve net' &&
         conflictStyle == ConflictStyle.talkItOut) {
       commNote =
           'İletişim stilin tutarlı — hem doğrudan hem de çatışmada çözüm odaklısın. Bu güçlü bir kombinasyon.';
-    } else if (directVsSoft == 'Doğrudan' &&
+    } else if (directVsSoft == 'Doğrudan ve net' &&
         (conflictStyle == ConflictStyle.shutDown ||
-            conflictStyle == ConflictStyle.distance)) {
+            conflictStyle == ConflictStyle.distance ||
+            conflictStyle == ConflictStyle.appease)) {
       commNote =
           'Doğrudan olduğunu söylüyorsun ama çatışmada kapanıyorsun. Bu, güvenli alanda doğrudan ama tehdit hissettiğinde savunmaya geçen bir pattern. Gerçek iletişim gücü, zor anlarda ölçülür.';
     } else {
@@ -904,7 +1080,10 @@ class CharacterInsight {
 class ReflectionDraft {
   const ReflectionDraft({
     required this.dateContext,
-    required this.debrief,
+    required this.sensoryObservations,
+    required this.specificDialogs,
+    required this.valueTests,
+    required this.emotionalReactions,
     required this.followUpOffer,
     required this.futurePlanSignal,
     required this.comfortLevel,
@@ -914,13 +1093,26 @@ class ReflectionDraft {
   });
 
   final String dateContext;
-  final String debrief;
+  final String sensoryObservations;
+  final String specificDialogs;
+  final String valueTests;
+  final String emotionalReactions;
   final String followUpOffer;
   final String futurePlanSignal;
   final String comfortLevel;
   final String clarityLevel;
   final bool physicalBoundaryIssue;
   final List<String> clarificationAnswers;
+}
+
+class PersonalizedGuidance {
+  const PersonalizedGuidance({
+    required this.uniqueDirection,
+    required this.antiClicheLanguage,
+  });
+
+  final String uniqueDirection;
+  final String antiClicheLanguage;
 }
 
 class EvidenceItem {
@@ -1058,6 +1250,9 @@ class InsightReport {
     required this.memoryUpdates,
     required this.dimensions,
     required this.evidenceMix,
+    required this.personalizedGuidance,
+    required this.nlpBiasFlags,
+    required this.consistencyFlags,
   });
 
   final String schemaVersion;
@@ -1073,6 +1268,9 @@ class InsightReport {
   final List<String> memoryUpdates;
   final List<ClarityDimension> dimensions;
   final Map<String, int> evidenceMix;
+  final PersonalizedGuidance personalizedGuidance;
+  final List<String> nlpBiasFlags;
+  final List<String> consistencyFlags;
 
   InsightReport applyValidations(Map<String, ValidationChoice> validations) {
     List<InsightSignal> patch(List<InsightSignal> signals) {
@@ -1098,6 +1296,9 @@ class InsightReport {
       memoryUpdates: memoryUpdates,
       dimensions: dimensions,
       evidenceMix: evidenceMix,
+      personalizedGuidance: personalizedGuidance,
+      nlpBiasFlags: nlpBiasFlags,
+      consistencyFlags: consistencyFlags,
     );
   }
 
@@ -1164,6 +1365,10 @@ class DailyCheckIn {
     required this.romanticThought,
     required this.miniReflection,
     required this.readinessSnapshot,
+    this.coachInsight = '',
+    this.microAction = '',
+    this.patternNote = '',
+    this.aiEnhanced = false,
   });
 
   final DateTime date;
@@ -1173,6 +1378,38 @@ class DailyCheckIn {
   final String romanticThought;    // what's on their mind romantically
   final String miniReflection;      // 1-2 sentence daily reflection
   final double readinessSnapshot;   // snapshot of readiness at this point
+  final String coachInsight;        // visible daily interpretation
+  final String microAction;         // one concrete next step
+  final String patternNote;         // the pattern/progress hook for return use
+  final bool aiEnhanced;            // whether Groq-backed analysis was used
+
+  DailyCheckIn copyWith({
+    DateTime? date,
+    MoodLevel? mood,
+    List<EmotionalTrigger>? triggers,
+    EnergyLevel? energyLevel,
+    String? romanticThought,
+    String? miniReflection,
+    double? readinessSnapshot,
+    String? coachInsight,
+    String? microAction,
+    String? patternNote,
+    bool? aiEnhanced,
+  }) {
+    return DailyCheckIn(
+      date: date ?? this.date,
+      mood: mood ?? this.mood,
+      triggers: triggers ?? this.triggers,
+      energyLevel: energyLevel ?? this.energyLevel,
+      romanticThought: romanticThought ?? this.romanticThought,
+      miniReflection: miniReflection ?? this.miniReflection,
+      readinessSnapshot: readinessSnapshot ?? this.readinessSnapshot,
+      coachInsight: coachInsight ?? this.coachInsight,
+      microAction: microAction ?? this.microAction,
+      patternNote: patternNote ?? this.patternNote,
+      aiEnhanced: aiEnhanced ?? this.aiEnhanced,
+    );
+  }
 }
 
 // ══════════════════════════════════════════════
@@ -1190,6 +1427,7 @@ class InteractionLogEntry {
     required this.redFlagNoticed,
     required this.greenFlagNoticed,
     this.profileInsight,
+    this.aiEnhanced = false,
   });
 
   final DateTime date;
@@ -1201,6 +1439,33 @@ class InteractionLogEntry {
   final String redFlagNoticed;       // any red flag, can be empty
   final String greenFlagNoticed;     // any green flag, can be empty
   final String? profileInsight;      // AI-generated insight based on profile
+  final bool aiEnhanced;
+
+  InteractionLogEntry copyWith({
+    DateTime? date,
+    String? personLabel,
+    InteractionType? interactionType,
+    InteractionEnergy? energy,
+    String? whatHappened,
+    String? whatYouFelt,
+    String? redFlagNoticed,
+    String? greenFlagNoticed,
+    String? profileInsight,
+    bool? aiEnhanced,
+  }) {
+    return InteractionLogEntry(
+      date: date ?? this.date,
+      personLabel: personLabel ?? this.personLabel,
+      interactionType: interactionType ?? this.interactionType,
+      energy: energy ?? this.energy,
+      whatHappened: whatHappened ?? this.whatHappened,
+      whatYouFelt: whatYouFelt ?? this.whatYouFelt,
+      redFlagNoticed: redFlagNoticed ?? this.redFlagNoticed,
+      greenFlagNoticed: greenFlagNoticed ?? this.greenFlagNoticed,
+      profileInsight: profileInsight ?? this.profileInsight,
+      aiEnhanced: aiEnhanced ?? this.aiEnhanced,
+    );
+  }
 }
 
 // ══════════════════════════════════════════════

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../controller.dart';
 import '../models.dart';
+import '../text_analysis_engine.dart';
 import '../theme.dart' as t;
 import '../widgets/app_widgets.dart';
 
@@ -16,7 +17,10 @@ class ReflectionComposerPage extends StatefulWidget {
 
 class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
   final TextEditingController _contextController = TextEditingController();
-  final TextEditingController _debriefController = TextEditingController();
+  final TextEditingController _sensoryController = TextEditingController();
+  final TextEditingController _dialogsController = TextEditingController();
+  final TextEditingController _valueTestsController = TextEditingController();
+  final TextEditingController _emotionalController = TextEditingController();
   final TextEditingController _clarificationOneController =
       TextEditingController();
   final TextEditingController _clarificationTwoController =
@@ -33,7 +37,10 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
   @override
   void dispose() {
     _contextController.dispose();
-    _debriefController.dispose();
+    _sensoryController.dispose();
+    _dialogsController.dispose();
+    _valueTestsController.dispose();
+    _emotionalController.dispose();
     _clarificationOneController.dispose();
     _clarificationTwoController.dispose();
     _clarificationThreeController.dispose();
@@ -42,12 +49,29 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool canAnalyze =
-        _contextController.text.trim().isNotEmpty &&
-        _debriefController.text.trim().isNotEmpty;
+    final double depthScore = TextAnalysisEngine.analyzeDebriefDepth(
+      sensory: _sensoryController.text,
+      dialogs: _dialogsController.text,
+      valueTests: _valueTestsController.text,
+      emotional: _emotionalController.text,
+    );
+
+    final bool canAnalyze = _contextController.text.trim().isNotEmpty && depthScore >= 40.0;
 
     return PremiumScrollScaffold(
-      appBar: AppBar(title: const Text('New Reflection Session')),
+      appBar: AppBar(
+        title: const Text('Yeni Yansıtma'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         const SectionHeader(
           kicker: 'Phase 2 / Debrief-first',
@@ -55,7 +79,7 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Bu buildde ses kaydi yerine text fallback kullaniyoruz. Akis yine ayni: serbest anlatim, structured form ve en fazla 3 clarification sorusu.',
+          'Bu buildde ses kaydi yerine text fallback kullaniyoruz. Akis yine ayni: serbest anlatim, structured form ve en fazla 3 netleştirme sorusu.',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         const SizedBox(height: 18),
@@ -68,13 +92,13 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
                 'Voice Debrief Studio',
                 style: Theme.of(
                   context,
-                ).textTheme.titleLarge?.copyWith(color: t.ivoryText),
+                ).textTheme.titleLarge?.copyWith(color: t.textOnDark),
               ),
               const SizedBox(height: 10),
               Text(
                 'Canli audio capture henuz bagli degil; ama bu akista debrief mantigi, evidence toplama sekli ve analiz katmani gercekteki sesli deneyime gore tasarlandi.',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: t.ivoryText.withValues(alpha: 0.82),
+                  color: t.textOnDark.withValues(alpha: 0.82),
                 ),
               ),
               const SizedBox(height: 18),
@@ -86,8 +110,8 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       height: 12 + (index % 5) * 10,
                       decoration: BoxDecoration(
-                        color: t.ivoryText.withValues(alpha: 0.7),
-                        borderRadius: BorderRadius.circular(999),
+                        color: t.roseGold.withValues(alpha: 0.4),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
                   ),
@@ -99,6 +123,7 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
         const SizedBox(height: 18),
         SurfaceCard(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextField(
                 key: const Key('reflection_context_field'),
@@ -110,15 +135,62 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 16),
+              Text(
+                'Yönlendirilmiş Brief (Guided Narrator)',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Uygulama seni tanıdıkça daha iyi yönlendirecek. Detay seviyesi skoru:',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 6),
+              LinearProgressIndicator(
+                value: depthScore / 100.0,
+                color: depthScore >= 40.0 ? t.roseGold : Colors.grey,
+                backgroundColor: Colors.grey.withValues(alpha: 0.2),
+              ),
+              const SizedBox(height: 16),
               TextField(
-                key: const Key('reflection_debrief_field'),
-                controller: _debriefController,
-                minLines: 7,
-                maxLines: 11,
+                controller: _sensoryController,
+                minLines: 2,
+                maxLines: 4,
                 decoration: const InputDecoration(
-                  labelText: 'Debrief',
-                  hintText:
-                      'Ne oldu, ne hissettin, hangi davranislar sana guven verdi veya belirsizlik yaratti?',
+                  labelText: 'Duyusal Gözlemler',
+                  hintText: 'Mekana girdiğinde vücut dili nasıldı? Göz teması, duruşu...',
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _dialogsController,
+                minLines: 2,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Spesifik Diyaloglar',
+                  hintText: 'Hangi cümle sende duraksama veya heyecan yarattı?',
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _valueTestsController,
+                minLines: 2,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Değer Testleri',
+                  hintText: 'Senin için önemli olan bir değere (şeffaflık, güven) dair ipucu verdi mi?',
+                ),
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _emotionalController,
+                minLines: 2,
+                maxLines: 4,
+                decoration: const InputDecoration(
+                  labelText: 'Duygusal Reaksiyon',
+                  hintText: 'O anlattıkça kendini nasıl hissettin? (Güvende, tetikte, hayran...)',
                 ),
                 onChanged: (_) => setState(() {}),
               ),
@@ -207,14 +279,14 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Clarification',
+                'Ek Sorular (Opsiyonel)',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 14),
               TextField(
                 controller: _clarificationOneController,
                 decoration: const InputDecoration(
-                  labelText: 'Clarification 1',
+                  labelText: 'Ek Soru 1 Cevabı',
                   hintText: 'Ilgiyi hangi somut davranisla hissettin?',
                 ),
               ),
@@ -222,7 +294,7 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
               TextField(
                 controller: _clarificationTwoController,
                 decoration: const InputDecoration(
-                  labelText: 'Clarification 2',
+                  labelText: 'Ek Soru 2 Cevabı',
                   hintText:
                       'Rahatsizlik tekil miydi, tekrar eden bir his miydi?',
                 ),
@@ -231,7 +303,7 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
               TextField(
                 controller: _clarificationThreeController,
                 decoration: const InputDecoration(
-                  labelText: 'Clarification 3',
+                  labelText: 'Ek Soru 3 Cevabı',
                   hintText:
                       'Gelecege donuk sinyal somut muydu, yorumsal miydi?',
                 ),
@@ -249,10 +321,13 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
     );
   }
 
-  void _analyze() {
+  Future<void> _analyze() async {
     final ReflectionDraft draft = ReflectionDraft(
       dateContext: _contextController.text.trim(),
-      debrief: _debriefController.text.trim(),
+      sensoryObservations: _sensoryController.text.trim(),
+      specificDialogs: _dialogsController.text.trim(),
+      valueTests: _valueTestsController.text.trim(),
+      emotionalReactions: _emotionalController.text.trim(),
       followUpOffer: _followUpOffer,
       futurePlanSignal: _futurePlanSignal,
       comfortLevel: _comfortLevel,
@@ -265,7 +340,15 @@ class _ReflectionComposerPageState extends State<ReflectionComposerPage> {
       ].where((String item) => item.isNotEmpty).toList(growable: false),
     );
 
-    final InsightReport report = widget.controller.generateReport(draft);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('AI Analiz Ediyor... Lütfen bekleyin.')),
+    );
+
+    final InsightReport report = await widget.controller.generateReport(draft);
+    if (!mounted) return;
+    
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => InsightReportPage(
@@ -296,7 +379,19 @@ class InsightReportPage extends StatelessWidget {
 
     return PremiumScrollScaffold(
       key: const Key('insight_screen'),
-      appBar: AppBar(title: const Text('Bulusma Degerlendirmesi')),
+      appBar: AppBar(
+        title: const Text('Buluşma Değerlendirmesi'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         SurfaceCard(
           tint: report.safetyAssessment.escalated
@@ -310,7 +405,7 @@ class InsightReportPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: report.safetyAssessment.escalated
                       ? Theme.of(context).colorScheme.onSurface
-                      : t.ivoryText,
+                      : t.textOnDark,
                 ),
               ),
               const SizedBox(height: 10),
@@ -319,7 +414,7 @@ class InsightReportPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: report.safetyAssessment.escalated
                       ? Theme.of(context).colorScheme.onSurface
-                      : t.ivoryText.withValues(alpha: 0.82),
+                      : t.textOnDark.withValues(alpha: 0.82),
                 ),
               ),
               const SizedBox(height: 18),
@@ -332,7 +427,7 @@ class InsightReportPage extends StatelessWidget {
                     : t.roseGold.withValues(alpha: 0.1),
                 foreground: report.safetyAssessment.escalated
                     ? t.roseCaution
-                    : t.ivoryText,
+                    : t.textOnDark,
               ),
             ],
           ),
@@ -536,7 +631,19 @@ class _ValidationPageState extends State<ValidationPage> {
   Widget build(BuildContext context) {
     return PremiumScrollScaffold(
       key: const Key('validation_screen'),
-      appBar: AppBar(title: const Text('Validation Step')),
+      appBar: AppBar(
+        title: const Text('Doğrulama Adımı'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         const SectionHeader(
           kicker: 'Phase 3 / Recalibration',
@@ -665,8 +772,24 @@ class SaveConfirmationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<SensitiveContextMemory> sensitiveMemories =
+        controller.profile?.psycheAnchor?.sensitiveMemories ??
+            const <SensitiveContextMemory>[];
+
     return PremiumScrollScaffold(
-      appBar: AppBar(title: const Text('Final Reflection Save')),
+      appBar: AppBar(
+        title: const Text('Yansıtmayı Kaydet'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
       children: <Widget>[
         SurfaceCard(
@@ -678,13 +801,13 @@ class SaveConfirmationPage extends StatelessWidget {
                 'Reflection kaydedildi',
                 style: Theme.of(
                   context,
-                ).textTheme.headlineSmall?.copyWith(color: t.ivoryText),
+                ).textTheme.headlineSmall?.copyWith(color: t.textOnDark),
               ),
               const SizedBox(height: 10),
               Text(
                 report.summary,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: t.ivoryText.withValues(alpha: 0.84),
+                  color: t.textOnDark.withValues(alpha: 0.84),
                 ),
               ),
               const SizedBox(height: 14),
@@ -695,12 +818,12 @@ class SaveConfirmationPage extends StatelessWidget {
                   TagPill(
                     text: '7. gun check-in planlandi',
                     background: Color(0x1AF4EEE4),
-                    foreground: t.ivoryText,
+                    foreground: t.textOnDark,
                   ),
                   TagPill(
                     text: '14. gun check-in planlandi',
                     background: Color(0x1AF4EEE4),
-                    foreground: t.ivoryText,
+                    foreground: t.textOnDark,
                   ),
                 ],
               ),
@@ -708,6 +831,18 @@ class SaveConfirmationPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 18),
+        if (sensitiveMemories.isNotEmpty) ...<Widget>[
+          SurfaceCard(
+            child: SensitiveContextDeck(
+              memories: sensitiveMemories,
+              maxItems: 2,
+              title: 'Bu yorumda tuttugumuz kisisel baglam',
+              subtitle:
+                  'Bu save ekrani genel bir dating yorumu degil. Profilindeki ozel hayat bilgisi bu yorumu tonluyor.',
+            ),
+          ),
+          const SizedBox(height: 18),
+        ],
         SurfaceCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -769,7 +904,7 @@ class _DropdownField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value,
       decoration: InputDecoration(labelText: label),
       items: items
           .map(

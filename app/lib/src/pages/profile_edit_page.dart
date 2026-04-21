@@ -6,7 +6,8 @@ import '../theme.dart' as t;
 import '../widgets/app_widgets.dart';
 
 // ═══════════════════════════════════════════════
-//  Profile Edit — Update onboarding answers
+//  Profile Edit — BuzdolabıŞef-style gradient cards
+//  Swipe right to open each section
 // ═══════════════════════════════════════════════
 
 class ProfileEditPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class ProfileEditPage extends StatefulWidget {
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
-  late final OnboardingProfile _original;
+  late OnboardingProfile _original;
 
   // ── Section 1 ──
   late TextEditingController _displayNameCtrl;
@@ -59,7 +60,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   late TextEditingController _misjudgmentCtrl;
   late TextEditingController _judgmentCloudedCtrl;
 
-  // ── Section 6: Belief scales ──
+  // ── Section 6 ──
   late int _beliefRightPerson;
   late int _beliefChemistry;
   late int _beliefAttraction;
@@ -82,9 +83,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   late TextEditingController _misunderstandingCtrl;
   late TextEditingController _partnerShouldKnowCtrl;
   late TextEditingController _freeformProfileCtrl;
-
-  // Track which sections are expanded
-  final List<bool> _expanded = List<bool>.filled(8, false);
 
   @override
   void initState() {
@@ -224,6 +222,15 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       noSecondChanceBehavior: _original.noSecondChanceBehavior,
       fastAttachmentDriver: _original.fastAttachmentDriver,
       fastEliminationReason: _original.fastEliminationReason,
+      // Derin soru alanlarını koru
+      friendDescription: _original.friendDescription,
+      threeExperiences: _original.threeExperiences,
+      idealDay: _original.idealDay,
+      valueConflict: _original.valueConflict,
+      unheardFeeling: _original.unheardFeeling,
+      stayedTooLong: _original.stayedTooLong,
+      feelingsChanged: _original.feelingsChanged,
+      safetyExperience: _original.safetyExperience,
       ageConfirmed: _original.ageConfirmed,
       policyAccepted: _original.policyAccepted,
     );
@@ -242,118 +249,345 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     Navigator.of(context).pop();
   }
 
+  // ═══════════════════════════════════════════════
+  //  Open section in a beautiful bottom sheet
+  // ═══════════════════════════════════════════════
+
+  void _openSectionSheet(
+      String title, List<Color> gradient, Widget Function() builder) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext ctx) {
+        return StatefulBuilder(
+          builder: (BuildContext ctx, StateSetter setSheetState) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.88,
+              minChildSize: 0.5,
+              maxChildSize: 0.95,
+              builder: (BuildContext context, ScrollController scrollCtrl) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: t.noir,
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(28)),
+                    border: Border(
+                      top: BorderSide(
+                          color: gradient.first.withValues(alpha: 0.4),
+                          width: 2),
+                    ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      // Drag handle + gradient header
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              gradient.first.withValues(alpha: 0.2),
+                              t.noir,
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(28)),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(24, 12, 24, 16),
+                        child: Column(
+                          children: <Widget>[
+                            // Drag bar
+                            Container(
+                              width: 40,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: gradient.first.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    title,
+                                    style: TextStyle(
+                                      color: t.textOnDark,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w300,
+                                      letterSpacing: -0.5,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(ctx).pop();
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18, vertical: 10),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: gradient.take(2).toList()),
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    child: const Text(
+                                      'Tamam',
+                                      style: TextStyle(
+                                        color: t.noir,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Content
+                      Expanded(
+                        child: ListView(
+                          controller: scrollCtrl,
+                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
+                          children: <Widget>[builder()],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  // ═══════════════════════════════════════════════
+  //  Main Build — Gradient card list
+  // ═══════════════════════════════════════════════
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: t.noir,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'Profili Düzenle',
-          style: TextStyle(
-            color: t.ivoryText,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_rounded, color: t.ivoryText),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        actions: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: TextButton.icon(
-              onPressed: _save,
-              icon: const Icon(Icons.check_rounded, size: 18),
-              label: const Text('Kaydet'),
-              style: TextButton.styleFrom(
-                foregroundColor: t.roseGold,
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
-        child: Column(
-          children: <Widget>[
-            // Premium header card
-            GradientCard(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: <Color>[t.roseGold, t.dustyRose],
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            // App bar
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: t.charcoal,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                              color: t.smoky.withValues(alpha: 0.5)),
+                        ),
+                        child: const Icon(Icons.arrow_back_ios_rounded,
+                            color: t.textOnDark, size: 18),
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        _displayNameCtrl.text.isNotEmpty
-                            ? _displayNameCtrl.text[0].toUpperCase()
-                            : '?',
-                        style: const TextStyle(
-                          color: t.noir,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            _displayNameCtrl.text,
+                            style: const TextStyle(
+                              color: t.textOnDark,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Profilini güncelle',
+                            style: TextStyle(
+                              color: t.softText,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _save,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: <Color>[t.roseGold, t.dustyRose],
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                              color: t.roseGold.withValues(alpha: 0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(Icons.check_rounded,
+                                color: t.noir, size: 18),
+                            SizedBox(width: 6),
+                            Text(
+                              'Kaydet',
+                              style: TextStyle(
+                                color: t.noir,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          _displayNameCtrl.text,
-                          style: const TextStyle(
-                            color: t.ivoryText,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+                      child: Container(
+                        width: 42,
+                        height: 42,
+                        decoration: BoxDecoration(
+                          color: t.charcoal,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                              color: t.smoky.withValues(alpha: 0.5)),
                         ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Cevaplarını istediğin zaman güncelleyebilirsin.\n'
-                          'Profil skorların otomatik yeniden hesaplanır.',
-                          style: TextStyle(
-                            color: t.softText,
-                            fontSize: 12,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
+                        child: const Icon(Icons.home_rounded,
+                            color: t.textOnDark, size: 18),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 20),
 
-            // ── Section panels ──
-            _buildSection(0, 'Kendini Anlat', Icons.person_outline_rounded,
-                _buildSection1),
-            _buildSection(1, 'İlişki Niyeti', Icons.favorite_outline_rounded,
-                _buildSection2),
-            _buildSection(2, 'Değerler', Icons.diamond_outlined,
-                _buildSection3),
-            _buildSection(3, 'İletişim Stili', Icons.chat_outlined,
-                _buildSection4),
-            _buildSection(4, 'Kör Noktalar', Icons.visibility_off_outlined,
-                _buildSection5),
-            _buildSection(5, 'İnanç Skalası', Icons.auto_awesome_outlined,
-                _buildSection6),
-            _buildSection(6, 'Güvenlik & Sınırlar', Icons.shield_outlined,
-                _buildSection7),
-            _buildSection(7, 'Açık Alan', Icons.edit_note_rounded,
-                _buildSection8),
+            // Description
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: Text(
+                  'Cevaplarını istediğin zaman güncelleyebilirsin. '
+                  'Profil skorların otomatik yeniden hesaplanır.',
+                  style: TextStyle(
+                    color: t.mutedText,
+                    fontSize: 13,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            ),
+
+            // ── 8 Gradient Section Cards ──
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 100),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(<Widget>[
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 1',
+                    title: 'Kendini Anlat',
+                    description:
+                        'İsmin, karakter özelliklerin, hayat teman ve flört zorluğun.',
+                    icon: Icons.person_outline_rounded,
+                    gradientColors: SectionGradients.selfIntro,
+                    onOpen: () => _openSectionSheet(
+                        'Kendini Anlat', SectionGradients.selfIntro,
+                        _buildSection1),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 2',
+                    title: 'İlişki Niyeti',
+                    description:
+                        'Amacın, tempo tercihin, güven inşası ve deneyimlerin.',
+                    icon: Icons.favorite_outline_rounded,
+                    gradientColors: SectionGradients.relationship,
+                    onOpen: () => _openSectionSheet(
+                        'İlişki Niyeti', SectionGradients.relationship,
+                        _buildSection2),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 3',
+                    title: 'Değerler ve Vazgeçilmezler',
+                    description:
+                        'Temel değerlerin, kırmızı çizgilerin ve yaşam tarzın.',
+                    icon: Icons.diamond_outlined,
+                    gradientColors: SectionGradients.values,
+                    onOpen: () => _openSectionSheet(
+                        'Değerler', SectionGradients.values, _buildSection3),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 4',
+                    title: 'İletişim ve Yakınlık',
+                    description:
+                        'İletişim tercihin, belirsizlik tepkin ve çatışma stilin.',
+                    icon: Icons.chat_outlined,
+                    gradientColors: SectionGradients.communication,
+                    onOpen: () => _openSectionSheet('İletişim Stili',
+                        SectionGradients.communication, _buildSection4),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 5',
+                    title: 'Kör Noktalar',
+                    description:
+                        'Tekrarlayan örüntülerin, geri bildirimler ve yanlış değerlendirmelerin.',
+                    icon: Icons.visibility_off_outlined,
+                    gradientColors: SectionGradients.blindSpots,
+                    onOpen: () => _openSectionSheet('Kör Noktalar',
+                        SectionGradients.blindSpots, _buildSection5),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 6',
+                    title: 'Romantik İnanç Skalası',
+                    description:
+                        'Aşka dair 8 temel inancını 1-7 arasında güncelle.',
+                    icon: Icons.auto_awesome_outlined,
+                    gradientColors: SectionGradients.beliefs,
+                    onOpen: () => _openSectionSheet('İnanç Skalası',
+                        SectionGradients.beliefs, _buildSection6),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 7',
+                    title: 'Güvenlik ve Sınırlar',
+                    description:
+                        'Alarm tetikleyicilerin, kırılganlık alanın ve güvence ihtiyacın.',
+                    icon: Icons.shield_outlined,
+                    gradientColors: SectionGradients.safety,
+                    onOpen: () => _openSectionSheet('Güvenlik & Sınırlar',
+                        SectionGradients.safety, _buildSection7),
+                  ),
+                  FeatureGradientCard(
+                    kicker: 'BÖLÜM 8',
+                    title: 'Açık Profil Alanı',
+                    description:
+                        'Bağlanma geçmişin, partnerinin bilmesi gerekenler ve serbest alan.',
+                    icon: Icons.edit_note_rounded,
+                    gradientColors: SectionGradients.openField,
+                    onOpen: () => _openSectionSheet('Açık Alan',
+                        SectionGradients.openField, _buildSection8),
+                  ),
+                ]),
+              ),
+            ),
           ],
         ),
       ),
@@ -361,73 +595,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 
   // ═══════════════════════════════════════════════
-  //  Expandable section builder
-  // ═══════════════════════════════════════════════
-
-  Widget _buildSection(
-      int index, String title, IconData icon, Widget Function() builder) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: t.charcoal,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: _expanded[index]
-              ? t.roseGold.withValues(alpha: 0.4)
-              : t.smoky.withValues(alpha: 0.5),
-        ),
-      ),
-      child: Column(
-        children: <Widget>[
-          InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () => setState(() => _expanded[index] = !_expanded[index]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              child: Row(
-                children: <Widget>[
-                  Icon(icon, color: t.roseGold, size: 22),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: t.ivoryText,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  AnimatedRotation(
-                    turns: _expanded[index] ? 0.5 : 0.0,
-                    duration: const Duration(milliseconds: 250),
-                    child: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: t.softText,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          AnimatedCrossFade(
-            firstChild: const SizedBox.shrink(),
-            secondChild: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: builder(),
-            ),
-            crossFadeState: _expanded[index]
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 300),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ═══════════════════════════════════════════════
-  //  Section 1: Kendini Anlat
+  //  Section Builders (inside bottom sheets)
   // ═══════════════════════════════════════════════
 
   Widget _buildSection1() {
@@ -446,17 +614,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           (List<String> v) => setState(() => _coreTraits = v),
         ),
         _premiumField('Hayatında şu an ana tema', _lifeThemeCtrl),
-        _premiumField('Flört dünyasında en büyük zorluk', _datingChallengeCtrl,
+        _premiumField('Tanışma sürecinde en büyük zorluk', _datingChallengeCtrl,
             lines: 2),
         _premiumField('Serbest alan — kendin hakkında', _freeformAboutMeCtrl,
             lines: 3),
       ],
     );
   }
-
-  // ═══════════════════════════════════════════════
-  //  Section 2: İlişki Niyeti
-  // ═══════════════════════════════════════════════
 
   Widget _buildSection2() {
     return Column(
@@ -486,10 +650,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       ],
     );
   }
-
-  // ═══════════════════════════════════════════════
-  //  Section 3: Değerler
-  // ═══════════════════════════════════════════════
 
   Widget _buildSection3() {
     return Column(
@@ -531,10 +691,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  // ═══════════════════════════════════════════════
-  //  Section 4: İletişim
-  // ═══════════════════════════════════════════════
-
   Widget _buildSection4() {
     return Column(
       children: <Widget>[
@@ -564,64 +720,58 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  // ═══════════════════════════════════════════════
-  //  Section 5: Kör Noktalar
-  // ═══════════════════════════════════════════════
-
   Widget _buildSection5() {
     return Column(
       children: <Widget>[
         _chipMultiSelect(
           'Kör noktaların',
           <String>[
-            'Çok erken bağlanma', 'Kırmızı bayrakları görmezden gelme',
-            'Fazla hızlı eleme', 'Kendi ihtiyacını geri plana atma',
-            'Değiştirme isteği', 'Karşılaştırma', 'Aşırı test etme',
+            'Yoğun çekimi gerçek uyum sanma',
+            'Uyarı işaretlerini mantığa bürüme',
+            'Çok erken duygusal bağlanma',
+            'Çok hızlı eleme ve vazgeçme',
+            'Potansiyele aşırı yatırım yapma',
+            'Tutarsızlığı heyecan sanma',
+            'Kurtarıcı rolüne girme',
+            'Kendi ihtiyacını sürekli geri plana atma',
+            'Mükemmeliyetçi beklentiler kurma',
+            'İlgisizliği gizemle karıştırma',
           ],
           _blindSpots,
           (List<String> v) => setState(() => _blindSpots = v),
         ),
-        _premiumField('Tekrarlayan pattern', _recurringPatternCtrl, lines: 2),
-        _premiumField(
-            'Yakınların ne der?', _feedbackCtrl, lines: 2),
+        _premiumField('Tekrarlayan döngü', _recurringPatternCtrl, lines: 2),
+        _premiumField('Yakınların ne der?', _feedbackCtrl, lines: 2),
         _premiumField('En büyük yanlış değerlendirme', _misjudgmentCtrl,
             lines: 2),
-        _premiumField(
-            'Kararlarını ne bulandırır?', _judgmentCloudedCtrl, lines: 2),
+        _premiumField('Kararlarını ne bulandırır?', _judgmentCloudedCtrl,
+            lines: 2),
       ],
     );
   }
-
-  // ═══════════════════════════════════════════════
-  //  Section 6: İnanç Skalası (1-7)
-  // ═══════════════════════════════════════════════
 
   Widget _buildSection6() {
     return Column(
       children: <Widget>[
-        _beliefSlider('Doğru kişi yolunu bulur',
-            _beliefRightPerson, (int v) => setState(() => _beliefRightPerson = v)),
-        _beliefSlider('Kimya hemen hissedilir',
-            _beliefChemistry, (int v) => setState(() => _beliefChemistry = v)),
-        _beliefSlider('Güçlü çekim bir işarettir',
-            _beliefAttraction, (int v) => setState(() => _beliefAttraction = v)),
-        _beliefSlider('Ya doğru hissedilir ya da değil',
-            _beliefFeelsRight, (int v) => setState(() => _beliefFeelsRight = v)),
-        _beliefSlider('İlk hisler gerçeği söyler',
-            _beliefFirstFeelings, (int v) => setState(() => _beliefFirstFeelings = v)),
-        _beliefSlider('Potansiyel = değer',
-            _beliefPotential, (int v) => setState(() => _beliefPotential = v)),
-        _beliefSlider('Belirsizlik normaldir',
-            _beliefAmbiguity, (int v) => setState(() => _beliefAmbiguity = v)),
-        _beliefSlider('Aşk sorunları aşar',
-            _beliefLoveOvercomes, (int v) => setState(() => _beliefLoveOvercomes = v)),
+        _beliefSlider('Doğru kişi yolunu bulur', _beliefRightPerson,
+            (int v) => setState(() => _beliefRightPerson = v)),
+        _beliefSlider('Kimya hemen hissedilir', _beliefChemistry,
+            (int v) => setState(() => _beliefChemistry = v)),
+        _beliefSlider('Güçlü çekim bir işarettir', _beliefAttraction,
+            (int v) => setState(() => _beliefAttraction = v)),
+        _beliefSlider('Ya doğru hissedilir ya da değil', _beliefFeelsRight,
+            (int v) => setState(() => _beliefFeelsRight = v)),
+        _beliefSlider('İlk hisler gerçeği söyler', _beliefFirstFeelings,
+            (int v) => setState(() => _beliefFirstFeelings = v)),
+        _beliefSlider('Potansiyel = değer', _beliefPotential,
+            (int v) => setState(() => _beliefPotential = v)),
+        _beliefSlider('Belirsizlik normaldir', _beliefAmbiguity,
+            (int v) => setState(() => _beliefAmbiguity = v)),
+        _beliefSlider('Aşk sorunları aşar', _beliefLoveOvercomes,
+            (int v) => setState(() => _beliefLoveOvercomes = v)),
       ],
     );
   }
-
-  // ═══════════════════════════════════════════════
-  //  Section 7: Güvenlik & Sınırlar
-  // ═══════════════════════════════════════════════
 
   Widget _buildSection7() {
     return Column(
@@ -655,57 +805,55 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  // ═══════════════════════════════════════════════
-  //  Section 8: Açık Alan
-  // ═══════════════════════════════════════════════
-
   Widget _buildSection8() {
     return Column(
       children: <Widget>[
         _premiumField('Bağlanma geçmişin', _attachmentHistoryCtrl, lines: 3),
         _premiumField('Yanlış anlaşılma riski', _misunderstandingCtrl,
             lines: 2),
-        _premiumField(
-            'Partner erken bilmeli', _partnerShouldKnowCtrl, lines: 2),
+        _premiumField('Partner erken bilmeli', _partnerShouldKnowCtrl,
+            lines: 2),
         _premiumField('Serbest alan', _freeformProfileCtrl, lines: 3),
       ],
     );
   }
 
   // ═══════════════════════════════════════════════
-  //  Reusable premium widgets
+  //  Premium form widgets
   // ═══════════════════════════════════════════════
 
   Widget _premiumField(String label, TextEditingController ctrl,
       {int lines = 1}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(label,
               style: TextStyle(
-                  color: t.softText, fontSize: 12, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 6),
+                  color: t.softText,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
           TextFormField(
             controller: ctrl,
             maxLines: lines,
-            style: const TextStyle(color: t.ivoryText, fontSize: 14),
+            style: const TextStyle(color: t.textOnDark, fontSize: 14),
             decoration: InputDecoration(
               filled: true,
-              fillColor: t.graphite,
+              fillColor: t.charcoal,
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: t.smoky.withValues(alpha: 0.5)),
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: t.smoky.withValues(alpha: 0.5)),
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: t.smoky.withValues(alpha: 0.4)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
                 borderSide:
                     BorderSide(color: t.roseGold.withValues(alpha: 0.6)),
               ),
@@ -719,43 +867,43 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _enumSelect<T extends Enum>(
       String label, List<T> values, T current, ValueChanged<T> onChanged) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(label,
               style: TextStyle(
-                  color: t.softText, fontSize: 12, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+                  color: t.softText,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 10),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: values.map((T v) {
               final bool selected = v == current;
-              // Access .label via dynamic since all our enums have it
               final String enumLabel = (v as dynamic).label as String;
               return GestureDetector(
                 onTap: () => onChanged(v),
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 220),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
                     color: selected
                         ? t.roseGold.withValues(alpha: 0.15)
-                        : t.graphite,
+                        : t.charcoal,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: selected
                           ? t.roseGold.withValues(alpha: 0.6)
-                          : t.smoky.withValues(alpha: 0.4),
+                          : t.smoky.withValues(alpha: 0.3),
                     ),
                     boxShadow: selected
                         ? <BoxShadow>[
                             BoxShadow(
                               color: t.roseGold.withValues(alpha: 0.12),
-                              blurRadius: 8,
-                              spreadRadius: 1,
+                              blurRadius: 10,
                             )
                           ]
                         : null,
@@ -780,14 +928,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _chipMultiSelect(String label, List<String> options,
       List<String> selected, ValueChanged<List<String>> onChanged) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(label,
               style: TextStyle(
-                  color: t.softText, fontSize: 12, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+                  color: t.softText,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600)),
+          const SizedBox(height: 10),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -796,11 +946,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               return GestureDetector(
                 onTap: () {
                   final List<String> updated = List<String>.from(selected);
-                  if (isSelected) {
-                    updated.remove(opt);
-                  } else {
-                    updated.add(opt);
-                  }
+                  isSelected ? updated.remove(opt) : updated.add(opt);
                   onChanged(updated);
                 },
                 child: AnimatedContainer(
@@ -810,21 +956,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? t.roseGold.withValues(alpha: 0.15)
-                        : t.graphite,
+                        : t.charcoal,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: isSelected
                           ? t.roseGold.withValues(alpha: 0.5)
                           : t.smoky.withValues(alpha: 0.3),
                     ),
-                    boxShadow: isSelected
-                        ? <BoxShadow>[
-                            BoxShadow(
-                              color: t.roseGold.withValues(alpha: 0.08),
-                              blurRadius: 6,
-                            )
-                          ]
-                        : null,
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -857,7 +995,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Widget _beliefSlider(String label, int value, ValueChanged<int> onChanged) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.only(top: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -867,15 +1005,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 child: Text(label,
                     style: TextStyle(
                         color: t.softText,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500)),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600)),
               ),
               Container(
-                width: 28,
-                height: 28,
+                width: 30,
+                height: 30,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: t.roseGold.withValues(alpha: 0.15),
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      t.roseGold.withValues(alpha: 0.2),
+                      t.warmGold.withValues(alpha: 0.15),
+                    ],
+                  ),
                   border: Border.all(
                       color: t.roseGold.withValues(alpha: 0.4), width: 1.5),
                 ),
@@ -883,8 +1026,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   child: Text(
                     '$value',
                     style: TextStyle(
-                      color: t.roseGold,
-                      fontSize: 12,
+                      color: t.primaryDark,
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -892,7 +1035,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           SliderTheme(
             data: SliderThemeData(
               activeTrackColor: t.roseGold,

@@ -1,7 +1,13 @@
 import 'package:flutter/foundation.dart';
 
-import 'mock_analysis_engine.dart';
+import 'ai/adaptive_follow_up_service.dart';
+import 'ai/ai_config.dart';
+import 'ai/ai_contracts.dart';
+import 'ai/deep_analysis_orchestrator.dart';
+import 'ai/vector_profile_store.dart';
 import 'models.dart';
+import 'notification_service.dart';
+import 'text_analysis_engine.dart';
 
 class MatchProfileController extends ChangeNotifier {
   MatchProfileController();
@@ -86,7 +92,7 @@ class MatchProfileController extends ChangeNotifier {
   String get missingDataSnapshot {
     final JournalEntry? entry = latestEntry;
     if (entry == null) {
-      return 'İlk reflection sonrasında eksik veri alanları burada görünür.';
+      return 'İlk yansıtma sonrasında eksik veri alanları burada görünür.';
     }
     if (entry.report.missingDataPoints.isEmpty) {
       return 'Son oturumda kritik eksik veri yok.';
@@ -98,11 +104,11 @@ class MatchProfileController extends ChangeNotifier {
     final List<PendingCheckInTask> tasks = pendingCheckInTasks;
     if (tasks.isNotEmpty) {
       final PendingCheckInTask task = tasks.first;
-      return '${task.title} için ${task.day}. gün outcome check seni bekliyor.';
+      return '${task.title} için ${task.day}. gün sonuç kontrolü seni bekliyor.';
     }
     final JournalEntry? entry = latestEntry;
     if (entry == null) {
-      return 'Romantik karar profilin hazır. Şimdi ilk reflection ile kişiselleştirilmiş insight akışını başlat.';
+      return 'Romantik karar profilin hazır. Şimdi ilk yansıtma ile kişiselleştirilmiş içgörü akışını başlat.';
     }
     return entry.report.nextStep;
   }
@@ -111,7 +117,7 @@ class MatchProfileController extends ChangeNotifier {
     final JournalEntry? entry = latestEntry;
     if (entry == null) return 'Henüz outcome verisi yok.';
     if (entry.completedCheckIns.isEmpty) {
-      return 'İlk outcome check henüz tamamlanmadı.';
+      return 'İlk sonuç kontrolü henüz tamamlanmadı.';
     }
     final CheckInRecord latest = entry.completedCheckIns.last;
     return '${latest.day}. gün: ${latest.outcome.label}';
@@ -119,7 +125,7 @@ class MatchProfileController extends ChangeNotifier {
 
   String get evidenceMixSnapshot {
     final JournalEntry? entry = latestEntry;
-    if (entry == null) return 'İlk raporla evidence dağılımı görünecek.';
+    if (entry == null) return 'İlk raporla kanıt dağılımı görünecek.';
     final List<MapEntry<String, int>> sorted =
         entry.report.evidenceMix.entries.toList()
           ..sort(
@@ -134,7 +140,7 @@ class MatchProfileController extends ChangeNotifier {
 
   String get calibrationSnapshot {
     if (_journalEntries.isEmpty) {
-      return 'Validation loop ilk reporttan sonra güçlenir.';
+      return 'Doğrulama döngüsü ilk rapordan sonra güçlenir.';
     }
     int disputed = 0;
     int incomplete = 0;
@@ -187,9 +193,125 @@ class MatchProfileController extends ChangeNotifier {
         .toList();
   }
 
+  // ── AI Pipeline Durumu ──
+  DeepAnalysisResult? _latestDeepAnalysis;
+  bool _aiAnalysisInProgress = false;
+  AiEnvelope<UserPsycheAnchor>? _lastMirrorRun;
+
+  DeepAnalysisResult? get latestDeepAnalysis => _latestDeepAnalysis;
+  bool get aiAnalysisInProgress => _aiAnalysisInProgress;
+  AiEnvelope<UserPsycheAnchor>? get lastMirrorRun => _lastMirrorRun;
+  bool get isAIPipelineActive => DeepAnalysisOrchestrator.instance.hasChatAi;
+  String get pipelineLabel => DeepAnalysisOrchestrator.instance.pipelineLabel;
+  String get personalizationEngineLabel {
+    if (DeepAnalysisOrchestrator.instance.hasFullMotor) {
+      return 'Tam motor hazır';
+    }
+    if (DeepAnalysisOrchestrator.instance.hasDeepAnalysisAi) {
+      return 'Derin analiz hazır';
+    }
+    if (DeepAnalysisOrchestrator.instance.hasChatAi) {
+      return 'Sohbet AI hazır';
+    }
+    return 'Temel mod';
+  }
+
   void completeOnboarding(OnboardingProfile profile) {
     _profile = profile;
     notifyListeners();
+    // Arka planda derin analiz başlat
+    _runDeepProfileAnalysis(profile);
+  }
+
+  /// AI pipeline ile derin profil analizi (arka plan)
+  Future<void> _runDeepProfileAnalysis(OnboardingProfile profile) async {
+    _aiAnalysisInProgress = true;
+    notifyListeners();
+
+    try {
+      _latestDeepAnalysis =
+          await DeepAnalysisOrchestrator.instance.analyzeProfile(profile);
+    } catch (e) {
+      debugPrint('Derin analiz hatası: $e');
+    }
+
+    _aiAnalysisInProgress = false;
+    notifyListeners();
+  }
+
+  /// AI pipeline yapılandır
+  void configureAI({
+    String? geminiApiKey,
+    String? groqApiKey,
+    String? huggingFaceApiKey,
+    String? supabaseUrl,
+    String? supabaseAnonKey,
+  }) {
+    AIConfig.instance.configure(
+      geminiApiKey: geminiApiKey,
+      groqApiKey: groqApiKey,
+      huggingFaceApiKey: huggingFaceApiKey,
+      supabaseUrl: supabaseUrl,
+      supabaseAnonKey: supabaseAnonKey,
+    );
+    notifyListeners();
+
+    // Yeniden analiz
+    final OnboardingProfile? p = _profile;
+    if (p != null) _runDeepProfileAnalysis(p);
+  }
+
+  /// Tüm AI anahtarlarını RAM + diskten temizle.
+  /// UI katmanında onay alındıktan sonra çağrılmalı.
+  Future<void> clearAIKeys() async {
+    await AIConfig.instance.clearAll();
+    notifyListeners();
+  }
+
+  /// Etkileşim kaydı için AI derin analizi
+  Future<DeepAnalysisResult?> deepAnalyzeInteraction({
+    required String whatHappened,
+    required String whatYouFelt,
+    required String redFlagNoticed,
+    required String greenFlagNoticed,
+    required String personLabel,
+  }) async {
+    final OnboardingProfile? p = _profile;
+    if (p == null) return null;
+
+    return DeepAnalysisOrchestrator.instance.analyzeInteraction(
+      profile: p,
+      whatHappened: whatHappened,
+      whatYouFelt: whatYouFelt,
+      redFlagNoticed: redFlagNoticed,
+      greenFlagNoticed: greenFlagNoticed,
+      personLabel: personLabel,
+    );
+  }
+
+  /// Günlük kayıt için AI derin analizi
+  Future<DeepAnalysisResult?> deepAnalyzeDailyCheckIn({
+    required String miniReflection,
+    required String romanticThought,
+    required String moodLabel,
+    required List<String> triggerLabels,
+  }) async {
+    final OnboardingProfile? p = _profile;
+    if (p == null) return null;
+
+    return DeepAnalysisOrchestrator.instance.analyzeDailyCheckIn(
+      profile: p,
+      miniReflection: miniReflection,
+      romanticThought: romanticThought,
+      moodLabel: moodLabel,
+      triggerLabels: triggerLabels,
+    );
+  }
+
+  /// Kavramsal anlam sorgulama
+  Future<String> resolveConceptForUser(String concept) async {
+    if (VectorProfileStore.instance.isEmpty) return '';
+    return VectorProfileStore.instance.resolveConceptMeaning(concept);
   }
 
   void switchTab(int index) {
@@ -198,13 +320,36 @@ class MatchProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  InsightReport generateReport(ReflectionDraft draft) {
+  Future<InsightReport> generateReport(ReflectionDraft draft) async {
     final OnboardingProfile activeProfile = _profile!;
-    return MockAnalysisEngine.build(
-      draft: draft,
+    final result = await DeepAnalysisOrchestrator.instance.generateReflectionReport(
       profile: activeProfile,
+      draft: draft,
       sessionId: DateTime.now().microsecondsSinceEpoch.toString(),
     );
+    return result.payload;
+  }
+
+  Future<UserPsycheAnchor> generatePsycheAnchor(OnboardingProfile profile) async {
+    final AiEnvelope<UserPsycheAnchor> result =
+        await generatePsycheAnchorEnvelope(profile);
+    return result.payload;
+  }
+
+  Future<AiEnvelope<UserPsycheAnchor>> generatePsycheAnchorEnvelope(
+    OnboardingProfile profile,
+  ) async {
+    final AiEnvelope<UserPsycheAnchor> result =
+        await DeepAnalysisOrchestrator.instance.generatePsycheAnchor(profile);
+    _lastMirrorRun = result;
+    notifyListeners();
+    return result;
+  }
+
+  List<AdaptiveFollowUpQuestion> buildAdaptiveFollowUps(
+    OnboardingProfile profile,
+  ) {
+    return AdaptiveFollowUpService.buildQuestions(profile);
   }
 
   void saveValidatedReport({
@@ -286,6 +431,9 @@ class MatchProfileController extends ChangeNotifier {
   List<DailyCheckIn> get dailyCheckIns =>
       List<DailyCheckIn>.unmodifiable(_dailyCheckIns);
 
+  DailyCheckIn? get latestDailyCheckIn =>
+      _dailyCheckIns.isEmpty ? null : _dailyCheckIns.first;
+
   bool get hasTodayCheckIn {
     if (_dailyCheckIns.isEmpty) return false;
     final DateTime now = DateTime.now();
@@ -339,17 +487,73 @@ class MatchProfileController extends ChangeNotifier {
         .key;
   }
 
-  void saveDailyCheckIn({
+  double get dailyProgressValue => (_dailyCheckIns.length / 7).clamp(0.0, 1.0);
+
+  String get dailyProgressStage {
+    final int count = _dailyCheckIns.length;
+    if (count >= 14) return 'Kişisel ritim netleşiyor';
+    if (count >= 7) return 'Güçlü günlük örüntü oluşuyor';
+    if (count >= 3) return 'İlk desenler görünmeye başladı';
+    if (count >= 1) return 'Veri birikiyor';
+    return 'Başlangıç';
+  }
+
+  String get dailyProgressSummary {
+    final int count = _dailyCheckIns.length;
+    if (count == 0) {
+      return 'İlk günlük kayıtla birlikte ruh hali, tetikleyici ve karar kalıpların görünmeye başlar.';
+    }
+    if (count < 3) {
+      return '$count kayıt var. 3 kayıtta ilk kişisel tekrar sinyallerin görünür hale gelir.';
+    }
+    if (count < 7) {
+      return '$count kayıt var. 7 güne yaklaşırken hangi duygu ve tetikleyicilerin seni sürüklediği daha netleşecek.';
+    }
+    return '$count kayıt birikti. Artık yalnızca gününü değil, döngülerini de okuyabiliyoruz.';
+  }
+
+  String get latestDailyCoachInsight {
+    final DailyCheckIn? latest = latestDailyCheckIn;
+    if (latest == null) return '';
+    if (latest.coachInsight.trim().isNotEmpty) return latest.coachInsight;
+    return generateCheckInFeedback();
+  }
+
+  String get latestDailyMicroAction {
+    final DailyCheckIn? latest = latestDailyCheckIn;
+    if (latest != null && latest.microAction.trim().isNotEmpty) {
+      return latest.microAction;
+    }
+    return generateDailyInsight().prompt;
+  }
+
+  String get latestDailyPatternNote {
+    final DailyCheckIn? latest = latestDailyCheckIn;
+    if (latest != null && latest.patternNote.trim().isNotEmpty) {
+      return latest.patternNote;
+    }
+    final EmotionalTrigger? trigger = mostFrequentTrigger;
+    if (trigger != null) {
+      final int count = triggerFrequency[trigger] ?? 0;
+      return count >= 3
+          ? '"${trigger.label}" son günlerde tekrar ediyor.'
+          : 'Bugünkü kayıt örüntü motoruna eklendi.';
+    }
+    return 'Bugünkü kayıt örüntü motoruna eklendi.';
+  }
+
+  Future<void> saveDailyCheckIn({
     required MoodLevel mood,
     required List<EmotionalTrigger> triggers,
     required EnergyLevel energyLevel,
     required String romanticThought,
     required String miniReflection,
-  }) {
+  }) async {
+    final DateTime now = DateTime.now();
     _dailyCheckIns.insert(
       0,
       DailyCheckIn(
-        date: DateTime.now(),
+        date: now,
         mood: mood,
         triggers: triggers,
         energyLevel: energyLevel,
@@ -360,6 +564,76 @@ class MatchProfileController extends ChangeNotifier {
     );
     _recordReadinessHistory();
     notifyListeners();
+
+    // Bildirimler
+    _checkStreakCelebration();
+    _checkPatternAlerts();
+
+    final String combined = '$miniReflection $romanticThought'.trim();
+    if (combined.length >= 5) {
+      try {
+        await VectorProfileStore.instance.embedEntry(
+          'gunluk_${now.microsecondsSinceEpoch}',
+          combined,
+        );
+      } catch (e) {
+        debugPrint('Günlük vektörleme hatası: $e');
+      }
+    }
+
+    DeepAnalysisResult? deepResult;
+    try {
+      deepResult = await deepAnalyzeDailyCheckIn(
+        miniReflection: miniReflection,
+        romanticThought: romanticThought,
+        moodLabel: mood.label,
+        triggerLabels: triggers.map((EmotionalTrigger t) => t.label).toList(),
+      );
+    } catch (e) {
+      debugPrint('Günlük derin analiz hatası: $e');
+    }
+
+    if (_dailyCheckIns.isEmpty) return;
+    final DailyCheckIn current = _dailyCheckIns.first;
+    _dailyCheckIns[0] = current.copyWith(
+      coachInsight: _composeDailyCoachInsight(
+        deepResult: deepResult,
+        fallback: generateCheckInFeedback(),
+      ),
+      microAction: _composeDailyMicroAction(
+        deepResult: deepResult,
+        mood: mood,
+        triggers: triggers,
+      ),
+      patternNote: _composeDailyPatternNote(
+        deepResult: deepResult,
+        triggers: triggers,
+      ),
+      aiEnhanced: deepResult?.isAIEnhanced ?? false,
+    );
+    notifyListeners();
+  }
+
+  /// Kayıt serisi milestonelarında tebrik bildirimi tetikle
+  void _checkStreakCelebration() {
+    final int streak = checkInStreak;
+    if (streak == 3 || streak == 7 || streak == 14 || streak == 30) {
+      NotificationService.instance.showStreakCelebration(streak);
+    }
+  }
+
+  /// Sık tekrar eden tetikleyicilerde döngü uyarısı bildirimi tetikle
+  void _checkPatternAlerts() {
+    final Map<EmotionalTrigger, int> freq = triggerFrequency;
+    for (final MapEntry<EmotionalTrigger, int> entry in freq.entries) {
+      if (entry.value >= 4) {
+        NotificationService.instance.showPatternAlert(
+          patternName: entry.key.label,
+          occurrenceCount: entry.value,
+        );
+        break; // Aynı anda tek uyarı yeter
+      }
+    }
   }
 
   // ══════════════════════════════════════════════
@@ -404,9 +678,9 @@ class MatchProfileController extends ChangeNotifier {
       insights.add(
           'Heyecan güzel ama idealizasyon eğilimin yüksek. Heyecanın somut davranışlara mı yoksa hislere mi dayanıyor?');
     }
-    if (entry.redFlagNoticed.trim().isEmpty && p.hasBlindSpot('Red flag\'i rasyonalize etme')) {
+    if (entry.redFlagNoticed.trim().isEmpty && p.hasBlindSpot('Uyarı işaretlerini mantığa bürüme')) {
       insights.add(
-          'Red flag görmemişsin — ama profilde red flag rasyonalize etme eğilimin var. Gerçekten yok mu, yoksa görmek mi istemiyorsun?');
+          'Uyarı işareti görmemişsin — ama profilde uyarı işaretlerini mantığa bürüme eğilimin var. Gerçekten yok mu, yoksa görmek mi istemiyorsun?');
     }
     if (entry.interactionType == InteractionType.thinkingOf &&
         p.hasFastAttachment) {
@@ -414,12 +688,36 @@ class MatchProfileController extends ChangeNotifier {
           'Sadece düşünmekten etkileşim kaydı açtın — erken bağlanma eğilimin bu tür obsesif düşünceyle beslenebilir.');
     }
 
+    // Etkileşim metinlerini analiz et
+    final String combinedText = '${entry.whatHappened} ${entry.whatYouFelt}';
+    if (combinedText.trim().length > 15) {
+      final TextAnalysisResult textResult =
+          TextAnalysisEngine.analyzeDailyText(combinedText);
+
+      if (textResult.idealizationSignals < -1 && !p.highIdealization) {
+        insights.add(
+            'Bu etkileşim anlatımında idealleştirme sinyalleri var — profilinde bu eğilim düşük çıkmıştı. Belki bu kişiye özgü bir tepki.');
+      }
+      if (textResult.boundarySignals < -1) {
+        insights.add(
+            'Anlattıklarında sınır ihlali işaretleri var. Bu durumu net bir şekilde ifade edebildin mi?');
+      }
+      if (textResult.regulationSignals < -2) {
+        insights.add(
+            'Bu etkileşimde yoğun duygusal tepkiler yaşamışsın. Bu yoğunluk etkileşimin gerçek doğasını mı yansıtıyor, yoksa senin iç durumunu mu?');
+      }
+      if (textResult.emotionalTone == EmotionalTone.conflicted) {
+        insights.add(
+            'Anlattıklarında çelişkili duygular var — bu belirsizlik bazen önemli bir sinyaldir. Çelişkinin kaynağını incelemeye değer.');
+      }
+    }
+
     return insights.isEmpty
         ? 'Bu etkileşimi profil metrikleriyle birlikte izlemeye devam ediyoruz.'
         : insights.join(' ');
   }
 
-  void saveInteraction({
+  Future<void> saveInteraction({
     required String personLabel,
     required InteractionType interactionType,
     required InteractionEnergy energy,
@@ -427,7 +725,7 @@ class MatchProfileController extends ChangeNotifier {
     required String whatYouFelt,
     required String redFlagNoticed,
     required String greenFlagNoticed,
-  }) {
+  }) async {
     final InteractionLogEntry entry = InteractionLogEntry(
       date: DateTime.now(),
       personLabel: personLabel,
@@ -438,21 +736,42 @@ class MatchProfileController extends ChangeNotifier {
       redFlagNoticed: redFlagNoticed,
       greenFlagNoticed: greenFlagNoticed,
     );
-    // Generate insight and re-create with it
-    final String insight = generateInteractionInsight(entry);
-    _interactionLog.insert(
-      0,
-      InteractionLogEntry(
-        date: entry.date,
-        personLabel: entry.personLabel,
-        interactionType: entry.interactionType,
-        energy: entry.energy,
-        whatHappened: entry.whatHappened,
-        whatYouFelt: entry.whatYouFelt,
-        redFlagNoticed: entry.redFlagNoticed,
-        greenFlagNoticed: entry.greenFlagNoticed,
-        profileInsight: insight,
+    final String fallbackInsight = generateInteractionInsight(entry);
+    _interactionLog.insert(0, entry.copyWith(profileInsight: fallbackInsight));
+    notifyListeners();
+
+    final String combined = '$whatHappened $whatYouFelt'.trim();
+    if (combined.length >= 5) {
+      try {
+        await VectorProfileStore.instance.embedEntry(
+          'interaction_${entry.date.microsecondsSinceEpoch}',
+          combined,
+        );
+      } catch (e) {
+        debugPrint('Etkileşim vektörleme hatası: $e');
+      }
+    }
+
+    DeepAnalysisResult? deepResult;
+    try {
+      deepResult = await deepAnalyzeInteraction(
+        whatHappened: whatHappened,
+        whatYouFelt: whatYouFelt,
+        redFlagNoticed: redFlagNoticed,
+        greenFlagNoticed: greenFlagNoticed,
+        personLabel: personLabel,
+      );
+    } catch (e) {
+      debugPrint('Etkileşim derin analiz hatası: $e');
+    }
+
+    if (_interactionLog.isEmpty) return;
+    _interactionLog[0] = _interactionLog.first.copyWith(
+      profileInsight: _composeInteractionInsight(
+        fallbackInsight: fallbackInsight,
+        deepResult: deepResult,
       ),
+      aiEnhanced: deepResult?.isAIEnhanced ?? false,
     );
     notifyListeners();
   }
@@ -488,16 +807,249 @@ class MatchProfileController extends ChangeNotifier {
   }
 
   // ══════════════════════════════════════════════
-  //  Daily Insight Generator (Profile-Personalized)
+  //  Günlük Kayıt Geri Bildirimi — Somut Çıktı
+  // ══════════════════════════════════════════════
+
+  /// Kayıt sonrası kullanıcıya gösterilen kişiselleştirilmiş geri bildirim
+  String generateCheckInFeedback() {
+    if (_dailyCheckIns.isEmpty) return '';
+    final DailyCheckIn latest = _dailyCheckIns.first;
+    final OnboardingProfile? p = _profile;
+    final List<String> feedback = <String>[];
+
+    // Ruh hali trendi
+    if (_dailyCheckIns.length >= 3) {
+      final List<double> moods = _dailyCheckIns
+          .take(3)
+          .map((DailyCheckIn c) => _moodToDouble(c.mood))
+          .toList();
+      if (moods[0] > moods[1] && moods[1] > moods[2]) {
+        feedback.add('Son 3 gündür ruh halin sürekli yükseliyor — bu olumlu bir ivme.');
+      } else if (moods[0] < moods[1] && moods[1] < moods[2]) {
+        feedback.add('Son 3 gündür ruh halin düşüşte. Kendine nazik ol, bu geçici.');
+      }
+    }
+
+    // Tetikleyici uyarı
+    if (latest.triggers.isNotEmpty && p != null) {
+      final EmotionalTrigger first = latest.triggers.first;
+      final int repeatCount = _dailyCheckIns
+          .take(7)
+          .where((DailyCheckIn c) => c.triggers.contains(first))
+          .length;
+      if (repeatCount >= 3) {
+        feedback.add('"${first.label}" tetikleyicisi son 7 günde $repeatCount kez tekrarlandı. Bu kalıba dikkat et.');
+      }
+    }
+
+    // Profil bazlı geri bildirim
+    if (p != null) {
+      if (latest.mood == MoodLevel.bad && p.highAssurance) {
+        feedback.add('Kötü hissettiğin günlerde güvence arama eğilimin artabilir. Bugün birine mesaj atmadan önce bir nefes al.');
+      }
+      if (latest.mood == MoodLevel.great && p.highIdealization) {
+        feedback.add('Harika hissettiğin günlerde idealleştirme eğilimin güçlenir. İyi hissetmek iyi — ama birini abartmak riskli.');
+      }
+      if (latest.energyLevel == EnergyLevel.low && p.selfProtectionScore > 0.5) {
+        feedback.add('Enerjin düşükken geri çekilme eğilimin güçlenir. Bu koruma refleksi mi, yoksa gerçekten dinlenme ihtiyacı mı?');
+      }
+    }
+
+    // Kısa yansıtma metnini analiz et
+    if (latest.miniReflection.trim().length > 10) {
+      final TextAnalysisResult textResult =
+          TextAnalysisEngine.analyzeDailyText(latest.miniReflection);
+
+      if (textResult.attachmentSignals < -1) {
+        feedback.add('Bugünkü yansıtmanda bağlanma sinyalleri var. Hızlı bağlanma eğilimine dikkat — bir adım geri çekil ve gözlemle.');
+      }
+      if (textResult.dependencySignals < -1) {
+        feedback.add('Yazdıklarında duygusal bağımlılık işaretleri var. Ruh halin birinin davranışına ne kadar bağlı?');
+      }
+      if (textResult.emotionalTone == EmotionalTone.anxious) {
+        feedback.add('Bugünkü yansıtmanda kaygı tonu belirgin. Bu kaygının kaynağını netleştir: gerçek bir tehdit mi, yoksa içsel bir kalıp mı?');
+      }
+      if (textResult.selfAwarenessSignals > 1) {
+        feedback.add('Bugünkü yansıtmanda güçlü bir öz farkındalık var. Bu tür dürüst anlar profil doğruluğunu artırır.');
+      }
+      if (textResult.emotionalTone == EmotionalTone.reflective) {
+        feedback.add('Yansıtıcı bir yazı yazmışsın — bu tür içsel gözlemler zamanla kalıplarını daha net görmeni sağlar.');
+      }
+    }
+
+    // Romantik düşünce metnini analiz et
+    if (latest.romanticThought.trim().length > 10) {
+      final TextAnalysisResult thoughtResult =
+          TextAnalysisEngine.analyzeDailyText(latest.romanticThought);
+
+      if (thoughtResult.idealizationSignals < -1) {
+        feedback.add('Bugünkü romantik düşüncende idealleştirme eğilimi var. Bu kişiyi gerçek haliyle mi yoksa hayal ettiğin haliyle mi görüyorsun?');
+      }
+      if (thoughtResult.protectionSignals < -1) {
+        feedback.add('Romantik düşüncende kaçınma veya kendini koruma sinyalleri var. Korkuyla mı yoksa tercihle mi uzak duruyorsun?');
+      }
+    }
+
+    if (feedback.isEmpty) {
+      feedback.add('Bugünkü kaydın alındı. Verini biriktirdikçe sana daha derin geri bildirimler gelecek.');
+    }
+
+    return feedback.join('\n\n');
+  }
+
+  /// Haftalık ruh hali özeti
+  String get weeklyMoodSummary {
+    if (_dailyCheckIns.isEmpty) return 'Henüz yeterli veri yok.';
+    final List<DailyCheckIn> week = _dailyCheckIns.take(7).toList();
+    int great = 0, good = 0, neutral = 0, low = 0, bad = 0;
+    for (final DailyCheckIn c in week) {
+      switch (c.mood) {
+        case MoodLevel.great: great++;
+        case MoodLevel.good: good++;
+        case MoodLevel.neutral: neutral++;
+        case MoodLevel.low: low++;
+        case MoodLevel.bad: bad++;
+      }
+    }
+    final StringBuffer sb = StringBuffer();
+    sb.write('Son ${week.length} günde: ');
+    final List<String> parts = <String>[];
+    if (great > 0) parts.add('$great harika');
+    if (good > 0) parts.add('$good iyi');
+    if (neutral > 0) parts.add('$neutral nötr');
+    if (low > 0) parts.add('$low düşük');
+    if (bad > 0) parts.add('$bad kötü');
+    sb.write(parts.join(', '));
+    sb.write(' gün yaşadın.');
+    if (low + bad > great + good) {
+      sb.write(' Zor bir hafta geçiriyorsun — kendine alan tanı.');
+    } else if (great + good >= 5) {
+      sb.write(' Güçlü bir hafta — bu enerjiyi koru.');
+    }
+    return sb.toString();
+  }
+
+  /// Günlük olumlaması — profil bazlı
+  String get dailyAffirmation {
+    final OnboardingProfile? p = _profile;
+    if (p == null) return 'Bugün kendine bir iyilik yap.';
+    final int day = DateTime.now().day + DateTime.now().month * 31;
+    final List<String> affirmations = <String>[
+      'Sınırlarını bilmek güç değil, olgunluk. Bugün sınırlarına sahip çık.',
+      'Doğru kişiyi bulmak acele gerektirmez. Bugün kendini tanımaya devam et.',
+      'Duygularını bastırmak yerine onları dinle. Ne söylüyorlar?',
+      'Her "hayır" bir "evet"e yer açar. Bugün neye "hayır" demen gerekiyor?',
+      'Mükemmel ilişki yoktur, uyumlu ilişki vardır. Uyumu nasıl tanımlıyorsun?',
+      'Geçmiş kalıpların gelecek kararlarını belirlemek zorunda değil.',
+      'Kendini tanımak, doğru kişiyi tanımanın ilk adımı.',
+      'Bugün acele etme. Doğru tempo senin tempondur.',
+    ];
+    if (p.highIdealization) {
+      affirmations.add('Bugün birini olduğu gibi gör — potansiyeliyle değil, bugünkü haliyle.');
+    }
+    if (p.highAssurance) {
+      affirmations.add('Güvenlik önce içeriden gelir. Bugün kendi kendine güvence ver.');
+    }
+    return affirmations[day % affirmations.length];
+  }
+
+  String _composeDailyCoachInsight({
+    required String fallback,
+    DeepAnalysisResult? deepResult,
+  }) {
+    final List<String> parts = <String>[];
+    if (deepResult != null) {
+      if (deepResult.profileInsight.trim().isNotEmpty) {
+        parts.add(deepResult.profileInsight.trim());
+      }
+      if (deepResult.blindSpotWarning.trim().isNotEmpty) {
+        parts.add('Dikkat noktası: ${deepResult.blindSpotWarning.trim()}');
+      }
+    }
+    if (parts.isEmpty && fallback.trim().isNotEmpty) {
+      return fallback.trim();
+    }
+    return parts.take(2).join('\n\n');
+  }
+
+  String _composeDailyMicroAction({
+    required MoodLevel mood,
+    required List<EmotionalTrigger> triggers,
+    DeepAnalysisResult? deepResult,
+  }) {
+    if (deepResult != null && deepResult.personalizedAdvice.trim().isNotEmpty) {
+      return deepResult.personalizedAdvice.trim();
+    }
+    if (triggers.contains(EmotionalTrigger.anxiety)) {
+      return 'Bugün belirsizliği büyütmek yerine tek bir somut veri not et ve hikayeyi durdur.';
+    }
+    if (triggers.contains(EmotionalTrigger.loneliness)) {
+      return 'Bugün yakınlık arzusunu bir kişiye yüklemek yerine kendine iyi gelen tek bir temas seç.';
+    }
+    if (mood == MoodLevel.bad || mood == MoodLevel.low) {
+      return 'Bugün karar verme değil, sinyal toplama günü olsun. Yavaşla ve kendini regüle et.';
+    }
+    return generateDailyInsight().prompt;
+  }
+
+  String _composeDailyPatternNote({
+    required List<EmotionalTrigger> triggers,
+    DeepAnalysisResult? deepResult,
+  }) {
+    if (deepResult != null && deepResult.blindSpotWarning.trim().isNotEmpty) {
+      return deepResult.blindSpotWarning.trim();
+    }
+    final EmotionalTrigger? repeated = mostFrequentTrigger;
+    if (repeated != null) {
+      final int count = triggerFrequency[repeated] ?? 0;
+      if (count >= 3) {
+        return '"${repeated.label}" son günlerde $count kez tekrar etti.';
+      }
+    }
+    if (triggers.isNotEmpty) {
+      return 'Bugünkü kayıt "${triggers.first.label}" hattına eklendi.';
+    }
+    return 'Bugünkü kayıt örüntü motoruna eklendi.';
+  }
+
+  String _composeInteractionInsight({
+    required String fallbackInsight,
+    DeepAnalysisResult? deepResult,
+  }) {
+    final List<String> parts = <String>[];
+    if (deepResult != null) {
+      if (deepResult.profileInsight.trim().isNotEmpty) {
+        parts.add(deepResult.profileInsight.trim());
+      }
+      if (deepResult.blindSpotWarning.trim().isNotEmpty) {
+        parts.add('Kör nokta: ${deepResult.blindSpotWarning.trim()}');
+      }
+      if (deepResult.personalizedAdvice.trim().isNotEmpty) {
+        parts.add('Öneri: ${deepResult.personalizedAdvice.trim()}');
+      }
+    }
+    if (parts.isEmpty) return fallbackInsight;
+    return parts.take(3).join('\n\n');
+  }
+
+  static double _moodToDouble(MoodLevel mood) => switch (mood) {
+        MoodLevel.great => 1.0,
+        MoodLevel.good => 0.75,
+        MoodLevel.neutral => 0.5,
+        MoodLevel.low => 0.25,
+        MoodLevel.bad => 0.0,
+      };
+
+  // ══════════════════════════════════════════════
+  //  Günlük İçgörü Üretici (Profil Kişiselleştirilmiş)
   // ══════════════════════════════════════════════
 
   DailyInsight generateDailyInsight() {
     final OnboardingProfile? p = _profile;
+    final DateTime now = DateTime.now();
     if (p == null) {
-      return const DailyInsight(
-        date: null ?? Duration.zero != Duration.zero
-            ? DateTime(2024)
-            : DateTime(2024),
+      return DailyInsight(
+        date: now,
         prompt: 'Profilini tamamla — günlük içgörüler sana özel olsun.',
         category: 'genel',
         relatedProfileArea: 'profil',
@@ -505,11 +1057,11 @@ class MatchProfileController extends ChangeNotifier {
     }
 
     final int dayHash =
-        DateTime.now().day + DateTime.now().month * 31 + _dailyCheckIns.length;
+        now.day + now.month * 31 + _dailyCheckIns.length;
     final List<DailyInsight> pool = <DailyInsight>[
       if (p.highIdealization)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün birine "mükemmel" dediğini fark edersen dur. Bu kişinin 3 kusurunu say — sayamıyorsan, idealizasyon devrede.',
           category: 'İnanç',
@@ -517,7 +1069,7 @@ class MatchProfileController extends ChangeNotifier {
         ),
       if (p.highAssurance)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Güvence ihtiyacın bugün ne kadar yüksek? 1-10 arası puanla. 7\'den yüksekse, bu ihtiyaç kimin sorumluluğu?',
           category: 'Güvence',
@@ -525,7 +1077,7 @@ class MatchProfileController extends ChangeNotifier {
         ),
       if (p.hasFastAttachment)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün birini fazla mı düşündün? Düşünme sıklığın ilgi seviyeni yansıtmıyor — bağlanma hızını yansıtıyor.',
           category: 'Bağlanma',
@@ -533,7 +1085,7 @@ class MatchProfileController extends ChangeNotifier {
         ),
       if (p.boundaryHealthScore < 0.5)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün "hayır" demek isteyip "evet" dediğin bir an oldu mu? Küçük sınır ihlalleri büyüklerin provası.',
           category: 'Sınır',
@@ -541,7 +1093,7 @@ class MatchProfileController extends ChangeNotifier {
         ),
       if (p.selfProtectionScore > 0.5)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün birinden kaçındığını fark ettin mi? Kaçınma güvenlik değil — yakınlıktan korkmanın bir formu.',
           category: 'Kendini Koruma',
@@ -549,7 +1101,7 @@ class MatchProfileController extends ChangeNotifier {
         ),
       if (p.emotionalDependencyRisk > 0.4)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün ruh halin birinin davranışına bağlı mıydı? Bağlıysa, duygusal bağımsızlığın sınırlarını test ediyorsun.',
           category: 'Bağımsızlık',
@@ -558,28 +1110,28 @@ class MatchProfileController extends ChangeNotifier {
       if (p.conflictStyle == ConflictStyle.shutDown ||
           p.conflictStyle == ConflictStyle.distance)
         DailyInsight(
-          date: DateTime.now(),
+          date: now,
           prompt:
               'Bugün rahatsız eden bir konuyu atlattığını fark ettin mi? Geçiştirmek çözüm değil, erteleme.',
           category: 'İletişim',
           relatedProfileArea: 'Çatışma stili: ${p.conflictStyle.label}',
         ),
       DailyInsight(
-        date: DateTime.now(),
+        date: now,
         prompt:
             'Bugün kendine sor: "İlişkide en çok neyi arıyorum?" Cevabın geçen haftakinden farklı mı?',
         category: 'Öz Farkındalık',
         relatedProfileArea: 'Hedef: ${p.goal.label}',
       ),
       DailyInsight(
-        date: DateTime.now(),
+        date: now,
         prompt:
             'Son etkileşiminde hangi duyguyu en çok hissettin? Bu duygu sana bir şey söylüyor — dinle.',
         category: 'Duygu Düzenleme',
         relatedProfileArea: 'Düzenleme: ${(p.emotionalRegulationScore * 100).toStringAsFixed(0)}%',
       ),
       DailyInsight(
-        date: DateTime.now(),
+        date: now,
         prompt:
             'Bugün birine mesaj atıp atmamayı düşündün mü? Düşündüysen, motivasyonun ne: gerçek ilgi mi, kontrol ihtiyacı mı?',
         category: 'İletişim',

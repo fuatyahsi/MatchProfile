@@ -18,162 +18,85 @@ class DailyHubPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final DailyInsight insight = controller.generateDailyInsight();
     final bool hasCheckedIn = controller.hasTodayCheckIn;
+    final DailyCheckIn? latestCheckIn = controller.latestDailyCheckIn;
 
     return PremiumScrollScaffold(
       key: const Key('daily_hub_screen'),
       children: <Widget>[
-        // ── Daily insight card ──
-        GradientCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: t.roseGold.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.auto_awesome,
-                        color: t.roseGold, size: 22),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Günün İçgörüsü',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(color: t.roseGold),
-                        ),
-                        Text(
-                          insight.category,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(color: t.softText),
-                        ),
-                      ],
-                    ),
-                  ),
-                  TagPill(text: insight.relatedProfileArea),
-                ],
-              ),
-              const SizedBox(height: 18),
-              Text(
-                insight.prompt,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: t.ivoryText,
-                      height: 1.65,
-                    ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 18),
+        const SectionHeader(kicker: 'GÜNLÜK', title: 'Bugün'),
+        const SizedBox(height: 14),
 
-        // ── Streak + mood summary ──
+        // ── Daily insight — warm coral gradient ──
+        FeatureGradientCard(
+          kicker: hasCheckedIn
+              ? 'BUGÜNÜN ODAĞI · ${latestCheckIn?.aiEnhanced == true ? 'AI DESTEKLİ' : 'KİŞİSEL'}'
+              : 'GÜNÜN İÇGÖRÜSÜ · ${insight.category.toUpperCase()}',
+          title: hasCheckedIn ? 'Bugünün mikro odağı' : insight.relatedProfileArea,
+          description:
+              hasCheckedIn ? controller.latestDailyMicroAction : insight.prompt,
+          icon: Icons.auto_awesome,
+          gradientColors: const <Color>[
+            Color(0xFFC8553D), Color(0xFFD4854A), Color(0xFFE8A85C),
+          ],
+          swipeHint: hasCheckedIn
+              ? 'Geri dönmek isteyeceğin tek hamle'
+              : 'Profil bazlı kişisel içgörü',
+          onOpen: () {},
+        ),
+
+        // ── Streak / Mood / Interactions stat row ──
         Row(
           children: <Widget>[
             Expanded(
-              child: SurfaceCard(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '${controller.checkInStreak}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: t.roseGold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text('gün seri',
-                        style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
+              child: _DailyStatCard(
+                value: '${controller.checkInStreak}',
+                label: 'gün seri',
+                icon: Icons.local_fire_department_rounded,
+                color: t.roseGold,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
             Expanded(
-              child: SurfaceCard(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    RadialScoreGauge(
-                      label: '7 gün mood',
-                      value: controller.averageMoodLast7Days,
-                      size: 56,
-                      color: controller.averageMoodLast7Days > 0.6
-                          ? t.softGreen
-                          : t.amber,
-                    ),
-                  ],
-                ),
+              child: _DailyStatCard(
+                value: _moodValue(controller.averageMoodLast7Days),
+                label: '7 gün ruh hali',
+                icon: Icons.mood_rounded,
+                color: controller.averageMoodLast7Days > 0.6
+                    ? t.softGreen
+                    : t.amber,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 10),
             Expanded(
-              child: SurfaceCard(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '${controller.interactionCount}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: t.warmGold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text('etkileşim',
-                        style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                ),
+              child: _DailyStatCard(
+                value: '${controller.interactionCount}',
+                label: 'etkileşim',
+                icon: Icons.people_outline_rounded,
+                color: t.warmGold,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 16),
 
-        // ── Daily check-in CTA ──
+        // ── Check-in card — teal gradient ──
         if (!hasCheckedIn)
-          SurfaceCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Günlük Check-in',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Bugün henüz check-in yapmadın. 2 dakikada ruh halini, tetikleyicilerini ve romantik düşünceni kaydet.',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 14),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            DailyCheckInPage(controller: controller),
-                      ));
-                    },
-                    child: const Text('Check-in yap'),
-                  ),
-                ),
-              ],
-            ),
+          FeatureGradientCard(
+            kicker: 'GÜNLÜK KAYIT',
+            title: 'Bugün Nasılsın?',
+            description:
+                'Ruh halini, tetikleyicilerini ve romantik düşünceni kaydet. Sadece 2 dakika.',
+            icon: Icons.edit_calendar_rounded,
+            gradientColors: const <Color>[
+              Color(0xFF1B6B6D), Color(0xFF2A8F8E), Color(0xFF3DB5A6),
+            ],
+            swipeHint: 'Kayıt yapmak için sağa kaydır',
+            onOpen: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                builder: (BuildContext context) =>
+                    DailyCheckInPage(controller: controller),
+              ));
+            },
           )
         else
           SurfaceCard(
@@ -194,10 +117,10 @@ class DailyHubPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Bugünkü check-in tamam',
+                      Text('Bugünkü kayıt tamam',
                           style: Theme.of(context).textTheme.titleMedium),
                       Text(
-                        'Mood: ${controller.dailyCheckIns.first.mood.label}',
+                        'Ruh hali: ${controller.dailyCheckIns.first.mood.label}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
@@ -206,57 +129,235 @@ class DailyHubPage extends StatelessWidget {
               ],
             ),
           ),
-        const SizedBox(height: 18),
-
-        // ── Quick interaction log button ──
+        const SizedBox(height: 14),
         SurfaceCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'Etkileşim Günlüğü',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Sadece buluşmalar değil — mesajlaşma, aklına gelme, sosyal medya etkileşimi, her şeyi kaydet.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 14),
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: FilledButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              InteractionLogFormPage(controller: controller),
-                        ));
-                      },
-                      child: const Text('Yeni etkileşim'),
-                    ),
+                    child: Text('Günlük ilerleme',
+                        style: Theme.of(context).textTheme.titleMedium),
                   ),
-                  if (controller.interactionLog.isNotEmpty) ...<Widget>[
-                    const SizedBox(width: 12),
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              InteractionHistoryPage(controller: controller),
-                        ));
-                      },
-                      child: const Text('Geçmiş'),
-                    ),
-                  ],
+                  TagPill(text: controller.dailyProgressStage),
                 ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                controller.dailyProgressSummary,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              const SizedBox(height: 14),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  minHeight: 3,
+                  value: controller.dailyProgressValue,
+                  backgroundColor: t.smoky,
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(t.roseGold),
+                ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 14),
+
+        // ── Günlük Olumlama — profil bazlı ──
+        SurfaceCard(
+          tint: t.deepCard,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: t.roseGold.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.self_improvement_rounded,
+                        color: t.roseGold, size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Text('Günün mesajı',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                controller.dailyAffirmation,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      height: 1.6,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+
+        // ── Haftalık Ruh Hali Özeti ──
+        if (controller.dailyCheckIns.length >= 2)
+          SurfaceCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: t.warmGold.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.analytics_outlined,
+                          color: t.warmGold, size: 20),
+                    ),
+                    const SizedBox(width: 12),
+                    Text('Haftalık özet',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  controller.weeklyMoodSummary,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        height: 1.5,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        if (controller.dailyCheckIns.length >= 2) const SizedBox(height: 14),
+
+        // ── Kayıt sonrası geri bildirim ──
+        if (hasCheckedIn && controller.latestDailyCoachInsight.isNotEmpty)
+          SurfaceCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: t.blushRose.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.psychology_outlined,
+                          color: t.blushRose, size: 20),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                        latestCheckIn?.aiEnhanced == true
+                            ? 'Bugünün yorumlanmış sonucu'
+                            : 'Bugünün geri bildirimi',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  controller.latestDailyCoachInsight,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        height: 1.6,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        if (hasCheckedIn && controller.latestDailyCoachInsight.isNotEmpty)
+          const SizedBox(height: 14),
+
+        if (hasCheckedIn)
+          SurfaceCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: t.softGreen.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(Icons.track_changes_rounded,
+                          color: t.softGreen, size: 20),
+                    ),
+                    const SizedBox(width: 12),
+                    Text('Bugünün hamlesi',
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  controller.latestDailyMicroAction,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        height: 1.55,
+                      ),
+                ),
+                const SizedBox(height: 12),
+                TagPill(
+                  text: controller.latestDailyPatternNote,
+                  background: t.roseGold.withValues(alpha: 0.1),
+                  foreground: t.roseGold,
+                ),
+              ],
+            ),
+          ),
+        if (hasCheckedIn) const SizedBox(height: 14),
+
+        // ── Interaction log — blue gradient ──
+        FeatureGradientCard(
+          kicker: 'ETKİLEŞİM GÜNLÜĞÜ',
+          title: 'Yeni Etkileşim Kaydet',
+          description:
+              'Sadece buluşmalar değil — mesajlaşma, aklına gelme, sosyal medya etkileşimi, her şeyi kaydet.',
+          icon: Icons.add_circle_outline_rounded,
+          gradientColors: const <Color>[
+            Color(0xFF2C4A7C), Color(0xFF3A6EA5), Color(0xFF5A8FBF),
+          ],
+          swipeHint: 'Kaydetmek için sağa kaydır',
+          onOpen: () {
+            Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (BuildContext context) =>
+                  InteractionLogFormPage(controller: controller),
+            ));
+          },
+        ),
+
+        // ── Interaction history — rose gradient ──
+        if (controller.interactionLog.isNotEmpty)
+          FeatureGradientCard(
+            kicker: 'GEÇMİŞ',
+            title: 'Etkileşim Geçmişi',
+            description:
+                '${controller.interactionCount} etkileşim, ${controller.uniquePersonCount} kişi kayıtlı.',
+            icon: Icons.history_rounded,
+            gradientColors: const <Color>[
+              Color(0xFFA85A5A), Color(0xFFCF7F6F), Color(0xFFD4A08A),
+            ],
+            swipeHint: 'Geçmişi görmek için sağa kaydır',
+            onOpen: () {
+              Navigator.of(context).push(MaterialPageRoute<void>(
+                builder: (BuildContext context) =>
+                    InteractionHistoryPage(controller: controller),
+              ));
+            },
+          ),
 
         // ── Trigger frequency ──
         if (controller.triggerFrequency.isNotEmpty) ...<Widget>[
+          const SizedBox(height: 6),
           const SectionHeader(
             kicker: 'TETİKLEYİCİ ANALİZİ',
             title: 'Son 14 günün tetikleyicileri',
@@ -283,7 +384,7 @@ class DailyHubPage extends StatelessWidget {
         // ── Recent check-ins list ──
         if (controller.dailyCheckIns.isNotEmpty) ...<Widget>[
           SectionHeader(
-            kicker: 'GEÇMİŞ CHECK-IN\'LER',
+            kicker: 'GEÇMİŞ KAYITLAR',
             title: 'Son ${controller.dailyCheckIns.length > 7 ? 7 : controller.dailyCheckIns.length} gün',
           ),
           const SizedBox(height: 12),
@@ -317,7 +418,20 @@ class DailyHubPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        TagPill(text: ci.mood.label),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            TagPill(text: ci.mood.label),
+                            if (ci.aiEnhanced) ...<Widget>[
+                              const SizedBox(height: 6),
+                              TagPill(
+                                text: 'AI',
+                                background: t.softGreen.withValues(alpha: 0.1),
+                                foreground: t.softGreen,
+                              ),
+                            ],
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -327,6 +441,61 @@ class DailyHubPage extends StatelessWidget {
       ],
     );
   }
+}
+
+// ── Daily stat mini card ──
+class _DailyStatCard extends StatelessWidget {
+  const _DailyStatCard({
+    required this.value,
+    required this.label,
+    required this.icon,
+    required this.color,
+  });
+
+  final String value;
+  final String label;
+  final IconData icon;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+      decoration: BoxDecoration(
+        color: t.charcoal,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: color.withValues(alpha: 0.1),
+          width: 0.5,
+        ),
+      ),
+      child: Column(
+        children: <Widget>[
+          Icon(icon, color: color.withValues(alpha: 0.7), size: 18),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              color: color == t.roseGold ? t.primaryDark : color,
+              fontSize: 20,
+              fontWeight: FontWeight.w300,
+              letterSpacing: -0.5,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(label, style: TextStyle(color: t.softText, fontSize: 11)),
+        ],
+      ),
+    );
+  }
+}
+
+String _moodValue(double v) {
+  if (v >= 0.8) return 'Harika';
+  if (v >= 0.6) return 'İyi';
+  if (v >= 0.4) return 'Nötr';
+  if (v >= 0.2) return 'Düşük';
+  return '—';
 }
 
 // ═══════════════════════════════════════════════
@@ -358,7 +527,19 @@ class _DailyCheckInPageState extends State<DailyCheckInPage> {
   @override
   Widget build(BuildContext context) {
     return PremiumScrollScaffold(
-      appBar: AppBar(title: const Text('Günlük Check-in')),
+      appBar: AppBar(
+        title: const Text('Günlük Kayıt'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         const SectionHeader(
           kicker: 'BUGÜN',
@@ -386,20 +567,20 @@ class _DailyCheckInPageState extends State<DailyCheckInPage> {
                       height: 56,
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? t.roseGold.withValues(alpha: 0.15)
+                            ? t.roseGold.withValues(alpha: 0.1)
                             : t.graphite,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: isSelected
-                              ? t.roseGold.withValues(alpha: 0.5)
+                              ? t.roseGold.withValues(alpha: 0.4)
                               : t.smoky.withValues(alpha: 0.3),
-                          width: isSelected ? 1.5 : 0.8,
+                          width: isSelected ? 1 : 0.5,
                         ),
                         boxShadow: isSelected
                             ? <BoxShadow>[
                                 BoxShadow(
-                                  color: t.roseGold.withValues(alpha: 0.1),
-                                  blurRadius: 12,
+                                  color: t.roseGold.withValues(alpha: 0.05),
+                                  blurRadius: 8,
                                 ),
                               ]
                             : null,
@@ -521,7 +702,7 @@ class _DailyCheckInPageState extends State<DailyCheckInPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Mini refleksiyon',
+              Text('Kısa yansıtma',
                   style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 6),
               Text('1-2 cümle ile bugünü özetle',
@@ -604,7 +785,19 @@ class _InteractionLogFormPageState extends State<InteractionLogFormPage> {
     final bool canSave = _personCtrl.text.trim().isNotEmpty;
 
     return PremiumScrollScaffold(
-      appBar: AppBar(title: const Text('Yeni Etkileşim')),
+      appBar: AppBar(
+        title: const Text('Yeni Etkileşim'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         const SectionHeader(
           kicker: 'ETKİLEŞİM GÜNLÜĞÜ',
@@ -706,7 +899,7 @@ class _InteractionLogFormPageState extends State<InteractionLogFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Bayrak tespiti',
+              Text('İşaret tespiti',
                   style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 6),
               Text('Boş bırakabilirsin — zorlama',
@@ -714,13 +907,13 @@ class _InteractionLogFormPageState extends State<InteractionLogFormPage> {
               const SizedBox(height: 14),
               PremiumTextField(
                 controller: _redFlagCtrl,
-                label: 'Red flag gördün mü?',
+                label: 'Uyarı işareti gördün mü?',
                 hint: 'Varsa yaz, yoksa boş bırak',
               ),
               const SizedBox(height: 12),
               PremiumTextField(
                 controller: _greenFlagCtrl,
-                label: 'Green flag gördün mü?',
+                label: 'Olumlu işaret gördün mü?',
                 hint: 'Varsa yaz, yoksa boş bırak',
               ),
             ],
@@ -764,7 +957,19 @@ class InteractionHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PremiumScrollScaffold(
-      appBar: AppBar(title: const Text('Etkileşim Geçmişi')),
+      appBar: AppBar(
+        title: const Text('Etkileşim Geçmişi'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.home_rounded),
+            onPressed: () => Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst),
+          ),
+        ],
+      ),
       children: <Widget>[
         SectionHeader(
           kicker: 'ETKİLEŞİMLER',
@@ -812,15 +1017,21 @@ class InteractionHistoryPage extends StatelessWidget {
                     runSpacing: 8,
                     children: <Widget>[
                       TagPill(text: entry.energy.label),
+                      if (entry.aiEnhanced)
+                        TagPill(
+                          text: 'AI yorum',
+                          background: t.softGreen.withValues(alpha: 0.1),
+                          foreground: t.softGreen,
+                        ),
                       if (entry.redFlagNoticed.isNotEmpty)
                         TagPill(
-                          text: 'Red: ${entry.redFlagNoticed}',
+                          text: 'Uyarı: ${entry.redFlagNoticed}',
                           background: t.roseCaution.withValues(alpha: 0.1),
                           foreground: t.roseCaution,
                         ),
                       if (entry.greenFlagNoticed.isNotEmpty)
                         TagPill(
-                          text: 'Green: ${entry.greenFlagNoticed}',
+                          text: 'Olumlu: ${entry.greenFlagNoticed}',
                           background: t.softGreen.withValues(alpha: 0.1),
                           foreground: t.softGreen,
                         ),
@@ -832,10 +1043,11 @@ class InteractionHistoryPage extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: t.roseGold.withValues(alpha: 0.06),
-                        borderRadius: BorderRadius.circular(14),
+                        color: t.roseGold.withValues(alpha: 0.04),
+                        borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: t.roseGold.withValues(alpha: 0.15),
+                          color: t.roseGold.withValues(alpha: 0.1),
+                          width: 0.5,
                         ),
                       ),
                       child: Row(
@@ -850,7 +1062,7 @@ class InteractionHistoryPage extends StatelessWidget {
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall
-                                  ?.copyWith(color: t.ivoryText),
+                                  ?.copyWith(color: t.textPrimary),
                             ),
                           ),
                         ],

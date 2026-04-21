@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -7,7 +6,7 @@ import '../models.dart';
 import '../theme.dart' as t;
 
 // ═══════════════════════════════════════════════
-//  Dark Luxe Backdrop — Animated glow orbs
+//  Açık Tema Backdrop — Subtil sıcak ışık
 // ═══════════════════════════════════════════════
 
 class AppBackdrop extends StatelessWidget {
@@ -18,39 +17,8 @@ class AppBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: t.noir,
-      child: Stack(
-        children: <Widget>[
-          // Subtle warm glow top-right
-          Positioned(
-            top: -100,
-            right: -60,
-            child: _GlowOrb(
-              size: 280,
-              colors: const <Color>[Color(0x1AD4A08A), Color(0x00D4A08A)],
-            ),
-          ),
-          // Deep rose glow mid-left
-          Positioned(
-            top: 280,
-            left: -100,
-            child: _GlowOrb(
-              size: 320,
-              colors: const <Color>[Color(0x10CF8E8E), Color(0x00CF8E8E)],
-            ),
-          ),
-          // Gold glow bottom
-          Positioned(
-            bottom: -60,
-            right: 40,
-            child: _GlowOrb(
-              size: 200,
-              colors: const <Color>[Color(0x12D4B896), Color(0x00D4B896)],
-            ),
-          ),
-          child,
-        ],
-      ),
+      color: t.scaffoldBg,
+      child: child,
     );
   }
 }
@@ -64,7 +32,7 @@ class PremiumScrollScaffold extends StatelessWidget {
     super.key,
     this.appBar,
     required this.children,
-    this.padding = const EdgeInsets.fromLTRB(18, 12, 18, 120),
+    this.padding = const EdgeInsets.fromLTRB(20, 12, 20, 120),
   });
 
   final PreferredSizeWidget? appBar;
@@ -74,7 +42,7 @@ class PremiumScrollScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: t.noir,
+      backgroundColor: t.scaffoldBg,
       appBar: appBar,
       body: AppBackdrop(
         child: SafeArea(
@@ -86,7 +54,7 @@ class PremiumScrollScaffold extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Glassmorphic Surface Card — Dark Premium
+//  Surface Card — Beyaz kart, hafif gölge
 // ═══════════════════════════════════════════════
 
 class SurfaceCard extends StatelessWidget {
@@ -103,46 +71,27 @@ class SurfaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color baseColor = tint ?? t.charcoal.withValues(alpha: 0.75);
-    final bool isAccented = tint != null && tint != t.charcoal;
+    final Color baseColor = tint ?? t.cardWhite;
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: Container(
-          decoration: BoxDecoration(
-            color: baseColor,
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(
-              color: isAccented
-                  ? t.roseGold.withValues(alpha: 0.15)
-                  : t.smoky.withValues(alpha: 0.4),
-              width: 0.8,
-            ),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.25),
-                blurRadius: 40,
-                offset: const Offset(0, 12),
-              ),
-              if (isAccented)
-                BoxShadow(
-                  color: t.roseGold.withValues(alpha: 0.06),
-                  blurRadius: 24,
-                  offset: const Offset(0, 4),
-                ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        color: baseColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
           ),
-          child: Padding(padding: padding, child: child),
-        ),
+        ],
       ),
+      child: Padding(padding: padding, child: child),
     );
   }
 }
 
 // ═══════════════════════════════════════════════
-//  Premium Gradient Card — Hero / CTA cards
+//  Gradient Card — Hero / CTA kartlar (koyu)
 // ═══════════════════════════════════════════════
 
 class GradientCard extends StatelessWidget {
@@ -159,46 +108,25 @@ class GradientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: colors ?? const <Color>[
-                Color(0xFF2A1F24), // dark rose base
-                Color(0xFF1F1A1C), // noir edge
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: t.roseGold.withValues(alpha: 0.12),
-              width: 0.8,
-            ),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.35),
-                blurRadius: 48,
-                offset: const Offset(0, 16),
-              ),
-              BoxShadow(
-                color: t.roseGold.withValues(alpha: 0.04),
-                blurRadius: 20,
-              ),
-            ],
-          ),
-          child: Padding(padding: padding, child: child),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: colors ?? const <Color>[
+            Color(0xFF1A1A1A),
+            Color(0xFF2A2A2A),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+        borderRadius: BorderRadius.circular(20),
       ),
+      child: Padding(padding: padding, child: child),
     );
   }
 }
 
 // ═══════════════════════════════════════════════
-//  Section Header — Dark theme
+//  Section Header
 // ═══════════════════════════════════════════════
 
 class SectionHeader extends StatelessWidget {
@@ -226,13 +154,13 @@ class SectionHeader extends StatelessWidget {
                 Text(
                   kicker!.toUpperCase(),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: t.roseGold,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.2,
-                        fontSize: 10.5,
+                        color: t.primaryDark,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.8,
+                        fontSize: 10,
                       ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 6),
               ],
               Text(title, style: Theme.of(context).textTheme.headlineSmall),
             ],
@@ -245,7 +173,7 @@ class SectionHeader extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Tag Pill — Premium dark chip
+//  Tag Pill — Minimal etiket
 // ═══════════════════════════════════════════════
 
 class TagPill extends StatelessWidget {
@@ -262,25 +190,21 @@ class TagPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color bg = background ?? t.roseGold.withValues(alpha: 0.1);
-    final Color fg = foreground ?? t.roseGold;
+    final Color bg = background ?? t.primaryLight;
+    final Color fg = foreground ?? t.primaryDark;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: fg.withValues(alpha: 0.12),
-          width: 0.5,
-        ),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: fg,
-              fontWeight: FontWeight.w700,
-              fontSize: 11.5,
+              fontWeight: FontWeight.w600,
+              fontSize: 11,
             ),
       ),
     );
@@ -288,8 +212,195 @@ class TagPill extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Dimension Tile — Dark Premium
+//  Dimension Tile
 // ═══════════════════════════════════════════════
+
+class SensitiveContextDeck extends StatelessWidget {
+  const SensitiveContextDeck({
+    super.key,
+    required this.memories,
+    this.title,
+    this.subtitle,
+    this.maxItems = 2,
+  });
+
+  final List<SensitiveContextMemory> memories;
+  final String? title;
+  final String? subtitle;
+  final int maxItems;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<SensitiveContextMemory> visible =
+        memories.take(maxItems).toList(growable: false);
+
+    if (visible.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (title case final String titleText) ...<Widget>[
+          Text(
+            titleText,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: t.textPrimary,
+                  fontWeight: FontWeight.w800,
+                ),
+          ),
+          if (subtitle != null) ...<Widget>[
+            const SizedBox(height: 6),
+            Text(subtitle!, style: Theme.of(context).textTheme.bodySmall),
+          ],
+          const SizedBox(height: 12),
+        ],
+        ...visible.map(
+          (SensitiveContextMemory memory) => _SensitiveContextMemoryCard(
+            memory: memory,
+          ),
+        ),
+        if (memories.length > visible.length) ...<Widget>[
+          const SizedBox(height: 10),
+          Text(
+            '+${memories.length - visible.length} baglam daha sonraki yorumlarda aktif kalacak.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: t.roseGold,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _SensitiveContextMemoryCard extends StatelessWidget {
+  const _SensitiveContextMemoryCard({required this.memory});
+
+  final SensitiveContextMemory memory;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: <Color>[
+            t.primarySoft,
+            Colors.white,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: t.roseGold.withValues(alpha: 0.16)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: t.roseGold.withValues(alpha: 0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: t.roseGold.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.lock_outline_rounded,
+                  size: 18,
+                  color: t.roseGold,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      memory.summary,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            color: t.textPrimary,
+                            fontWeight: FontWeight.w800,
+                            height: 1.3,
+                          ),
+                    ),
+                    if (memory.tags.isNotEmpty) ...<Widget>[
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: memory.tags
+                            .take(3)
+                            .map(
+                              (String tag) => TagPill(
+                                text: tag,
+                                background:
+                                    t.primaryYellow.withValues(alpha: 0.14),
+                                foreground: t.roseGold,
+                              ),
+                            )
+                            .toList(growable: false),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.82),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: t.borderLight.withValues(alpha: 0.8)),
+            ),
+            child: Text(
+              memory.acknowledgementLine,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: t.textPrimary,
+                    fontWeight: FontWeight.w600,
+                    height: 1.45,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Bu baglam yorumu nasil degistiriyor?',
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: t.roseGold,
+                  fontWeight: FontWeight.w800,
+                ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            memory.impact,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: t.textPrimary.withValues(alpha: 0.8),
+                  height: 1.45,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class DimensionTile extends StatelessWidget {
   const DimensionTile({super.key, required this.dimension});
@@ -299,23 +410,23 @@ class DimensionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color color = switch (dimension.state) {
-      DimensionState.supported => t.softGreen,
-      DimensionState.mixed => t.amber,
-      DimensionState.unclear => t.mutedText,
-      DimensionState.caution => t.roseCaution,
+      DimensionState.supported => t.successGreen,
+      DimensionState.mixed => t.warningAmber,
+      DimensionState.unclear => t.textMuted,
+      DimensionState.caution => t.cautionRed,
     };
 
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: t.charcoal.withValues(alpha: 0.8),
-        borderRadius: BorderRadius.circular(18),
+        color: t.cardWhite,
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color.withValues(alpha: 0.2)),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: color.withValues(alpha: 0.06),
-            blurRadius: 20,
-            offset: const Offset(0, 6),
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -324,7 +435,7 @@ class DimensionTile extends StatelessWidget {
         children: <Widget>[
           TagPill(
             text: dimension.state.label,
-            background: color.withValues(alpha: 0.12),
+            background: color.withValues(alpha: 0.1),
             foreground: color,
           ),
           const SizedBox(height: 10),
@@ -369,13 +480,13 @@ class HeroStat extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .titleMedium
-              ?.copyWith(color: t.roseGold, fontWeight: FontWeight.w800),
+              ?.copyWith(color: t.primaryYellow, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 3),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: t.softText,
+                color: t.textOnDark.withValues(alpha: 0.6),
               ),
         ),
       ],
@@ -384,7 +495,7 @@ class HeroStat extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Signal Badge — Dark themed
+//  Signal Badge
 // ═══════════════════════════════════════════════
 
 class SignalBadge extends StatelessWidget {
@@ -399,17 +510,24 @@ class SignalBadge extends StatelessWidget {
         signal.signalType == 'attachment_speed';
 
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isCaution
-            ? t.roseCaution.withValues(alpha: 0.08)
-            : t.charcoal.withValues(alpha: 0.8),
-        borderRadius: BorderRadius.circular(20),
+            ? t.cautionRed.withValues(alpha: 0.06)
+            : t.cardWhite,
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isCaution
-              ? t.roseCaution.withValues(alpha: 0.2)
-              : t.smoky.withValues(alpha: 0.4),
+              ? t.cautionRed.withValues(alpha: 0.15)
+              : t.borderLight,
         ),
+        boxShadow: isCaution ? null : <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,16 +538,16 @@ class SignalBadge extends StatelessWidget {
                 child: Text(
                   signal.title,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: isCaution ? t.roseCaution : t.ivoryText,
+                    color: isCaution ? t.cautionRed : t.textPrimary,
                   ),
                 ),
               ),
               TagPill(
                 text: signal.confidenceLabel.label,
                 background: isCaution
-                    ? t.roseCaution.withValues(alpha: 0.12)
+                    ? t.cautionRed.withValues(alpha: 0.1)
                     : null,
-                foreground: isCaution ? t.roseCaution : null,
+                foreground: isCaution ? t.cautionRed : null,
               ),
             ],
           ),
@@ -449,7 +567,7 @@ class SignalBadge extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Inconsistency Warning Card — Dark Premium
+//  Inconsistency Warning Card
 // ═══════════════════════════════════════════════
 
 class InconsistencyCard extends StatelessWidget {
@@ -467,18 +585,18 @@ class InconsistencyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color accentColor = switch (severity) {
-      InconsistencySeverity.significant => t.roseCaution,
-      InconsistencySeverity.moderate => t.amber,
-      InconsistencySeverity.mild => t.softText,
-      null => t.amber,
+      InconsistencySeverity.significant => t.cautionRed,
+      InconsistencySeverity.moderate => t.warningAmber,
+      InconsistencySeverity.mild => t.textMuted,
+      null => t.warningAmber,
     };
 
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: accentColor.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: accentColor.withValues(alpha: 0.2)),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: accentColor.withValues(alpha: 0.15)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -488,12 +606,12 @@ class InconsistencyCard extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: accentColor.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(Icons.warning_amber_rounded,
-                size: 20, color: accentColor),
+                size: 18, color: accentColor),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -508,7 +626,7 @@ class InconsistencyCard extends StatelessWidget {
                 Text(
                   explanation,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: t.ivoryText.withValues(alpha: 0.75),
+                        color: t.textSecondary,
                       ),
                 ),
                 if (severity != null) ...<Widget>[
@@ -529,7 +647,7 @@ class InconsistencyCard extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Animated Profile Score Bar — with glow
+//  Profile Score Bar
 // ═══════════════════════════════════════════════
 
 class ProfileScoreBar extends StatelessWidget {
@@ -542,13 +660,13 @@ class ProfileScoreBar extends StatelessWidget {
   });
 
   final String label;
-  final double value; // 0.0 – 1.0
+  final double value;
   final Color? color;
   final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
-    final Color barColor = color ?? t.roseGold;
+    final Color barColor = color ?? t.primaryYellow;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
@@ -560,45 +678,33 @@ class ProfileScoreBar extends StatelessWidget {
                 child: Text(
                   label,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: t.ivoryText,
-                  ),
+                        color: t.textPrimary,
+                      ),
                 ),
               ),
               Text(
-                '${(value * 100).toStringAsFixed(0)}%',
+                (value * 100).toStringAsFixed(0),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: barColor,
+                      color: barColor == t.primaryYellow ? t.primaryTextAccent : barColor,
+                      fontWeight: FontWeight.w700,
                     ),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Container(
-            height: 7,
+            height: 4,
             decoration: BoxDecoration(
-              color: t.graphite,
-              borderRadius: BorderRadius.circular(999),
+              color: t.borderLight,
+              borderRadius: BorderRadius.circular(2),
             ),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
               widthFactor: value.clamp(0.0, 1.0),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: <Color>[
-                      barColor.withValues(alpha: 0.6),
-                      barColor,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(999),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: barColor.withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+                  color: barColor,
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
             ),
@@ -608,7 +714,7 @@ class ProfileScoreBar extends StatelessWidget {
             Text(
               subtitle!,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: t.mutedText,
+                color: t.textMuted,
                 fontSize: 11,
               ),
             ),
@@ -620,7 +726,7 @@ class ProfileScoreBar extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Radial Score Widget — Circular gauge chart
+//  Radial Score Widget
 // ═══════════════════════════════════════════════
 
 class RadialScoreGauge extends StatelessWidget {
@@ -641,7 +747,7 @@ class RadialScoreGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color ringColor = color ?? t.roseGold;
+    final Color ringColor = color ?? t.primaryYellow;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -652,14 +758,15 @@ class RadialScoreGauge extends StatelessWidget {
             painter: _RadialGaugePainter(
               value: value.clamp(0.0, 1.0),
               color: ringColor,
-              trackColor: t.graphite,
+              trackColor: t.borderLight,
             ),
             child: Center(
               child: Text(
-                '${(value * 100).toStringAsFixed(0)}',
+                (value * 100).toStringAsFixed(0),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: ringColor,
-                  fontWeight: FontWeight.w800,
+                  color: ringColor == t.primaryYellow ? t.primaryTextAccent : ringColor,
+                  fontWeight: FontWeight.w700,
+                  fontSize: size * 0.22,
                 ),
               ),
             ),
@@ -670,8 +777,7 @@ class RadialScoreGauge extends StatelessWidget {
           label,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: t.ivoryText,
-            fontWeight: FontWeight.w600,
+            color: t.textSecondary,
           ),
         ),
         if (subtitle != null) ...<Widget>[
@@ -680,8 +786,8 @@ class RadialScoreGauge extends StatelessWidget {
             subtitle!,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: t.mutedText,
-              fontSize: 10.5,
+              color: t.textMuted,
+              fontSize: 10,
             ),
           ),
         ],
@@ -703,7 +809,7 @@ class _RadialGaugePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double strokeWidth = 8;
+    final double strokeWidth = 5;
     final Rect rect = Offset.zero & size;
     final Rect deflated = rect.deflate(strokeWidth / 2);
 
@@ -721,42 +827,16 @@ class _RadialGaugePainter extends CustomPainter {
     );
 
     // Value arc
-    final Paint arcPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..shader = SweepGradient(
-        startAngle: -math.pi / 2,
-        endAngle: -math.pi / 2 + 2 * math.pi * value,
-        colors: <Color>[
-          color.withValues(alpha: 0.4),
-          color,
-        ],
-      ).createShader(deflated);
-
     canvas.drawArc(
       deflated,
       -math.pi / 2,
       2 * math.pi * value,
       false,
-      arcPaint,
-    );
-
-    // Glow dot at end
-    final double angle = -math.pi / 2 + 2 * math.pi * value;
-    final Offset dotCenter = Offset(
-      deflated.center.dx + deflated.width / 2 * math.cos(angle),
-      deflated.center.dy + deflated.height / 2 * math.sin(angle),
-    );
-    canvas.drawCircle(
-      dotCenter,
-      4,
-      Paint()..color = color,
-    );
-    canvas.drawCircle(
-      dotCenter,
-      8,
-      Paint()..color = color.withValues(alpha: 0.15),
+      Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth
+        ..strokeCap = StrokeCap.round,
     );
   }
 
@@ -766,7 +846,7 @@ class _RadialGaugePainter extends CustomPainter {
 }
 
 // ═══════════════════════════════════════════════
-//  Mini Bar Chart — for belief scales
+//  Mini Bar Chart
 // ═══════════════════════════════════════════════
 
 class MiniBarChart extends StatelessWidget {
@@ -787,13 +867,14 @@ class MiniBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = barColor ?? t.roseGold;
+    final Color color = barColor ?? t.primaryYellow;
     return SizedBox(
-      height: height + 30,
+      height: height + 72,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: List<Widget>.generate(values.length, (int i) {
           final double ratio = (values[i] / maxValue).clamp(0.0, 1.0);
+          final double barHeight = math.max(height * ratio, 8);
           return Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -810,35 +891,25 @@ class MiniBarChart extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Container(
-                    height: height * ratio,
+                    height: barHeight,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: <Color>[
-                          color.withValues(alpha: 0.3),
-                          color.withValues(alpha: 0.8),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: color.withValues(alpha: 0.2),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+                      color: color.withValues(alpha: 0.15 + ratio * 0.55),
+                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    labels[i],
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: 8.5,
-                      color: t.mutedText,
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 42,
+                    child: Text(
+                      labels[i],
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontSize: 9,
+                            height: 1.2,
+                            color: t.textMuted,
+                          ),
                     ),
                   ),
                 ],
@@ -852,7 +923,7 @@ class MiniBarChart extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════
-//  Profile Radar Summary — Spider/radar visual
+//  Profile Radar Chart
 // ═══════════════════════════════════════════════
 
 class ProfileRadarChart extends StatelessWidget {
@@ -864,7 +935,7 @@ class ProfileRadarChart extends StatelessWidget {
   });
 
   final List<String> labels;
-  final List<double> values; // 0.0 – 1.0
+  final List<double> values;
   final double size;
 
   @override
@@ -876,12 +947,12 @@ class ProfileRadarChart extends StatelessWidget {
         painter: _RadarPainter(
           labels: labels,
           values: values,
-          accentColor: t.roseGold,
-          gridColor: t.smoky,
-          labelColor: t.softText,
+          accentColor: t.primaryYellow,
+          gridColor: t.borderLight,
+          labelColor: t.textSecondary,
           textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontSize: 9,
-            color: t.softText,
+            color: t.textMuted,
           ),
         ),
       ),
@@ -935,7 +1006,7 @@ class _RadarPainter extends CustomPainter {
       canvas.drawPath(
         gridPath,
         Paint()
-          ..color = gridColor.withValues(alpha: 0.3)
+          ..color = gridColor
           ..style = PaintingStyle.stroke
           ..strokeWidth = 0.5,
       );
@@ -951,7 +1022,7 @@ class _RadarPainter extends CustomPainter {
           center.dy + radius * math.sin(angle),
         ),
         Paint()
-          ..color = gridColor.withValues(alpha: 0.2)
+          ..color = gridColor.withValues(alpha: 0.5)
           ..strokeWidth = 0.5,
       );
     }
@@ -997,9 +1068,7 @@ class _RadarPainter extends CustomPainter {
         center.dx + radius * v * math.cos(angle),
         center.dy + radius * v * math.sin(angle),
       );
-      canvas.drawCircle(dataPt, 3.5, Paint()..color = accentColor);
-      canvas.drawCircle(
-        dataPt, 6, Paint()..color = accentColor.withValues(alpha: 0.15));
+      canvas.drawCircle(dataPt, 3, Paint()..color = accentColor);
 
       // Label
       final Offset labelPt = Offset(
@@ -1022,7 +1091,7 @@ class _RadarPainter extends CustomPainter {
 }
 
 // ═══════════════════════════════════════════════
-//  Premium Selection Chip Group
+//  Premium Chip Group
 // ═══════════════════════════════════════════════
 
 class PremiumChipGroup extends StatelessWidget {
@@ -1043,40 +1112,32 @@ class PremiumChipGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 8,
-      runSpacing: 10,
+      runSpacing: 8,
       children: options.map((String option) {
         final bool isSelected = selected.contains(option);
         return GestureDetector(
           onTap: () => onChanged(option),
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 180),
             curve: Curves.easeOut,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               color: isSelected
-                  ? t.roseGold.withValues(alpha: 0.15)
-                  : t.graphite.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(999),
+                  ? t.primaryYellow.withValues(alpha: 0.15)
+                  : t.cardWhite,
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelected
-                    ? t.roseGold.withValues(alpha: 0.5)
-                    : t.smoky.withValues(alpha: 0.5),
-                width: isSelected ? 1.2 : 0.8,
+                    ? t.primaryYellow
+                    : t.borderLight,
+                width: isSelected ? 1.5 : 1,
               ),
-              boxShadow: isSelected
-                  ? <BoxShadow>[
-                      BoxShadow(
-                        color: t.roseGold.withValues(alpha: 0.1),
-                        blurRadius: 12,
-                      ),
-                    ]
-                  : null,
             ),
             child: Text(
               option,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: isSelected ? t.roseGold : t.softText,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: isSelected ? t.primaryDark : t.textSecondary,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 fontSize: 13,
               ),
             ),
@@ -1113,56 +1174,606 @@ class PremiumTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMultiline = minLines > 1 || maxLines > 1;
+    final int effectiveMinLines = isMultiline ? math.max(minLines, 4) : 1;
+    final int effectiveMaxLines =
+        isMultiline ? math.max(maxLines, effectiveMinLines + 2) : 1;
+
     return TextField(
       key: keyName != null ? Key(keyName!) : null,
       controller: controller,
-      minLines: minLines,
-      maxLines: maxLines,
-      style: const TextStyle(color: t.ivoryText),
+      minLines: effectiveMinLines,
+      maxLines: effectiveMaxLines,
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.newline,
+      textAlignVertical: TextAlignVertical.top,
+      textCapitalization: TextCapitalization.sentences,
+      scrollPadding: const EdgeInsets.only(bottom: 220),
+      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: t.textPrimary,
+            fontSize: isMultiline ? 15 : 14.5,
+            height: 1.5,
+          ),
+      cursorColor: t.primaryYellow,
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
+        alignLabelWithHint: true,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         filled: true,
-        fillColor: t.graphite.withValues(alpha: 0.6),
+        fillColor: t.surfaceElevated,
         labelStyle: TextStyle(
-          color: t.roseGold.withValues(alpha: 0.8),
-          fontWeight: FontWeight.w600,
+          color: t.primaryDark.withValues(alpha: 0.7),
+          fontWeight: FontWeight.w500,
         ),
-        hintStyle: TextStyle(color: t.mutedText.withValues(alpha: 0.6)),
+        hintStyle: TextStyle(color: t.textMuted.withValues(alpha: 0.5)),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: t.smoky.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: t.borderLight),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: t.roseGold, width: 1.4),
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: t.primaryYellow, width: 1.5),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: isMultiline ? 16 : 14,
+        ),
+      ),
+    );
+  }
+}
+
+class NarrativePromptCard extends StatelessWidget {
+  const NarrativePromptCard({
+    super.key,
+    required this.controller,
+    required this.question,
+    this.helper,
+    this.hint,
+    this.minLines = 3,
+    this.maxLines = 6,
+    this.keyName,
+    this.kicker = 'AÇIK UÇLU',
+    this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final String question;
+  final String? helper;
+  final String? hint;
+  final int minLines;
+  final int maxLines;
+  final String? keyName;
+  final String kicker;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: t.cardWhite,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            kicker,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: t.primaryDark,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.5,
+                  fontSize: 10,
+                ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            question,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  height: 1.35,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          if (helper != null && helper!.trim().isNotEmpty) ...<Widget>[
+            const SizedBox(height: 8),
+            Text(
+              helper!,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: t.textMuted,
+                    height: 1.4,
+                  ),
+            ),
+          ],
+          const SizedBox(height: 14),
+          PremiumTextField(
+            controller: controller,
+            label: 'Cevab\u0131n',
+            hint: hint,
+            minLines: minLines,
+            maxLines: maxLines,
+            onChanged: onChanged,
+            keyName: keyName,
+          ),
+          const SizedBox(height: 10),
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: controller,
+            builder: (
+              BuildContext context,
+              TextEditingValue value,
+              Widget? child,
+            ) {
+              final int charCount = value.text.trim().length;
+              return Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '$charCount',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: t.textMuted.withValues(alpha: 0.5),
+                    fontSize: 11,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
 // ═══════════════════════════════════════════════
-//  Glow Orb (internal)
+//  Segmented Score Band
 // ═══════════════════════════════════════════════
 
-class _GlowOrb extends StatelessWidget {
-  const _GlowOrb({required this.size, required this.colors});
+class SegmentedScoreBand extends StatelessWidget {
+  const SegmentedScoreBand({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.leadingCaption,
+    required this.centerCaption,
+    required this.trailingCaption,
+    required this.color,
+  });
 
-  final double size;
-  final List<Color> colors;
+  final String label;
+  final double value;
+  final String leadingCaption;
+  final String centerCaption;
+  final String trailingCaption;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
+    final double clamped = value.clamp(0.0, 1.0).toDouble();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ),
+            Text(
+              '${(clamped * 100).round()}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: color == t.primaryYellow ? t.primaryTextAccent : color,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double width = constraints.maxWidth;
+            final double left =
+                (width * clamped).clamp(6.0, width - 6.0).toDouble();
+
+            return SizedBox(
+              height: 18,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: t.cautionRed.withValues(alpha: 0.15),
+                            borderRadius: const BorderRadius.horizontal(
+                              left: Radius.circular(2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 3),
+                      Expanded(
+                        child: Container(
+                          height: 4,
+                          color: t.warningAmber.withValues(alpha: 0.15),
+                        ),
+                      ),
+                      const SizedBox(width: 3),
+                      Expanded(
+                        child: Container(
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: t.successGreen.withValues(alpha: 0.15),
+                            borderRadius: const BorderRadius.horizontal(
+                              right: Radius.circular(2),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    left: left - 6,
+                    top: -4,
+                    child: Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: color.withValues(alpha: 0.3),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                leadingCaption,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10,
+                  color: t.textMuted,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                centerCaption,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10,
+                  color: t.textMuted,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                trailingCaption,
+                textAlign: TextAlign.right,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontSize: 10,
+                  color: t.textMuted,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ScoreHeatTile extends StatelessWidget {
+  const ScoreHeatTile({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.color,
+    required this.lowCaption,
+    required this.midCaption,
+    required this.highCaption,
+  });
+
+  final String label;
+  final double value;
+  final Color color;
+  final String lowCaption;
+  final String midCaption;
+  final String highCaption;
+
+  @override
+  Widget build(BuildContext context) {
+    final double clamped = value.clamp(0.0, 1.0).toDouble();
+    final String interpretation = clamped < 0.34
+        ? lowCaption
+        : clamped < 0.67
+            ? midCaption
+            : highCaption;
+
     return Container(
-      width: size,
-      height: size,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: RadialGradient(colors: colors),
+        borderRadius: BorderRadius.circular(16),
+        color: color.withValues(alpha: 0.06),
+        border: Border.all(color: color.withValues(alpha: 0.12)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              Text(
+                '${(clamped * 100).round()}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: color == t.primaryYellow ? t.primaryTextAccent : color,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Container(
+            height: 4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2),
+              color: t.borderLight,
+            ),
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: clamped,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: color,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            interpretation,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: t.textSecondary,
+                ),
+          ),
+        ],
       ),
     );
   }
+}
+
+// ═══════════════════════════════════════════════
+//  Feature Gradient Card — Kaydırılabilir kart
+// ═══════════════════════════════════════════════
+
+class FeatureGradientCard extends StatefulWidget {
+  const FeatureGradientCard({
+    super.key,
+    required this.kicker,
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.gradientColors,
+    required this.onOpen,
+    this.swipeHint = 'Düzenlemek için sa\u011fa kayd\u0131r',
+  });
+
+  final String kicker;
+  final String title;
+  final String description;
+  final IconData icon;
+  final List<Color> gradientColors;
+  final VoidCallback onOpen;
+  final String swipeHint;
+
+  @override
+  State<FeatureGradientCard> createState() => _FeatureGradientCardState();
+}
+
+class _FeatureGradientCardState extends State<FeatureGradientCard>
+    with SingleTickerProviderStateMixin {
+  double _dragOffset = 0;
+  late AnimationController _shimmerCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _shimmerCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _shimmerCtrl.dispose();
+    super.dispose();
+  }
+
+  void _onDragUpdate(DragUpdateDetails d) {
+    setState(() => _dragOffset = (_dragOffset + d.delta.dx).clamp(0.0, 120.0));
+  }
+
+  void _onDragEnd(DragEndDetails d) {
+    if (_dragOffset > 60 || d.velocity.pixelsPerSecond.dx > 300) {
+      widget.onOpen();
+    }
+    setState(() => _dragOffset = 0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: GestureDetector(
+        onTap: widget.onOpen,
+        onHorizontalDragUpdate: _onDragUpdate,
+        onHorizontalDragEnd: _onDragEnd,
+        child: AnimatedContainer(
+          duration: _dragOffset == 0
+              ? const Duration(milliseconds: 350)
+              : Duration.zero,
+          curve: Curves.easeOutCubic,
+          transform: Matrix4.translationValues(_dragOffset * 0.3, 0, 0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                colors: widget.gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: widget.gradientColors.first.withValues(alpha: 0.2),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          widget.kicker,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        widget.icon,
+                        color: Colors.white.withValues(alpha: 0.5),
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      height: 1.2,
+                      letterSpacing: -0.3,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    widget.description,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.7),
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: <Widget>[
+                      AnimatedBuilder(
+                        animation: _shimmerCtrl,
+                        builder: (BuildContext context, Widget? _) {
+                          return Transform.translate(
+                            offset: Offset(
+                              4 * math.sin(_shimmerCtrl.value * 2 * math.pi),
+                              0,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white.withValues(
+                                  alpha: 0.3 + 0.2 * math.sin(
+                                      _shimmerCtrl.value * 2 * math.pi)),
+                              size: 16,
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        widget.swipeHint,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.4),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  Section Gradient Presets — Canlı açık tema
+// ═══════════════════════════════════════════════
+
+class SectionGradients {
+  SectionGradients._();
+
+  static const List<Color> selfIntro = <Color>[
+    Color(0xFFF5C518), Color(0xFFFFD54F), Color(0xFFFFF176),
+  ];
+  static const List<Color> relationship = <Color>[
+    Color(0xFF0891B2), Color(0xFF06B6D4), Color(0xFF22D3EE),
+  ];
+  static const List<Color> values = <Color>[
+    Color(0xFF6366F1), Color(0xFF818CF8), Color(0xFFA5B4FC),
+  ];
+  static const List<Color> communication = <Color>[
+    Color(0xFFEC4899), Color(0xFFF472B6), Color(0xFFFBAED2),
+  ];
+  static const List<Color> blindSpots = <Color>[
+    Color(0xFFF59E0B), Color(0xFFFBBF24), Color(0xFFFDE68A),
+  ];
+  static const List<Color> beliefs = <Color>[
+    Color(0xFF8B5CF6), Color(0xFFA78BFA), Color(0xFFC4B5FD),
+  ];
+  static const List<Color> safety = <Color>[
+    Color(0xFFEF4444), Color(0xFFF87171), Color(0xFFFCA5A5),
+  ];
+  static const List<Color> openField = <Color>[
+    Color(0xFF22C55E), Color(0xFF4ADE80), Color(0xFF86EFAC),
+  ];
 }
