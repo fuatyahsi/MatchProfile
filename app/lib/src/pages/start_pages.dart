@@ -2277,7 +2277,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       final UserPsycheAnchor anchor = mirrorRun.payload;
       final bool aiActive = mirrorRun.mode == AiRunMode.llm;
       final bool canRetryLlm =
-          (AIConfig.instance.hasGemini || AIConfig.instance.hasGroq) &&
+          AIConfig.instance.isChatLlmAvailable &&
           mirrorRun.mode != AiRunMode.llm;
       final String statusText = switch (mirrorRun.mode) {
         AiRunMode.llm => 'LLM derin okuma aktif',

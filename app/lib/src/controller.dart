@@ -241,15 +241,17 @@ class MatchProfileController extends ChangeNotifier {
 
   /// AI pipeline yapılandır
   void configureAI({
+    String? selfHostedLlmUrl,
+    String? selfHostedLlmToken,
     String? geminiApiKey,
-    String? groqApiKey,
     String? huggingFaceApiKey,
     String? supabaseUrl,
     String? supabaseAnonKey,
   }) {
     AIConfig.instance.configure(
+      selfHostedLlmUrl: selfHostedLlmUrl,
+      selfHostedLlmToken: selfHostedLlmToken,
       geminiApiKey: geminiApiKey,
-      groqApiKey: groqApiKey,
       huggingFaceApiKey: huggingFaceApiKey,
       supabaseUrl: supabaseUrl,
       supabaseAnonKey: supabaseAnonKey,

@@ -1,7 +1,7 @@
 // ══════════════════════════════════════════════════════════════
 //  Sohbet Tabanlı Onboarding Servisi
 //  ──────────────────────────────────
-//  Groq LLM ile doğal sohbet yürüterek OnboardingProfile
+//  Self-hosted LLM ile doğal sohbet yürüterek OnboardingProfile
 //  alanlarını dolduran servis. 8 bölümlük form yerine
 //  kullanıcıyla akıcı bir diyalog kurar.
 //
@@ -21,7 +21,7 @@ import 'ai_contracts.dart';
 import 'ai_config.dart';
 import 'deep_analysis_orchestrator.dart';
 import 'gemini_chat_service.dart';
-import 'groq_analysis_service.dart';
+import 'self_hosted_llm_service.dart';
 
 /// Sohbet mesajı modeli
 class ChatMessage {
@@ -212,31 +212,89 @@ class ChatOnboardingService {
   ChatPhase get phase => _phase;
   ExtractedProfile get extracted => _extracted;
   bool get isComplete => _phase == ChatPhase.complete;
+  int get capturedFieldCount => _capturedFields.length;
+  bool get canFinishNow =>
+      _phase == ChatPhase.deepDive && _hasEnoughDataForEarlyClose();
 
   /// LLM kullanılabilir mi? Page tarafı bunu onboarding başlamadan kontrol eder.
-  /// Sohbet için Gemini, profil çıkarma için Groq kullanılıyor —
-  /// ikisi de yoksa onboarding başlatılamaz.
+  /// Sohbet ve profil çıkarma için önce self-hosted LLM, sonra Gemini kullanılır.
+  /// İkisi de yoksa onboarding başlatılamaz.
   bool get isLlmAvailable => AIConfig.instance.isChatLlmAvailable;
 
   /// Ardışık LLM hata sayısı — page tarafı 3+ olunca uyarı gösterebilir
   int get consecutiveLlmFailures => _consecutiveLlmFailures;
 
-  /// İlk karşılama mesajını döndür
-  ChatMessage getGreeting() {
-    const String greeting =
-        'Selam! Ben Sırdaş 👋\n\n'
-        'Burada kısa kısa konuşup seni tanıyacağım. '
-        'Böylece sana daha kişisel ve daha isabetli bir profil çıkarabileceğim.\n\n'
-        'İsmin ne?';
-    final ChatMessage msg =
-        ChatMessage(role: 'assistant', content: greeting);
-    _history.add(msg);
-    return msg;
+  void applyQuickStartSeed({
+    RelationshipGoal? goal,
+    PacingPreference? pacingPreference,
+    CommunicationPreference? communicationPreference,
+    AssuranceNeed? assuranceNeed,
+  }) {
+    if (goal != null) {
+      _extracted.goal = goal;
+      _capturedFields.add('goal');
+    }
+    if (pacingPreference != null) {
+      _extracted.pacingPreference = pacingPreference;
+      _capturedFields.add('pacingPreference');
+    }
+    if (communicationPreference != null) {
+      _extracted.communicationPreference = communicationPreference;
+      _capturedFields.add('communicationPreference');
+    }
+    if (assuranceNeed != null) {
+      _extracted.assuranceNeed = assuranceNeed;
+      _capturedFields.add('assuranceNeed');
+    }
+  }
+
+  Future<ChatMessage?> createQuickStartKickoff() async {
+    if (!AIConfig.instance.isChatLlmAvailable) {
+      throw const LlmUnavailableException(
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
+      );
+    }
+
+    if (_phase == ChatPhase.greeting) {
+      _phase = ChatPhase.deepDive;
+      _turnCount = 0;
+    }
+
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildQuickStartKickoffSystemPrompt(),
+      userMessage:
+          'Kullanıcı hızlı başlangıç seçimlerini yaptı. Şimdi ona kısa, doğal ve somut ilk derinleşme sorusunu sor.',
+    );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
+  }
+
+  Future<ChatMessage?> requestWrapUp() async {
+    if (_phase != ChatPhase.deepDive) return null;
+    return _handleDeepDive('analize geç');
+  }
+
+  /// İlk karşılama mesajını LLM ile üretir. Yanıt gelmezse null döner.
+  Future<ChatMessage?> getGreeting() async {
+    if (!AIConfig.instance.isChatLlmAvailable) {
+      throw const LlmUnavailableException(
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. '
+        'Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
+      );
+    }
+
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildFocusedGreetingSystemPrompt(),
+      userMessage:
+          'İlk mesajı yaz. Boş küçük sohbet yapma. Ya hitap biçimini sor ya da doğrudan kendini birkaç cümleyle anlatmasını iste.',
+    );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
   }
 
   /// Kullanıcı mesajını işle ve yanıt üret.
   /// LLM yoksa [LlmUnavailableException] fırlatır.
-  Future<ChatMessage> processUserMessage(String userText) async {
+  Future<ChatMessage?> processUserMessage(String userText) async {
     // Kullanıcı mesajını ekle
     _history.add(ChatMessage(role: 'user', content: userText));
 
@@ -250,7 +308,7 @@ class ChatOnboardingService {
       case ChatPhase.confirmation:
         return _handleConfirmation(userText);
       case ChatPhase.complete:
-        return _addAssistant('Profilin zaten tamamlandı!');
+        return null;
     }
   }
 
@@ -328,10 +386,10 @@ class ChatOnboardingService {
   //  Faz İşleyicileri
   // ══════════════════════════════════════════════
 
-  Future<ChatMessage> _handleGreeting(String userText) async {
+  Future<ChatMessage?> _handleGreeting(String userText) async {
     if (!AIConfig.instance.isChatLlmAvailable) {
       throw const LlmUnavailableException(
-        'Gemini veya Groq API anahtarı bulunamadı. '
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. '
         'Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
       );
     }
@@ -343,15 +401,24 @@ class ChatOnboardingService {
 
     _phase = ChatPhase.deepDive;
     _turnCount = 0;
-    return _llmDrivenTurn(userText);
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildFocusedPostNameSystemPrompt(
+        hasName: guessedName.isNotEmpty,
+        displayName: guessedName,
+      ),
+      userMessage:
+          'Kullanıcı az önce ya adını söyledi ya da adını paylaşmak istemedi. Şimdi ilk gerçek profil sorusunu sor.',
+    );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
   }
 
-  Future<ChatMessage> _handleDeepDive(String userText) async {
+  Future<ChatMessage?> _handleDeepDive(String userText) async {
     _turnCount++;
 
     if (!AIConfig.instance.isChatLlmAvailable) {
       throw const LlmUnavailableException(
-        'Gemini veya Groq API anahtarı bulunamadı. '
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. '
         'Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
       );
     }
@@ -359,16 +426,16 @@ class ChatOnboardingService {
     return _llmDrivenTurn(userText);
   }
 
-  Future<ChatMessage> _handleBeliefs(String userText) async {
+  Future<ChatMessage?> _handleBeliefs(String userText) async {
     if (!AIConfig.instance.isChatLlmAvailable) {
       throw const LlmUnavailableException(
-        'Gemini veya Groq API anahtarı bulunamadı. İnanç analizi için LLM gerekli.',
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. İnanç analizi için LLM gerekli.',
       );
     }
 
     try {
       final envelope = await DeepAnalysisOrchestrator.instance.extractBeliefScores(
-        systemPrompt: _beliefExtractionPrompt(),
+        systemPrompt: _buildFocusedBeliefExtractionPrompt(),
         userMessage: userText,
       );
       _applyBeliefs(envelope.payload);
@@ -376,13 +443,17 @@ class ChatOnboardingService {
       debugPrint('İnanç çıkarma hatası: $e');
       // İnanç çıkaramadıysak varsayılan skorlarla devam et — kritik değil
     }
-    _phase = ChatPhase.confirmation;
-    return _addAssistant(
-      'Seni tanıdım 😊 Profil hazır neredeyse. 18+ olduğunu ve gizlilik politikasını kabul ettiğini onaylıyosun di mi?',
+    _phase = ChatPhase.complete;
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildFocusedCompletionSystemPrompt(),
+      userMessage:
+          'Kullanici son inanc sorusunu yanitladi. Kisa sekilde profil taslagini hazirladigini soyle. Yasal onay isteme; uygulama bunu ayri ekranda alacak.',
     );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
   }
 
-  ChatMessage _handleConfirmation(String userText) {
+  Future<ChatMessage?> _handleConfirmation(String userText) async {
     final String lower = userText.trim().toLowerCase();
     if (lower.contains('evet') ||
         lower.contains('onay') ||
@@ -390,13 +461,21 @@ class ChatOnboardingService {
         lower.contains('kabul') ||
         lower == 'e') {
       _phase = ChatPhase.complete;
-      return _addAssistant(
-        'Harika, kaydediyorum! 🔮 Biraz bekle...',
+      final String reply = await _requestAssistantOnlyMessage(
+        systemPrompt: _buildFocusedCompletionSystemPrompt(),
+        userMessage:
+            'Kullanici onay verdi. Cok kisa bir sekilde kaydetmeye gectigini soyle.',
       );
+      if (reply.trim().isEmpty) return null;
+      return _addAssistant(reply.trim());
     }
-    return _addAssistant(
-      'Devam etmek için onayını bekliyorum. "Evet" demen yeterli.',
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildFocusedConfirmationSystemPrompt(),
+      userMessage:
+          'Kullanici net bir onay vermedi. Ayni seyi tekrar etmeden, kisa ve nazik bir sekilde onay iste.',
     );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
   }
 
   // ══════════════════════════════════════════════
@@ -406,7 +485,7 @@ class ChatOnboardingService {
   /// Tek LLM turu — retry mekanizmalı, fallback yok.
   /// Her türlü kullanıcı mesajını (anlamadım, alakasız, kısa, uzun)
   /// LLM'e gönderir — LLM doğal sohbette her şeyi yönetir.
-  Future<ChatMessage> _llmDrivenTurn(String userText) async {
+  Future<ChatMessage?> _llmDrivenTurn(String userText) async {
     const int maxRetries = 2;
     Exception? lastError;
 
@@ -424,38 +503,65 @@ class ChatOnboardingService {
 
         final List<String> missingFields = _getMissingFields();
         final List<String> filledFields = _getFilledFields();
-        final String fallbackReply = _getDefaultFollowUp();
         final envelope = await DeepAnalysisOrchestrator.instance.runChatOnboardingTurn(
-          systemPrompt: _buildChatTurnSystemPrompt(
+          systemPrompt: _buildFocusedChatTurnSystemPrompt(
             missingFields: missingFields,
             filledFields: filledFields,
           ),
-          userMessage: _buildChatTurnUserPayload(
+          userMessage: _buildFocusedChatTurnUserPayload(
             conversationSoFar: conversationSoFar.toString(),
             latestUserMessage: userText,
           ),
-          fallbackReply: fallbackReply,
+          fallbackReply: '',
         );
 
         if (envelope.payload.extractedFields.isNotEmpty) {
           _applyExtracted(envelope.payload.extractedFields);
         }
 
+        if (_isWrapIntent(userText)) {
+          _consecutiveLlmFailures = 0;
+          if (_hasEnoughData() || _hasEnoughDataForEarlyClose()) {
+            _phase = ChatPhase.beliefs;
+            final String reply = await _requestAssistantOnlyMessage(
+              systemPrompt: _buildFocusedBeliefTransitionSystemPrompt(),
+              userMessage:
+                  'Kullanici sohbeti bitirmek istiyor ve profil icin yeterli veri toplandi. Simdi ask ve sezgi inancini acan kisa, dogal, tek soruluk son bir gecis sor.',
+            );
+            if (reply.trim().isEmpty) return null;
+            return _addAssistant(reply.trim());
+          }
+
+          final String reply = await _requestAssistantOnlyMessage(
+            systemPrompt: _buildFocusedClosingGapSystemPrompt(
+              missingFields: missingFields,
+            ),
+            userMessage:
+                'Kullanici sohbeti kapatmak istiyor ama profil henuz eksik. Kapanisi saygiyla kabul et ve sadece tek bir en kritik soruyu sor.',
+          );
+          if (reply.trim().isEmpty) return null;
+          return _addAssistant(reply.trim());
+        }
+
         // 2) Yeterli bilgi toplandıysa inanç aşamasına geç
         //    Minimum 10 tur + tüm kritik alanlar dolu olmalı
-        if (_turnCount >= 10 && _hasEnoughData()) {
+        if ((_turnCount >= 5 && _hasEnoughDataForEarlyClose()) ||
+            (_turnCount >= 7 && _hasEnoughData())) {
           _consecutiveLlmFailures = 0;
           _phase = ChatPhase.beliefs;
-          return _addAssistant(
-            'Son bi şey 🤔 "Doğru kişi eninde sonunda karşına çıkar" — buna katılıyo musun? Aşkta sezgilerine ne kadar güvenirsin?',
+          final String reply = await _requestAssistantOnlyMessage(
+            systemPrompt: _buildFocusedBeliefTransitionSystemPrompt(),
+            userMessage:
+                'Kullaniciyla ana profil toplama turu tamamlandi. Simdi ask ve sezgi inancini acan kisa, dogal, tek soruluk bir gecis sor.',
           );
+          if (reply.trim().isEmpty) return null;
+          return _addAssistant(reply.trim());
         }
 
         final String nextQuestion = envelope.payload.reply.trim();
         _consecutiveLlmFailures = 0;
-        return _addAssistant(
-          nextQuestion.isNotEmpty ? nextQuestion : fallbackReply,
-        );
+        if (nextQuestion.isEmpty) return null;
+        return _addAssistant(nextQuestion);
       } catch (e) {
         lastError = e is Exception ? e : Exception(e.toString());
         debugPrint('LLM sohbet hatası (deneme ${attempt + 1}/$maxRetries): $e');
@@ -479,11 +585,109 @@ class ChatOnboardingService {
       );
     }
 
-    // İlk 1-2 hata: Kullanıcıya nazik bir bekleme mesajı göster
-    return _addAssistant(
-      'Bi saniye, kafam karıştı 😅\n'
-      'Tekrar yazar mısın? Bazen bağlantı kopuyo.',
+    return null;
+  }
+
+  Future<String> _requestAssistantOnlyMessage({
+    required String systemPrompt,
+    required String userMessage,
+  }) async {
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        return (await SelfHostedLlmService.instance.completeText(
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+          task: 'assistant_reply',
+        ))
+            .trim();
+      } catch (e) {
+        debugPrint('Assistant-only self-hosted hatasi, Gemini deneniyor: $e');
+      }
+    }
+
+    if (AIConfig.instance.hasGemini) {
+      try {
+        return (await GeminiChatService.instance.generateReply(
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+        ))
+            .trim();
+      } catch (e) {
+        debugPrint('Assistant-only Gemini hatasi: $e');
+      }
+    }
+
+    throw const LlmUnavailableException(
+      'Assistant-only cevap uretilemedi. LLM baglantisi su an kullanilamiyor.',
     );
+  }
+
+  String _buildGreetingSystemPrompt() {
+    return '''
+Sen "Sirdas"sin. Turkceyi dogal, akici ve sicak kullan.
+
+KURALLAR:
+- En fazla 2 cumle yaz.
+- Kendini kisaca tanit.
+- Karsindaki kisiye guven veren ama yapay durmayan bir acilis yap.
+- Sadece tek soru sor.
+- "Kendini nasil tanimlarim?" gibi bozuk veya ceviri kokan ifadeler kullanma.
+- "Ismini paylasmak istemezsen sorun degil" gibi erken savunma cümlesi kurma; simdilik sadece acilis yap.
+''';
+  }
+
+  String _buildBeliefTransitionSystemPrompt() {
+    return '''
+Sen "Sirdas"sin. Turkceyi dogal, kisa ve temiz kullan.
+
+KURALLAR:
+- En fazla 2 cumle yaz.
+- Profil toplama kismindan inanc/sezgi sorusuna zarif bir gecis yap.
+- Tek soru sor.
+- Yapay ceviri dili kullanma.
+- Asiri samimi veya laubali olma.
+''';
+  }
+
+  String _buildConfirmationSystemPrompt() {
+    return '''
+Sen "Sirdas"sin. Turkceyi dogal, nazik ve kisa kullan.
+
+KURALLAR:
+- En fazla 2 cumle yaz.
+- Tek soru sor veya tek bir onay cümlesi yaz.
+- Hukuki/onay metnini robot gibi degil, insan gibi ifade et.
+- "onayliyosun di mi" gibi gevsek dil kullanma.
+''';
+  }
+
+  String _buildCompletionSystemPrompt() {
+    return '''
+Sen "Sirdas"sin. Turkceyi kisa, guven veren ve dogal kullan.
+
+KURALLAR:
+- Tek cumle yaz.
+- Kullanicinin onay verdigini anla ve kaydetmeye gectigini kisaca soyle.
+- Kutlama tonu olabilir ama asiriya kacma.
+''';
+  }
+
+  String _buildClosingGapSystemPrompt({
+    required List<String> missingFields,
+  }) {
+    return '''
+Sen "Sirdas"sin. Turkceyi dogal, kisa ve nazik kullan.
+
+KURALLAR:
+- Kullanici sohbeti kapatmak istedigini hissettiriyor.
+- Bunu kabul et ama profili saglam kapatmak icin sadece tek bir en kritik soruyu sor.
+- En fazla 2 cumle yaz.
+- "Baska bir sey var mi?" gibi bos kapanis sorulari sorma.
+- Eksik alanlardan en yuksek degerli olani sec.
+
+EKSIK ALANLAR:
+${missingFields.isEmpty ? 'yok' : missingFields.join('\n')}
+''';
   }
 
   String _buildChatTurnSystemPrompt({
@@ -585,6 +789,311 @@ JSON FORMATI:
   }
 
   /// JSON'dan çıkarılan alanları uygula (boş olmayanları)
+  String _buildFocusedGreetingSystemPrompt() {
+    return '''
+Sen "Sırdaş"sın. Doğal, temiz ve güncel Türkçe kullan.
+
+AMAÇ:
+- İlk mesajdan itibaren profil toplamaya başla.
+- Boş küçük sohbet yapma.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- İlk cümlede kendini kısaca tanıt.
+- İkinci cümlede tek bir soru sor.
+- İlk soru profile giriş açsın.
+- "Bugün nasılsın?" diye sorma.
+- "Sohbet etmekten memnuniyet duyarım", "Kendini nasıl tanımlarım?" gibi yapay kalıplar kullanma.
+- Güven veren ama resmi durmayan bir ton kullan.
+
+İYİ ÖRNEKLER:
+- "Merhaba, ben Sırdaş. Sana nasıl hitap etmemi istersin?"
+- "Merhaba, ben Sırdaş. Seni biraz tanımam için kendini birkaç cümleyle anlatır mısın?"
+''';
+  }
+
+  String _buildFocusedPostNameSystemPrompt({
+    required bool hasName,
+    required String displayName,
+  }) {
+    final String addressee =
+        hasName && displayName.trim().isNotEmpty ? '$displayName,' : '';
+    return '''
+Sen "Sırdaş"sın. Doğal, temiz ve güncel Türkçe kullan.
+
+AMAÇ:
+- Kullanıcı adını verdi ya da vermek istemedi.
+- Şimdi ilk gerçek profil sorusunu sor.
+- Hedef: kendini anlatma + temel özellikler + ilişki tarafında zorlandığı şey.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- İstersen adı bir kez kullanabilirsin: "$addressee"
+- Tek soru sor.
+- Soyut ve çeviri kokan kalıplar kullanma.
+- "Kendini nasıl biri olarak tanımlarım?", "Kendini en çok hangi özellikle tanımlarım?" gibi bozuk ifadeleri kullanma.
+- Soruyu kolay cevaplanır yap.
+- Boş nezaket cümlesi ekleme.
+
+İYİ ÖRNEKLER:
+- "$addressee seni biraz tanımam için kendini birkaç cümleyle anlatır mısın?"
+- "$addressee ilişkilerde seni en çok zorlayan şey ne oluyor?"
+- "$addressee seni tanıyan biri senin için ilk ne der?"
+''';
+  }
+
+  String _buildFocusedBeliefTransitionSystemPrompt() {
+    return '''
+Sen "Sırdaş"sın. Doğal, kısa ve net Türkçe kullan.
+
+AMAÇ:
+- Profil sohbetini uzatmadan tek bir yüksek verimli inanç sorusuna geç.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- Kısa bir köprü kur ve tek soru sor.
+- Soru; güçlü çekim, ilk his, belirsizlik ve potansiyeli nasıl okuduğunu açsın.
+- Yapay ya da akademik dil kullanma.
+- Aşırı samimi veya laubali olma.
+''';
+  }
+
+  String _buildQuickStartKickoffSystemPrompt() {
+    final List<String> seeded = <String>[
+      if (_hasField('goal')) 'hedef: ${_extracted.goal.label}',
+      if (_hasField('pacingPreference'))
+        'tempo: ${_extracted.pacingPreference.label}',
+      if (_hasField('communicationPreference'))
+        'iletisim: ${_extracted.communicationPreference.label}',
+      if (_hasField('assuranceNeed'))
+        'guvence: ${_extracted.assuranceNeed.label}',
+    ];
+
+    return '''
+Sen "Sırdaş"sın. Doğal, kısa ve mobil uygulamaya uygun Türkçe kullan.
+
+BAĞLAM:
+- Kullanıcı hızlı başlangıç seçimlerini yaptı.
+- Toplanan ilk sinyaller: ${seeded.isEmpty ? 'henüz yok' : seeded.join(', ')}
+
+AMAÇ:
+- İlk yazma yükünü azalt.
+- Kullanıcıyı sıkmadan ilk derin bilgiyi al.
+- Tek soruda intro veya blind spot tarafını aç.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- Tek soru sor.
+- Soru somut olsun.
+- "Kendini nasıl biri olarak tanımlarım?" gibi bozuk kalıplar kullanma.
+- Mümkünse seçilen ayarlardan doğal bir köprü kur.
+
+İYİ ÖRNEKLER:
+- "Bunu gördüm. İlişkilerde seni en çok ne yoruyor?"
+- "Tamam, bunu not aldım. Sana iyi gelen ilişki nasıl bir şey?"
+- "Bunu anladım. Sende sık tekrar eden şey ne oluyor?"
+''';
+  }
+
+  String _buildFocusedConfirmationSystemPrompt() {
+    return '''
+Sen "Sırdaş"sın. Doğal, kısa ve sakin Türkçe kullan.
+
+AMAÇ:
+- Onboarding'i tek soruda kapat.
+
+KURALLAR:
+- Tercihen tek cümle yaz; en fazla 2 cümle.
+- Profil taslaginin review ekraninda onaylanacagini soyle.
+- Yasal onay isteme; uygulama bunu ayri checkbox'larla alacak.
+- Bürokratik ya da robotik dil kullanma.
+- "onaylıyosun di mi" gibi gevşek dil kullanma.
+''';
+  }
+
+  String _buildFocusedCompletionSystemPrompt() {
+    return '''
+Sen "Sırdaş"sın. Kısa, güven veren ve doğal Türkçe kullan.
+
+KURALLAR:
+- Tek cümle yaz.
+- Profili kaydetmeye ve analize geçtiğini somut şekilde söyle.
+- Aşırı kutlama yapma.
+''';
+  }
+
+  String _buildFocusedClosingGapSystemPrompt({
+    required List<String> missingFields,
+  }) {
+    return '''
+Sen "Sırdaş"sın. Doğal, kısa ve saygılı Türkçe kullan.
+
+AMAÇ:
+- Kullanıcı sıkılmış ya da bitirmek istiyor olabilir.
+- Onu tutma; profili sağlam kapatmak için yalnızca tek kritik soru sor.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- Kapanış isteğini kabul et.
+- Sadece tek bir yüksek değerli soru sor.
+- "Başka bir şey var mı?" gibi boş sorular sorma.
+- Eksik alan listesinin ilk yüksek değerli maddesine öncelik ver.
+- Soyut ifadeleri günlük Türkçeye çevir.
+
+EKSİK ALANLAR:
+${missingFields.isEmpty ? 'yok' : missingFields.join('\n')}
+''';
+  }
+
+  String _buildFocusedChatTurnSystemPrompt({
+    required List<String> missingFields,
+    required List<String> filledFields,
+  }) {
+    return '''
+Sen "Sırdaş"sın. Kısa, doğal, güven veren ama laubali olmayan bir Türkçe ile konuş.
+
+AMAÇ:
+- Bu sohbetin tek amacı onboarding profili çıkarmak.
+- Her turda eksik alanlardan sadece bir ana hedef seç.
+- Kullanıcıyı yormadan yüksek değerli veri topla.
+
+KONUŞMA KURALLARI:
+- assistant_reply en fazla 2 kısa cümle olsun.
+- Tek bir ana soru sor.
+- Boş küçük sohbet yapma.
+- "Bugün nasılsın?", "Sohbet etmekten memnuniyet duyarım", "Kendini nasıl tanımlarım?", "Başka bir konu var mı?" gibi kalıpları kullanma.
+- "Kendini nasıl biri olarak tanımlarım?", "Kendini en çok hangi özellikle tanımlarım?", "Senin adına nasıl tarif ederim?" gibi bozuk/çeviri kokan sorular kullanma.
+- "kanka", "ya", "valla", "canım", "tatlım" gibi aşırı gündelik hitaplar kullanma.
+- Önce kısa bir karşılık ver, sonra tek bir soru sor.
+- Kullanıcı kısa cevap verdiyse daha somut ve kolay cevaplanır bir soru sor.
+- Kullanıcı uzun ya da mahrem bir şey anlattıysa bunu gerçekten gördüğünü hissettir ama dramatikleştirme.
+- Daha önce sorduğun aynı şeyi aynen tekrar sorma; gerekiyorsa farklı açıdan sor.
+- Aynı cümle kalıbını üst üste kullanma.
+
+HEDEFLEME KURALLARI:
+- EKSİK listesinin sırası önemlidir; normalde en üstteki maddeyi hedefle.
+- İlk turlarda öncelik: kendini anlatma, temel özellikler, ilişki zorluğu, ilişki niyeti, güven.
+- Orta turlarda öncelik: değerler, sınırlar, iletişim, belirsizlik, çatışma.
+- Son turlarda öncelik: kör noktalar, tekrar eden döngü, hassas alanlar, geçmiş etkisi, partnerin erken bilmesi gereken şey.
+- Kullanıcının son mesajı doğal olarak birden çok alanı dolduruyorsa extracted_fields içinde hepsini çıkar.
+- Eksik alan soyutsa, günlük dile çevirerek sor.
+
+DİL KURALLARI:
+- Kolay Türkçe kullan.
+- "yaşam ritmi" yerine "günlük düzen", "aile değerleri" yerine "aileyle ilişkin" gibi daha anlaşılır ifadeler seç.
+- Sorular kısa olsun; mümkünse 6-14 kelime aralığında kal.
+
+İYİ SORU ÖRNEKLERİ:
+- "İlişkilerde seni en çok ne yoruyor?"
+- "Birine güvenmen için sende ne oluşması gerekiyor?"
+- "Sende sık tekrar eden şey ne oluyor?"
+- "Bir anlaşmazlıkta ilk yaptığın şey ne?"
+- "Sınır koymak senin için kolay mı?"
+- "Seni tanıyan biri en başta neyi bilmeli?"
+
+PROFİL ÇIKARMA KURALLARI:
+- Sadece kullanıcının son mesajında net olan alanları doldur.
+- Tahmin yapma.
+- Bulamadığın alanı ekleme.
+- extracted_fields içinde sadece bu turda gerçekten yakaladığın alanlar olsun.
+
+TOPLANAN: ${filledFields.isEmpty ? 'henüz yok' : filledFields.join(', ')}
+EKSİK: ${missingFields.isEmpty ? 'tamam' : missingFields.join(', ')}
+
+JSON FORMATI:
+{
+  "assistant_reply": "Kisa dogal yanit + tek soru",
+  "acknowledged_sensitive_context": true,
+  "extracted_fields": {
+    "displayName": "varsa",
+    "selfDescription": "varsa",
+    "friendDescription": "varsa",
+    "threeExperiences": "varsa",
+    "currentLifeTheme": "varsa",
+    "datingChallenge": "varsa",
+    "freeformAboutMe": "varsa",
+    "goal": "serious|openExplore|slowBond|shortTerm|unsure",
+    "pacingPreference": "slow|balanced|fastButClear",
+    "relationshipExperience": "first|few|several|extensive",
+    "idealDay": "varsa",
+    "communicationPreference": "frequentContact|balancedRegular|spaceGiving|deepConversation|lightFun",
+    "conflictStyle": "talkItOut|coolDownFirst|shutDown|distance|overEngage|appease",
+    "ambiguityResponse": "wait|ask|withdraw|overthink|testInterest|assumeAndDecide",
+    "fatigueResponse": "seekCloseness|pullAway|test|goSilent|overAnalyze",
+    "assuranceNeed": "low|medium|high",
+    "vulnerabilityArea": "varsa",
+    "coreTraits": ["Ozellik 1"],
+    "values": ["Deger 1"],
+    "blindSpots": ["Kor nokta 1"],
+    "dealbreakers": ["sinir 1"],
+    "lifestyleFactors": ["uyum basligi 1"],
+    "alarmTriggers": ["alarm 1"],
+    "recurringPattern": "varsa",
+    "feedbackFromCloseOnes": "varsa",
+    "biggestMisjudgment": "varsa",
+    "trustBuilder": "varsa",
+    "openingUpTime": "varsa",
+    "recentDatingChallenge": "varsa",
+    "showsInterestHow": "varsa",
+    "directVsSoft": "Doğrudan ve net|Yumuşak ve dolaylı|Duruma göre",
+    "boundaryDifficulty": "varsa",
+    "attachmentHistory": "varsa",
+    "stayedTooLong": "varsa",
+    "jealousyLevel": "Düşük|Orta|Yüksek",
+    "respectSignal": "varsa",
+    "valueConflict": "varsa",
+    "unheardFeeling": "varsa",
+    "feelingsChanged": "varsa",
+    "messagingImportance": "varsa",
+    "misunderstandingRisk": "varsa",
+    "partnerShouldKnowEarly": "varsa",
+    "potentialVsBehavior": "varsa",
+    "safetyExperience": "varsa",
+    "judgmentCloudedBy": "varsa",
+    "freeformForProfile": "varsa",
+    "profileSummaryFeedback": "varsa",
+    "highAssuranceThought": "varsa",
+    "idealizationAwareness": "varsa",
+    "firstRelationshipLearning": "varsa",
+    "noSecondChanceBehavior": "varsa",
+    "fastAttachmentDriver": "varsa",
+    "fastEliminationReason": "varsa"
+  }
+}
+''';
+  }
+
+  String _buildFocusedChatTurnUserPayload({
+    required String conversationSoFar,
+    required String latestUserMessage,
+  }) {
+    return 'Şimdiye kadarki sohbet:\n$conversationSoFar\n\n'
+        'Son kullanıcı mesajı:\n$latestUserMessage\n\n'
+        'Yeni soruda boş sohbet yapma; eksik listedeki en değerli bilgiyi hedefle.';
+  }
+
+  String _buildFocusedBeliefExtractionPrompt() {
+    return '''
+Kullanıcının aşk ve ilişki inançlarıyla ilgili serbest yanıtını oku.
+Bu tek mesajdan aşağıdaki 8 inanç boyutunu 1-7 arasında puanla.
+1 = hiç katılmıyor, 7 = tamamen katılıyor.
+Sadece metinde dayanağı olan çıkarımı yap. Emin değilsen 4 ver.
+Belirsizlik, güçlü çekim, ilk his, potansiyel ve sevginin sorunları aşıp aşamayacağı temalarını ayrı ayrı değerlendir.
+
+Sadece JSON döndür:
+{
+  "beliefRightPersonFindsWay": 4,
+  "beliefChemistryFeltFast": 4,
+  "beliefStrongAttractionIsSign": 4,
+  "beliefFeelsRightOrNot": 4,
+  "beliefFirstFeelingsAreTruth": 4,
+  "beliefPotentialEqualsValue": 4,
+  "beliefAmbiguityIsNormal": 4,
+  "beliefLoveOvercomesIssues": 4
+}
+''';
+  }
+
   void _applyExtracted(Map<String, dynamic> json) {
     void setIfPresent(String key, void Function(String val) setter) {
       final dynamic val = json[key];
@@ -808,8 +1317,7 @@ JSON formatında döndür:
   /// Kullanıcı ne derse desin (profil bilgisi, anlamadım, emoji, alakasız konu,
   /// tek kelime cevap, vs.) LLM doğal şekilde yanıt verir.
   ///
-  /// Öncelik: Gemini 2.5 Flash (Türkçe akıcılığı için).
-  /// Fallback: Groq Qwen3 32B (Gemini yoksa veya hata verirse).
+  /// Öncelik: self-hosted HF Space. Yedek: Gemini 2.5 ailesi.
   Future<String> _generateNextQuestion() async {
     final StringBuffer conversationSoFar = StringBuffer();
     // Son 12 tur yeterli — token tasarrufu + Gemini ücretsiz katmanını korur.
@@ -870,21 +1378,22 @@ Eksiklerden birini doğal sohbetle topla. SADECE sohbet mesajını yaz — başk
         final String trimmed = reply.trim();
         if (trimmed.isNotEmpty) return trimmed;
       } catch (e) {
-        debugPrint('Gemini sohbet hatası, Groq fallback: $e');
+        debugPrint('Gemini sohbet hatası: $e');
       }
     }
 
-    // ── Öncelik 2: Groq Qwen3 32B (düz metin modunda)
-    if (AIConfig.instance.hasGroq) {
+    // ── Yedek: self-hosted LLM (eski yardımcı akış)
+    if (AIConfig.instance.hasSelfHostedLlm) {
       try {
-        final String reply = await GroqAnalysisService.instance.completeText(
+        final String reply = await SelfHostedLlmService.instance.completeText(
           systemPrompt: systemPrompt,
           userMessage: userPayload,
+          task: 'next_question',
         );
         final String trimmed = reply.trim();
         if (trimmed.isNotEmpty) return trimmed;
       } catch (e) {
-        debugPrint('Groq sohbet fallback hatası: $e');
+        debugPrint('Self-hosted sohbet yedek hatası: $e');
       }
     }
 
@@ -912,44 +1421,14 @@ JSON formatında döndür:
 }
 ''';
 
-    final Map<String, dynamic> json =
-        await GroqAnalysisService.instance.completeJson(
+    final AiEnvelope<BeliefExtractionPayload> envelope =
+        await DeepAnalysisOrchestrator.instance.extractBeliefScores(
       systemPrompt: systemPrompt,
       userMessage: userText,
     );
+    _applyBeliefs(envelope.payload);
+    return;
 
-    int safeInt(String key) {
-      final dynamic val = json[key];
-      if (val is int) return val.clamp(1, 7);
-      if (val is num) return val.round().clamp(1, 7);
-      return 4;
-    }
-
-    _extracted.beliefRightPersonFindsWay =
-        safeInt('beliefRightPersonFindsWay');
-    _extracted.beliefChemistryFeltFast =
-        safeInt('beliefChemistryFeltFast');
-    _extracted.beliefStrongAttractionIsSign =
-        safeInt('beliefStrongAttractionIsSign');
-    _extracted.beliefFeelsRightOrNot = safeInt('beliefFeelsRightOrNot');
-    _extracted.beliefFirstFeelingsAreTruth =
-        safeInt('beliefFirstFeelingsAreTruth');
-    _extracted.beliefPotentialEqualsValue =
-        safeInt('beliefPotentialEqualsValue');
-    _extracted.beliefAmbiguityIsNormal =
-        safeInt('beliefAmbiguityIsNormal');
-    _extracted.beliefLoveOvercomesIssues =
-        safeInt('beliefLoveOvercomesIssues');
-    _capturedFields.addAll(<String>[
-      'beliefRightPersonFindsWay',
-      'beliefChemistryFeltFast',
-      'beliefStrongAttractionIsSign',
-      'beliefFeelsRightOrNot',
-      'beliefFirstFeelingsAreTruth',
-      'beliefPotentialEqualsValue',
-      'beliefAmbiguityIsNormal',
-      'beliefLoveOvercomesIssues',
-    ]);
   }
 
   // ══════════════════════════════════════════════
@@ -1097,6 +1576,131 @@ JSON formatında döndür:
     }
 
     return true;
+  }
+
+  bool _hasEnoughDataForEarlyClose() {
+    final Map<String, List<String>> sectionFields = <String, List<String>>{
+      'intro': <String>[
+        'selfDescription',
+        'coreTraits',
+        'currentLifeTheme',
+        'datingChallenge',
+        'friendDescription',
+      ],
+      'intent': <String>[
+        'goal',
+        'pacingPreference',
+        'trustBuilder',
+        'relationshipExperience',
+      ],
+      'values': <String>[
+        'values',
+        'respectSignal',
+        'dealbreakers',
+      ],
+      'communication': <String>[
+        'communicationPreference',
+        'showsInterestHow',
+        'ambiguityResponse',
+        'conflictStyle',
+      ],
+      'blindSpots': <String>[
+        'blindSpots',
+        'recurringPattern',
+        'feedbackFromCloseOnes',
+      ],
+      'safety': <String>[
+        'alarmTriggers',
+        'vulnerabilityArea',
+        'assuranceNeed',
+      ],
+      'open': <String>[
+        'attachmentHistory',
+        'partnerShouldKnowEarly',
+      ],
+    };
+
+    final Map<String, int> minimumPerSection = <String, int>{
+      'intro': 3,
+      'intent': 3,
+      'values': 2,
+      'communication': 3,
+      'blindSpots': 2,
+      'safety': 2,
+      'open': 1,
+    };
+
+    for (final MapEntry<String, List<String>> entry in sectionFields.entries) {
+      final int captured = _countFields(entry.value);
+      if (captured < (minimumPerSection[entry.key] ?? entry.value.length)) {
+        return false;
+      }
+    }
+
+    final List<String> allBaseFields = sectionFields.values
+        .expand((List<String> fields) => fields)
+        .toList(growable: false);
+    return _countFields(allBaseFields) >= 18;
+  }
+
+  bool _isWrapIntent(String raw) {
+    final String text = raw.trim().toLowerCase();
+    if (text.isEmpty) return false;
+
+    const List<String> directSignals = <String>[
+      'bitirelim',
+      'sonlandir',
+      'sonlandır',
+      'tamam bu kadar',
+      'bu kadar',
+      'ilerleyelim',
+      'analize gec',
+      'analize geç',
+      'rapora gec',
+      'rapora geç',
+      'profili cikar',
+      'profili çıkar',
+      'baska yok',
+      'başka yok',
+      'yeter bu kadar',
+    ];
+
+    if (directSignals.any(text.contains)) {
+      return true;
+    }
+
+    final String previousAssistant = _lastAssistantMessage().toLowerCase();
+    final bool assistantWasWrapping =
+        previousAssistant.contains('eklemek istedigin') ||
+        previousAssistant.contains('eklemek istediğin') ||
+        previousAssistant.contains('baska bir sey var mi') ||
+        previousAssistant.contains('başka bir şey var mı') ||
+        previousAssistant.contains('aklina takilan') ||
+        previousAssistant.contains('aklına takılan') ||
+        previousAssistant.contains('ilerlemek istiyor musun') ||
+        previousAssistant.contains('sohbeti sonlandirma');
+
+    if (assistantWasWrapping) {
+      return text == 'yok' ||
+          text == 'hayir' ||
+          text == 'hayır' ||
+          text == 'baska yok' ||
+          text == 'başka yok' ||
+          text == 'yok artık' ||
+          text == 'bu kadar';
+    }
+
+    return false;
+  }
+
+  String _lastAssistantMessage() {
+    for (int i = _history.length - 1; i >= 0; i--) {
+      final ChatMessage msg = _history[i];
+      if (msg.role == 'assistant') {
+        return msg.content;
+      }
+    }
+    return '';
   }
 
   List<String> _getMissingFields() {

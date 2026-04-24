@@ -39,26 +39,19 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
   final List<ChatMessage> _messages = <ChatMessage>[];
   bool _isLoading = false;
   bool _llmUnavailable = false;
+  RelationshipGoal? _quickGoal;
+  PacingPreference? _quickPacing;
+  CommunicationPreference? _quickCommunication;
+  AssuranceNeed? _quickAssurance;
+  bool _quickStartApplied = false;
 
   @override
   void initState() {
     super.initState();
     _service.reset();
 
-    // LLM kontrolü — yoksa kullanıcıya bilgi ver
     if (!_service.isLlmAvailable) {
       _llmUnavailable = true;
-      _messages.add(const ChatMessage(
-        role: 'assistant',
-        content:
-            'Sohbet motoru şu an kullanılamıyor.\n\n'
-            'Profil oluşturmak için yapay zeka bağlantısı gerekli. '
-            'Lütfen uygulama ayarlarından API anahtarını kontrol et '
-            'veya internet bağlantını doğrula.',
-      ));
-    } else {
-      final ChatMessage greeting = _service.getGreeting();
-      _messages.add(greeting);
     }
   }
 
@@ -82,6 +75,95 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
     });
   }
 
+  bool get _hasUserMessages => _messages.any((ChatMessage m) => m.role == 'user');
+
+  Future<void> _applyQuickStart() async {
+    if (_quickGoal == null &&
+        _quickPacing == null &&
+        _quickCommunication == null &&
+        _quickAssurance == null) {
+      return;
+    }
+
+    _service.applyQuickStartSeed(
+      goal: _quickGoal,
+      pacingPreference: _quickPacing,
+      communicationPreference: _quickCommunication,
+      assuranceNeed: _quickAssurance,
+    );
+
+    final bool shouldKickoff = !_hasUserMessages;
+
+    setState(() {
+      _quickStartApplied = true;
+      _isLoading = shouldKickoff;
+    });
+
+    if (!shouldKickoff) return;
+
+    try {
+      final ChatMessage? response = await _service.createQuickStartKickoff();
+      if (!mounted) return;
+      setState(() {
+        if (response != null && response.content.trim().isNotEmpty) {
+          _messages.add(response);
+        }
+        _isLoading = false;
+      });
+      _scrollToBottom();
+      _focusNode.requestFocus();
+    } on LlmUnavailableException {
+      if (!mounted) return;
+      setState(() {
+        _llmUnavailable = true;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Hizli baslangic hatasi: $e');
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _requestWrapUp() async {
+    if (_isLoading || _llmUnavailable) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final ChatMessage? response = await _service.requestWrapUp();
+      if (!mounted) return;
+      setState(() {
+        if (response != null && response.content.trim().isNotEmpty) {
+          _messages.add(response);
+        }
+        _isLoading = false;
+      });
+      _scrollToBottom();
+
+      if (_service.isComplete) {
+        await _completeOnboarding();
+      }
+    } on LlmUnavailableException catch (e) {
+      debugPrint('Wrap-up LLM hatasi: $e');
+      if (!mounted) return;
+      setState(() {
+        _llmUnavailable = true;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Wrap-up hatasi: $e');
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   Future<void> _sendMessage() async {
     final String text = _inputCtrl.text.trim();
     if (text.isEmpty || _isLoading || _llmUnavailable) return;
@@ -94,11 +176,13 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
     _scrollToBottom();
 
     try {
-      final ChatMessage response = await _service.processUserMessage(text);
+      final ChatMessage? response = await _service.processUserMessage(text);
 
       if (!mounted) return;
       setState(() {
-        _messages.add(response);
+        if (response != null && response.content.trim().isNotEmpty) {
+          _messages.add(response);
+        }
         _isLoading = false;
       });
       _scrollToBottom();
@@ -107,18 +191,10 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
         await _completeOnboarding();
       }
     } on LlmUnavailableException catch (e) {
-      // LLM tamamen erişilemez — input'u kapat, uyarı göster
       debugPrint('LLM erişilemez: $e');
       if (!mounted) return;
       setState(() {
         _llmUnavailable = true;
-        _messages.add(ChatMessage(
-          role: 'assistant',
-          content:
-              'Yapay zeka bağlantısı kesildi.\n\n'
-              'İnternet bağlantını kontrol edip tekrar dene. '
-              'Sorun devam ederse ayarlardan API anahtarını kontrol et.',
-        ));
         _isLoading = false;
       });
       _scrollToBottom();
@@ -135,6 +211,9 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
 
   Future<void> _completeOnboarding() async {
     final OnboardingProfile profile = _service.extracted.toProfile();
+
+    final bool accepted = await _showProfileReview(profile);
+    if (!accepted || !mounted) return;
 
     if (!mounted) return;
     showDialog(
@@ -201,6 +280,145 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
     widget.onComplete();
   }
 
+  Future<bool> _showProfileReview(OnboardingProfile profile) async {
+    bool ageConfirmed = false;
+    bool policyAccepted = false;
+
+    final bool? accepted = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setDialogState) {
+            final bool canContinue = ageConfirmed && policyAccepted;
+            final List<String> highlights = profile.profileHighlights;
+
+            return Dialog(
+              backgroundColor: t.cardWhite,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 620),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(22),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Profilini onayla',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: t.textPrimary,
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Sohbetten cikardigim temel profil bu. Sonraki yorumlar bu zemine gore calisacak.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: t.textSecondary,
+                              height: 1.45,
+                            ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFBF4),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: t.primaryYellow.withValues(alpha: 0.22),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              profile.displayName.trim().isEmpty
+                                  ? 'Isimsiz profil'
+                                  : profile.displayName.trim(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    color: t.primaryDark,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              profile.generateProfileSummary(),
+                              style:
+                                  Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                        color: t.textPrimary,
+                                        height: 1.5,
+                                      ),
+                            ),
+                            if (highlights.isNotEmpty) ...<Widget>[
+                              const SizedBox(height: 14),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: highlights.take(5).map((String tag) {
+                                  return TagPill(text: tag);
+                                }).toList(),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      CheckboxListTile(
+                        value: ageConfirmed,
+                        onChanged: (bool? value) => setDialogState(
+                          () => ageConfirmed = value ?? false,
+                        ),
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: const Text('18 yasindan buyugum.'),
+                      ),
+                      CheckboxListTile(
+                        value: policyAccepted,
+                        onChanged: (bool? value) => setDialogState(
+                          () => policyAccepted = value ?? false,
+                        ),
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: const Text(
+                          'MatchProfile karar vermez; bana dusunme destegi sunar. Kosullari ve gizlilik yaklasimini kabul ediyorum.',
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(dialogContext, false),
+                            child: const Text('Sohbete don'),
+                          ),
+                          const Spacer(),
+                          FilledButton(
+                            onPressed: canContinue
+                                ? () => Navigator.pop(dialogContext, true)
+                                : null,
+                            child: const Text('Onayla ve devam et'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    return accepted ?? false;
+  }
+
   Future<AiEnvelope<UserPsycheAnchor>> _showMirrorReport(
     OnboardingProfile profile,
     AiEnvelope<UserPsycheAnchor> initialRun,
@@ -211,7 +429,7 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       final UserPsycheAnchor anchor = mirrorRun.payload;
       final bool aiActive = mirrorRun.mode == AiRunMode.llm;
       final bool canRetryLlm =
-          (AIConfig.instance.hasGemini || AIConfig.instance.hasGroq) &&
+          AIConfig.instance.isChatLlmAvailable &&
           mirrorRun.mode != AiRunMode.llm;
       final String statusText = switch (mirrorRun.mode) {
         AiRunMode.llm => 'Derin okuma aktif',
@@ -415,6 +633,8 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool showQuickStart = !_quickStartApplied && !_hasUserMessages;
+    final bool showLiveSummary = _quickStartApplied || _hasUserMessages;
 
     return Scaffold(
       backgroundColor: t.warmBg,
@@ -484,12 +704,36 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
                 child: ListView.builder(
                   controller: _scrollCtrl,
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                  itemCount: _messages.length + (_isLoading ? 1 : 0),
+                  itemCount:
+                      (showQuickStart ? 1 : 0) +
+                      (showLiveSummary ? 1 : 0) +
+                      _messages.length +
+                      (_isLoading ? 1 : 0),
                   itemBuilder: (BuildContext context, int index) {
-                    if (index == _messages.length && _isLoading) {
+                    int cursor = 0;
+                    if (showQuickStart) {
+                      if (index == cursor) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: _buildQuickStartDeck(theme, inline: true),
+                        );
+                      }
+                      cursor += 1;
+                    }
+                    if (showLiveSummary) {
+                      if (index == cursor) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: _buildLiveSummaryDeck(theme, inline: true),
+                        );
+                      }
+                      cursor += 1;
+                    }
+                    final int messageIndex = index - cursor;
+                    if (messageIndex == _messages.length && _isLoading) {
                       return _buildTypingIndicator();
                     }
-                    return _buildMessageBubble(_messages[index]);
+                    return _buildMessageBubble(_messages[messageIndex]);
                   },
                 ),
               ),
@@ -511,6 +755,434 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       ChatPhase.confirmation => 'Son adım',
       ChatPhase.complete => 'Tamam!',
     };
+  }
+
+  Widget _buildQuickStartDeck(ThemeData theme, {bool inline = false}) {
+    final bool hasQuickSelection = _quickGoal != null ||
+        _quickPacing != null ||
+        _quickCommunication != null ||
+        _quickAssurance != null;
+
+    return Container(
+      margin: inline ? EdgeInsets.zero : const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: <Color>[
+            const Color(0xFF17243A),
+            const Color(0xFF27476C),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: t.primaryDark.withValues(alpha: 0.18),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFD66B).withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: const Color(0xFFFFD66B).withValues(alpha: 0.28),
+                  ),
+                ),
+                child: const Text(
+                  'Hizli baslangic',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.4,
+                    color: Color(0xFFFFF4D2),
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Text(
+                'Az yaz, daha hizli acil',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: const Color(0xFFE8EEF8),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text(
+            'Once birkac secim yap. Sohbet daha dogru yerden baslasin.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: const Color(0xFFF7FAFE),
+              height: 1.35,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 18),
+          _buildChoiceGroup<RelationshipGoal>(
+            title: 'Ne ariyorsun?',
+            value: _quickGoal,
+            options: const <RelationshipGoal>[
+              RelationshipGoal.serious,
+              RelationshipGoal.openExplore,
+              RelationshipGoal.slowBond,
+              RelationshipGoal.unsure,
+            ],
+            labelBuilder: (RelationshipGoal goal) => goal.label,
+            onSelected: (RelationshipGoal? value) {
+              setState(() {
+                _quickGoal = value;
+              });
+            },
+            dark: true,
+          ),
+          const SizedBox(height: 14),
+          _buildChoiceGroup<PacingPreference>(
+            title: 'Nasil ilerlesin?',
+            value: _quickPacing,
+            options: const <PacingPreference>[
+              PacingPreference.slow,
+              PacingPreference.balanced,
+              PacingPreference.fastButClear,
+            ],
+            labelBuilder: (PacingPreference pacing) => pacing.label,
+            onSelected: (PacingPreference? value) {
+              setState(() {
+                _quickPacing = value;
+              });
+            },
+            dark: true,
+          ),
+          const SizedBox(height: 14),
+          _buildChoiceGroup<CommunicationPreference>(
+            title: 'Iletisim nasil iyi gelir?',
+            value: _quickCommunication,
+            options: const <CommunicationPreference>[
+              CommunicationPreference.balancedRegular,
+              CommunicationPreference.deepConversation,
+              CommunicationPreference.frequentContact,
+              CommunicationPreference.spaceGiving,
+            ],
+            labelBuilder: (CommunicationPreference preference) {
+              return switch (preference) {
+                CommunicationPreference.balancedRegular => 'Duzenli',
+                CommunicationPreference.deepConversation => 'Derin',
+                CommunicationPreference.frequentContact => 'Sik',
+                CommunicationPreference.spaceGiving => 'Alanli',
+                CommunicationPreference.lightFun => 'Hafif',
+              };
+            },
+            onSelected: (CommunicationPreference? value) {
+              setState(() {
+                _quickCommunication = value;
+              });
+            },
+            dark: true,
+          ),
+          const SizedBox(height: 14),
+          _buildChoiceGroup<AssuranceNeed>(
+            title: 'Netlik ihtiyacin',
+            value: _quickAssurance,
+            options: const <AssuranceNeed>[
+              AssuranceNeed.low,
+              AssuranceNeed.medium,
+              AssuranceNeed.high,
+            ],
+            labelBuilder: (AssuranceNeed need) => need.label,
+            onSelected: (AssuranceNeed? value) {
+              setState(() {
+                _quickAssurance = value;
+              });
+            },
+            dark: true,
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed:
+                  _isLoading || !hasQuickSelection ? null : _applyQuickStart,
+              style: FilledButton.styleFrom(
+                backgroundColor: t.primaryYellow,
+                foregroundColor: t.primaryDark,
+                disabledBackgroundColor: const Color(0xFF5E6E8B),
+                disabledForegroundColor: const Color(0xFFE8EEF8),
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                hasQuickSelection
+                    ? (_quickStartApplied ? 'Secimleri guncelle' : 'Buna gore baslat')
+                    : 'Once secim yap',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+            ),
+          ],
+        ),
+      );
+  }
+
+  Widget _buildLiveSummaryDeck(ThemeData theme, {bool inline = false}) {
+    final ExtractedProfile extracted = _service.extracted;
+    final List<String> insightTags = <String>[
+      if (_quickGoal != null) _quickGoal!.label,
+      if (_quickPacing != null) _quickPacing!.label,
+      if (_quickCommunication != null)
+        switch (_quickCommunication!) {
+          CommunicationPreference.balancedRegular => 'Duzenli iletisim',
+          CommunicationPreference.deepConversation => 'Derin iletisim',
+          CommunicationPreference.frequentContact => 'Sik temas',
+          CommunicationPreference.spaceGiving => 'Alan ihtiyaci',
+          CommunicationPreference.lightFun => 'Hafif iletisim',
+        },
+      if (_quickAssurance != null) 'Netlik: ${_quickAssurance!.label}',
+      ...extracted.coreTraits.take(2),
+    ];
+
+    final String snapshot = extracted.currentLifeTheme.isNotEmpty
+        ? extracted.currentLifeTheme
+        : extracted.datingChallenge.isNotEmpty
+            ? extracted.datingChallenge
+            : extracted.selfDescription.isNotEmpty
+                ? extracted.selfDescription
+                : 'Kisa cevaplar geldikce profil netlesiyor.';
+
+    final int remainingHint = _service.canFinishNow
+        ? 0
+        : (_service.capturedFieldCount < 8 ? 3 : 2);
+
+    return Container(
+      margin: inline ? EdgeInsets.zero : const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: t.cardWhite,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: t.primaryYellow.withValues(alpha: 0.22)),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: t.primaryYellow.withValues(alpha: 0.10),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Canli profil izi',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: t.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _service.canFinishNow
+                          ? 'Yeterli sinyal aldim. Istersen artik ozete gecebiliriz.'
+                          : '$remainingHint kisa cevap daha, sonra ozet cikarabilirim.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: t.textSecondary.withValues(alpha: 0.85),
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      t.primaryYellow.withValues(alpha: 0.24),
+                      const Color(0xFFFFE5B8),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      '${_service.capturedFieldCount}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: t.primaryDark,
+                      ),
+                    ),
+                    Text(
+                      'sinyal',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: t.primaryDark.withValues(alpha: 0.75),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          if (insightTags.isNotEmpty)
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: insightTags.take(6).map((String tag) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF5E8),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color: t.primaryYellow.withValues(alpha: 0.20),
+                    ),
+                  ),
+                  child: Text(
+                    tag,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: t.primaryDark,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          if (insightTags.isNotEmpty) const SizedBox(height: 14),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFFBF4),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              snapshot,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: t.textPrimary.withValues(alpha: 0.78),
+                height: 1.45,
+              ),
+            ),
+          ),
+          if (_service.canFinishNow) ...<Widget>[
+            const SizedBox(height: 14),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: _isLoading ? null : _requestWrapUp,
+                icon: const Icon(Icons.auto_awesome_rounded, size: 16),
+                label: const Text('Simdi kisa ozetimi cikar'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: t.accentOrange,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 13),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChoiceGroup<T>({
+    required String title,
+    required T? value,
+    required List<T> options,
+    required String Function(T option) labelBuilder,
+    required ValueChanged<T?> onSelected,
+    bool dark = false,
+  }) {
+    final Color titleColor = dark
+        ? const Color(0xFFFFF4D2)
+        : t.textPrimary.withValues(alpha: 0.82);
+    final Color chipColor =
+        dark ? const Color(0xFFEEF3FB) : const Color(0xFFFFF7EC);
+    final Color borderColor =
+        dark ? const Color(0xFFD5E0EF) : t.primaryYellow.withValues(alpha: 0.20);
+    final Color textColor =
+        dark ? const Color(0xFF24344D) : t.textPrimary.withValues(alpha: 0.78);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: titleColor,
+            letterSpacing: 0.2,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: options.map((T option) {
+            final bool selected = value == option;
+            return InkWell(
+              onTap: () => onSelected(selected ? null : option),
+              borderRadius: BorderRadius.circular(14),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: selected ? t.primaryYellow : chipColor,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: selected ? Colors.transparent : borderColor,
+                  ),
+                  boxShadow: selected
+                      ? <BoxShadow>[
+                          BoxShadow(
+                            color: t.primaryYellow.withValues(alpha: 0.28),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Text(
+                  labelBuilder(option),
+                  style: TextStyle(
+                    fontSize: 12.5,
+                    fontWeight: FontWeight.w700,
+                    color: selected ? t.primaryDark : textColor,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 
   Widget _buildProgressIndicator() {
@@ -717,18 +1389,13 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
         _llmUnavailable = false;
         _service.reset();
         _messages.clear();
-        _messages.add(_service.getGreeting());
+        _quickStartApplied = false;
+        _isLoading = false;
       });
     } else {
       setState(() {
-        _messages.add(const ChatMessage(
-          role: 'assistant',
-          content:
-              'Bağlantı hâlâ kurulamıyor. '
-              'API anahtarının doğru olduğundan ve internet bağlantından emin ol.',
-        ));
+        _llmUnavailable = true;
       });
-      _scrollToBottom();
     }
   }
 
@@ -783,7 +1450,8 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       );
     }
 
-    final bool canSend = !_isLoading && !_service.isComplete;
+    final bool canSend =
+        !_isLoading && !_service.isComplete && _quickStartApplied;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 10, 12, 20),
@@ -796,9 +1464,31 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
           ),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          if (_service.canFinishNow) ...<Widget>[
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: _isLoading ? null : _requestWrapUp,
+                icon: const Icon(Icons.flash_on_rounded, size: 16),
+                label: const Text('Yeterli oldu, ozete gec'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: t.accentOrange,
+                  side: BorderSide(color: t.accentOrange.withValues(alpha: 0.24)),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -833,7 +1523,9 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
                 decoration: InputDecoration(
                   hintText: _service.isComplete
                       ? 'Tamamlandı'
-                      : 'Cevabını yaz...',
+                      : _quickStartApplied
+                          ? 'Cevabını yaz...'
+                          : 'Önce yukarıdan birkaç seçim yap...',
                   hintStyle: TextStyle(
                     color: t.textMuted.withValues(alpha: 0.55),
                   ),
@@ -876,6 +1568,8 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
                 ),
               ),
             ),
+          ),
+            ],
           ),
         ],
       ),

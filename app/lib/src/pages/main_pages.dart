@@ -1280,7 +1280,8 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _insightNotifications = true;
 
   final TextEditingController _geminiKeyCtrl = TextEditingController();
-  final TextEditingController _groqKeyCtrl = TextEditingController();
+  final TextEditingController _selfHostedUrlCtrl = TextEditingController();
+  final TextEditingController _selfHostedTokenCtrl = TextEditingController();
   final TextEditingController _hfKeyCtrl = TextEditingController();
   final TextEditingController _supabaseUrlCtrl = TextEditingController();
   final TextEditingController _supabaseAnonKeyCtrl = TextEditingController();
@@ -1302,7 +1303,8 @@ class _SettingsPageState extends State<SettingsPage> {
   void _hydrateFromConfig() {
     final AIConfig cfg = AIConfig.instance;
     _geminiKeyCtrl.text = cfg.geminiApiKey;
-    _groqKeyCtrl.text = cfg.groqApiKey;
+    _selfHostedUrlCtrl.text = cfg.selfHostedLlmUrl;
+    _selfHostedTokenCtrl.text = cfg.selfHostedLlmToken;
     _hfKeyCtrl.text = cfg.hfApiKey;
     _supabaseUrlCtrl.text = cfg.supabaseUrl;
     _supabaseAnonKeyCtrl.text = cfg.supabaseAnonKey;
@@ -1311,7 +1313,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void dispose() {
     _geminiKeyCtrl.dispose();
-    _groqKeyCtrl.dispose();
+    _selfHostedUrlCtrl.dispose();
+    _selfHostedTokenCtrl.dispose();
     _hfKeyCtrl.dispose();
     _supabaseUrlCtrl.dispose();
     _supabaseAnonKeyCtrl.dispose();
@@ -1584,27 +1587,38 @@ class _SettingsPageState extends State<SettingsPage> {
               if (kDebugMode && _showApiKeys) ...<Widget>[
                 const SizedBox(height: 12),
                 TextField(
+                  controller: _selfHostedUrlCtrl,
+                  decoration: InputDecoration(
+                    labelText: 'Self-hosted LLM URL (HF Space)',
+                    hintText: 'https://kullanici-space.hf.space',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    prefixIcon: const Icon(Icons.dns_outlined, size: 20),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _selfHostedTokenCtrl,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Self-hosted Token (opsiyonel)',
+                    hintText: 'Bearer token varsa',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    prefixIcon: const Icon(Icons.lock_outline, size: 20),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
                   controller: _geminiKeyCtrl,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Gemini API Anahtarı (Sohbet)',
+                    labelText: 'Gemini API Anahtarı (yedek)',
                     hintText: 'AIza...',
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12)),
                     prefixIcon:
                         const Icon(Icons.auto_awesome_outlined, size: 20),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _groqKeyCtrl,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Groq API Anahtarı (Yapısal)',
-                    hintText: 'gsk_...',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    prefixIcon: const Icon(Icons.smart_toy_outlined, size: 20),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -1648,11 +1662,16 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: FilledButton.icon(
                     onPressed: () {
                       controller.configureAI(
+                        selfHostedLlmUrl:
+                            _selfHostedUrlCtrl.text.trim().isNotEmpty
+                                ? _selfHostedUrlCtrl.text.trim()
+                                : null,
+                        selfHostedLlmToken:
+                            _selfHostedTokenCtrl.text.trim().isNotEmpty
+                                ? _selfHostedTokenCtrl.text.trim()
+                                : null,
                         geminiApiKey: _geminiKeyCtrl.text.trim().isNotEmpty
                             ? _geminiKeyCtrl.text.trim()
-                            : null,
-                        groqApiKey: _groqKeyCtrl.text.trim().isNotEmpty
-                            ? _groqKeyCtrl.text.trim()
                             : null,
                         huggingFaceApiKey: _hfKeyCtrl.text.trim().isNotEmpty
                             ? _hfKeyCtrl.text.trim()
@@ -1697,7 +1716,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             builder: (BuildContext ctx) => AlertDialog(
                               title: const Text('Anahtarları temizle?'),
                               content: const Text(
-                                'Kayıtlı tüm AI anahtarları (Gemini, Groq, '
+                                'Kayıtlı tüm AI bağlantıları (Self-hosted, Gemini, '
                                 'HuggingFace, Supabase) bu cihazdan silinecek. '
                                 'Kural tabanlı motor çalışmaya devam eder.',
                               ),
@@ -1729,7 +1748,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
                       setState(() {
                         _geminiKeyCtrl.clear();
-                        _groqKeyCtrl.clear();
+                        _selfHostedUrlCtrl.clear();
+                        _selfHostedTokenCtrl.clear();
                         _hfKeyCtrl.clear();
                         _supabaseUrlCtrl.clear();
                         _supabaseAnonKeyCtrl.clear();

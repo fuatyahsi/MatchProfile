@@ -7,7 +7,7 @@
 //   • Yapısal JSON ve sohbet üretimi
 //   • Reflection yorumları
 //
-//  Groq'tan farkı: Türkçe akıcılığı daha iyi, JSON modu opsiyonel.
+//  Türkçe akıcılığı yüksek, JSON modu opsiyonel yedek LLM servisi.
 //  Ücretsiz katman (Google AI Studio): 10 RPM / 500 RPD.
 // ══════════════════════════════════════════════════════════════
 
@@ -22,12 +22,14 @@ class GeminiChatService {
   GeminiChatService._();
   static final GeminiChatService instance = GeminiChatService._();
 
-  GenerativeModel? _textModel;
-  String? _cachedKey;
+  final Map<String, GenerativeModel> _modelCache = <String, GenerativeModel>{};
 
-  GenerativeModel _buildModel({required bool jsonMode}) {
+  GenerativeModel _buildModel({
+    required String modelName,
+    required bool jsonMode,
+  }) {
     return GenerativeModel(
-      model: AIConfig.geminiModel,
+      model: modelName,
       apiKey: AIConfig.instance.geminiApiKey,
       generationConfig: GenerationConfig(
         temperature: AIConfig.geminiTemperature,
@@ -37,12 +39,78 @@ class GeminiChatService {
     );
   }
 
-  GenerativeModel _textModelCached() {
-    final String key = AIConfig.instance.geminiApiKey;
-    if (_textModel != null && _cachedKey == key) return _textModel!;
-    _cachedKey = key;
-    _textModel = _buildModel(jsonMode: false);
-    return _textModel!;
+  GenerativeModel _cachedModel({
+    required String modelName,
+    required bool jsonMode,
+  }) {
+    final String cacheKey =
+        '${AIConfig.instance.geminiApiKey}|$modelName|${jsonMode ? 'json' : 'text'}';
+    return _modelCache.putIfAbsent(
+      cacheKey,
+      () => _buildModel(modelName: modelName, jsonMode: jsonMode),
+    );
+  }
+
+  bool _isRetryableGeminiError(Object error) {
+    final String text = error.toString().toLowerCase();
+    return text.contains('503') ||
+        text.contains('unavailable') ||
+        text.contains('429') ||
+        text.contains('resource_exhausted');
+  }
+
+  Future<T> _runWithRetry<T>({
+    required Future<T> Function() action,
+  }) async {
+    try {
+      return await action();
+    } catch (e) {
+      if (!_isRetryableGeminiError(e)) rethrow;
+      await Future<void>.delayed(const Duration(milliseconds: 900));
+      return action();
+    }
+  }
+
+  Future<String> _generateTextWithModel({
+    required String modelName,
+    required String systemPrompt,
+    required String userMessage,
+  }) async {
+    final GenerativeModel model =
+        _cachedModel(modelName: modelName, jsonMode: false);
+    final GenerateContentResponse response = await _runWithRetry(
+      action: () => model.generateContent(
+        <Content>[
+          Content.text('$systemPrompt\n\n---\nKULLANICI:\n$userMessage'),
+        ],
+      ),
+    );
+    final String? text = response.text;
+    if (text == null || text.trim().isEmpty) {
+      throw Exception('Gemini boş yanıt döndü');
+    }
+    return text.trim();
+  }
+
+  Future<Map<String, dynamic>> _generateJsonWithModel({
+    required String modelName,
+    required String systemPrompt,
+    required String userMessage,
+  }) async {
+    final GenerativeModel model =
+        _cachedModel(modelName: modelName, jsonMode: true);
+    final GenerateContentResponse response = await _runWithRetry(
+      action: () => model.generateContent(
+        <Content>[
+          Content.text('$systemPrompt\n\n---\nKULLANICI:\n$userMessage'),
+        ],
+      ),
+    );
+    final String? text = response.text;
+    if (text == null || text.trim().isEmpty) {
+      throw Exception('Gemini boş yanıt döndü');
+    }
+    return _decodeJsonObject(text);
   }
 
   /// Düz metin sohbet yanıtı — Türkçe kalite önceliği.
@@ -55,22 +123,25 @@ class GeminiChatService {
       throw Exception('Gemini API anahtarı yapılandırılmamış');
     }
 
-    try {
-      final GenerativeModel model = _textModelCached();
-      final GenerateContentResponse response = await model.generateContent(
-        <Content>[
-          Content.text('$systemPrompt\n\n---\nKULLANICI:\n$userMessage'),
-        ],
-      );
-      final String? text = response.text;
-      if (text == null || text.trim().isEmpty) {
-        throw Exception('Gemini boş yanıt döndü');
+    final List<String> models = <String>{
+      AIConfig.geminiChatModel,
+      AIConfig.geminiStructuredModel,
+    }.toList();
+
+    Object? lastError;
+    for (final String modelName in models) {
+      try {
+        return await _generateTextWithModel(
+          modelName: modelName,
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+        );
+      } catch (e) {
+        debugPrint('Gemini reply hatası [$modelName]: $e');
+        lastError = e;
       }
-      return text.trim();
-    } catch (e) {
-      debugPrint('Gemini reply hatası: $e');
-      rethrow;
     }
+    throw lastError ?? Exception('Gemini reply başarısız');
   }
 
   /// JSON zorunlu yanıt — schema'ya uygun çıktı ister.
@@ -83,19 +154,25 @@ class GeminiChatService {
       throw Exception('Gemini API anahtarı yapılandırılmamış');
     }
 
-    final GenerativeModel model = _buildModel(jsonMode: true);
-    final GenerateContentResponse response = await model.generateContent(
-      <Content>[
-        Content.text('$systemPrompt\n\n---\nKULLANICI:\n$userMessage'),
-      ],
-    );
+    final List<String> models = <String>{
+      AIConfig.geminiStructuredModel,
+      AIConfig.geminiChatModel,
+    }.toList();
 
-    final String? text = response.text;
-    if (text == null || text.trim().isEmpty) {
-      throw Exception('Gemini boş yanıt döndü');
+    Object? lastError;
+    for (final String modelName in models) {
+      try {
+        return await _generateJsonWithModel(
+          modelName: modelName,
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+        );
+      } catch (e) {
+        debugPrint('Gemini json hatası [$modelName]: $e');
+        lastError = e;
+      }
     }
-
-    return _decodeJsonObject(text);
+    throw lastError ?? Exception('Gemini JSON başarısız');
   }
 
   Map<String, dynamic> _decodeJsonObject(String raw) {

@@ -2,8 +2,8 @@
 //  AI Servis Yapılandırması
 //  ──────────────────────────────────
 //  İki katmanlı strateji:
-//   • Gemini 2.5 Flash → Sohbet / üretici yanıtlar (Türkçe kalitesi)
-//   • Groq (Qwen3 32B) → Yapısal işler: profil çıkarma, JSON, skor
+//   • Self-hosted HF Space → Ana LLM yolu (Qwen açık kaynak hedefi)
+//   • Gemini 2.5 ailesi → Opsiyonel kalite / yedek katman
 //  Hepsi ücretsiz katman. Hiçbiri zorunlu değil —
 //  yoksa kural tabanlı motor (TextAnalysisEngine) devrede kalır.
 //
@@ -17,17 +17,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AIConfig {
   AIConfig._() {
-    const String envGroq = String.fromEnvironment('MATCHPROFILE_GROQ_API_KEY');
     const String envGemini =
         String.fromEnvironment('MATCHPROFILE_GEMINI_API_KEY');
+    const String envSelfHostedUrl =
+        String.fromEnvironment('MATCHPROFILE_SELF_HOSTED_LLM_URL');
+    const String envSelfHostedToken =
+        String.fromEnvironment('MATCHPROFILE_SELF_HOSTED_LLM_TOKEN');
     const String envHf = String.fromEnvironment('MATCHPROFILE_HF_API_KEY');
     const String envSupabaseUrl =
         String.fromEnvironment('MATCHPROFILE_SUPABASE_URL');
     const String envSupabaseAnon =
         String.fromEnvironment('MATCHPROFILE_SUPABASE_ANON_KEY');
 
-    if (envGroq.isNotEmpty) _groqApiKey = envGroq;
     if (envGemini.isNotEmpty) _geminiApiKey = envGemini;
+    if (envSelfHostedUrl.isNotEmpty) _selfHostedLlmUrl = envSelfHostedUrl;
+    if (envSelfHostedToken.isNotEmpty) _selfHostedLlmToken = envSelfHostedToken;
     if (envHf.isNotEmpty) _hfApiKey = envHf;
     if (envSupabaseUrl.isNotEmpty) _supabaseUrl = envSupabaseUrl;
     if (envSupabaseAnon.isNotEmpty) _supabaseAnonKey = envSupabaseAnon;
@@ -36,7 +40,8 @@ class AIConfig {
 
   // ── Storage key'leri ──
   static const String _prefsKeyGemini = 'ai_gemini_api_key';
-  static const String _prefsKeyGroq = 'ai_groq_api_key';
+  static const String _prefsKeySelfHostedUrl = 'ai_self_hosted_llm_url';
+  static const String _prefsKeySelfHostedToken = 'ai_self_hosted_llm_token';
   static const String _prefsKeyHf = 'ai_hf_api_key';
   static const String _prefsKeySupabaseUrl = 'ai_supabase_url';
   static const String _prefsKeySupabaseAnon = 'ai_supabase_anon_key';
@@ -44,23 +49,20 @@ class AIConfig {
   bool _loaded = false;
   bool get hasLoadedFromStorage => _loaded;
 
-  // ── Gemini (Ana Sohbet LLM) ──
+  // ── Self-hosted LLM (HF Space / kendi backend) ──
+  String? _selfHostedLlmUrl;
+  String? _selfHostedLlmToken;
+  static const String selfHostedProviderLabel = 'Self-hosted Qwen';
+
+  // ── Gemini (Ana LLM ailesi) ──
   String? _geminiApiKey;
-  // Not: 1.5 Flash deprecated. 2.5 Flash ücretsiz katman: 10 RPM / 500 RPD.
-  static const String geminiModel = 'gemini-2.5-flash';
+  // 2.5 Flash: daha kaliteli derin analiz / structured JSON
+  static const String geminiStructuredModel = 'gemini-2.5-flash';
+  // 2.5 Flash-Lite: daha ucuz / daha hızlı sohbet ve düşük gecikme
+  static const String geminiChatModel = 'gemini-2.5-flash-lite';
+  static const String geminiProviderLabel = 'Gemini 2.5';
   static const int geminiMaxTokens = 2048;
   static const double geminiTemperature = 0.7;
-
-  // ── Groq (Yapısal LLM: JSON çıkarma, skor, parse) ──
-  String? _groqApiKey;
-  static const String groqBaseUrl = 'https://api.groq.com/openai/v1';
-  // Qwen3 32B: Çok dilli güçlü, ücretsiz katman, JSON modunda kararlı.
-  static const String groqModel = 'qwen/qwen3-32b';
-  static const int groqMaxTokens = 2048;
-  static const double groqTemperature = 0.3;
-  // Llama/Qwen tekrar eğilimini azaltmak için penalty parametreleri
-  static const double groqFrequencyPenalty = 0.5;
-  static const double groqPresencePenalty = 0.3;
 
   // ── HuggingFace (Embedding) ──
   String? _hfApiKey;
@@ -75,7 +77,8 @@ class AIConfig {
   String? _supabaseAnonKey;
 
   // ── Durum ──
-  bool get hasGroq => _groqApiKey != null && _groqApiKey!.isNotEmpty;
+  bool get hasSelfHostedLlm =>
+      _selfHostedLlmUrl != null && _selfHostedLlmUrl!.trim().isNotEmpty;
   bool get hasGemini =>
       _geminiApiKey != null && _geminiApiKey!.isNotEmpty;
   bool get hasHuggingFace => _hfApiKey != null && _hfApiKey!.isNotEmpty;
@@ -86,18 +89,19 @@ class AIConfig {
       _supabaseAnonKey!.isNotEmpty;
 
   /// AI pipeline aktif mi? En az bir sohbet LLM'i yapılandırılmış olmalı
-  bool get isAIPipelineAvailable => hasGemini || hasGroq;
+  bool get isAIPipelineAvailable => hasSelfHostedLlm || hasGemini;
 
   /// Tam pipeline: ana LLM + embedding
   bool get isFullPipelineAvailable =>
-      (hasGemini || hasGroq) && hasHuggingFace;
+      (hasSelfHostedLlm || hasGemini) && hasHuggingFace;
 
   /// Sohbet için tercih edilen servis kullanılabilir mi?
-  /// Önerilen: Gemini. Yoksa Groq'a düşer.
-  bool get isChatLlmAvailable => hasGemini || hasGroq;
+  /// Önerilen: self-hosted HF Space. Yoksa Gemini'ye düşer.
+  bool get isChatLlmAvailable => hasSelfHostedLlm || hasGemini;
 
-  String get groqApiKey => _groqApiKey ?? '';
   String get geminiApiKey => _geminiApiKey ?? '';
+  String get selfHostedLlmUrl => _selfHostedLlmUrl ?? '';
+  String get selfHostedLlmToken => _selfHostedLlmToken ?? '';
   String get hfApiKey => _hfApiKey ?? '';
   String get supabaseUrl => _supabaseUrl ?? '';
   String get supabaseAnonKey => _supabaseAnonKey ?? '';
@@ -119,9 +123,20 @@ class AIConfig {
         _geminiApiKey = savedGemini;
       }
 
-      final String? savedGroq = prefs.getString(_prefsKeyGroq);
-      if (savedGroq != null && savedGroq.isNotEmpty && !hasGroq) {
-        _groqApiKey = savedGroq;
+      final String? savedSelfHostedUrl =
+          prefs.getString(_prefsKeySelfHostedUrl);
+      if (savedSelfHostedUrl != null &&
+          savedSelfHostedUrl.isNotEmpty &&
+          !hasSelfHostedLlm) {
+        _selfHostedLlmUrl = savedSelfHostedUrl;
+      }
+
+      final String? savedSelfHostedToken =
+          prefs.getString(_prefsKeySelfHostedToken);
+      if (savedSelfHostedToken != null &&
+          savedSelfHostedToken.isNotEmpty &&
+          (_selfHostedLlmToken == null || _selfHostedLlmToken!.isEmpty)) {
+        _selfHostedLlmToken = savedSelfHostedToken;
       }
 
       final String? savedHf = prefs.getString(_prefsKeyHf);
@@ -147,7 +162,7 @@ class AIConfig {
       _loaded = true;
       if (kDebugMode) {
         debugPrint(
-            'AIConfig yüklendi: Gemini=$hasGemini Groq=$hasGroq HF=$hasHuggingFace');
+            'AIConfig yüklendi: SelfHosted=$hasSelfHostedLlm Gemini=$hasGemini HF=$hasHuggingFace');
       }
     } catch (e) {
       debugPrint('AIConfig storage okuma hatası: $e');
@@ -169,7 +184,8 @@ class AIConfig {
       }
 
       await writeOrRemove(_prefsKeyGemini, _geminiApiKey);
-      await writeOrRemove(_prefsKeyGroq, _groqApiKey);
+      await writeOrRemove(_prefsKeySelfHostedUrl, _selfHostedLlmUrl);
+      await writeOrRemove(_prefsKeySelfHostedToken, _selfHostedLlmToken);
       await writeOrRemove(_prefsKeyHf, _hfApiKey);
       await writeOrRemove(_prefsKeySupabaseUrl, _supabaseUrl);
       await writeOrRemove(_prefsKeySupabaseAnon, _supabaseAnonKey);
@@ -183,15 +199,17 @@ class AIConfig {
   /// Anahtarları RAM'e yazar. Varsayılan olarak aynı anda diske de kaydeder.
   /// Diske yazmak istemiyorsan [persist] = false geç.
   void configure({
-    String? groqApiKey,
     String? geminiApiKey,
+    String? selfHostedLlmUrl,
+    String? selfHostedLlmToken,
     String? huggingFaceApiKey,
     String? supabaseUrl,
     String? supabaseAnonKey,
     bool persist = true,
   }) {
-    if (groqApiKey != null) _groqApiKey = groqApiKey;
     if (geminiApiKey != null) _geminiApiKey = geminiApiKey;
+    if (selfHostedLlmUrl != null) _selfHostedLlmUrl = selfHostedLlmUrl;
+    if (selfHostedLlmToken != null) _selfHostedLlmToken = selfHostedLlmToken;
     if (huggingFaceApiKey != null) _hfApiKey = huggingFaceApiKey;
     if (supabaseUrl != null) _supabaseUrl = supabaseUrl;
     if (supabaseAnonKey != null) _supabaseAnonKey = supabaseAnonKey;
@@ -204,8 +222,9 @@ class AIConfig {
 
   /// Tüm anahtarları temizle (RAM + disk).
   Future<void> clearAll() async {
-    _groqApiKey = null;
     _geminiApiKey = null;
+    _selfHostedLlmUrl = null;
+    _selfHostedLlmToken = null;
     _hfApiKey = null;
     _supabaseUrl = null;
     _supabaseAnonKey = null;
@@ -215,12 +234,15 @@ class AIConfig {
   /// Sadece belirli anahtarları temizle.
   Future<void> clearKeys({
     bool gemini = false,
-    bool groq = false,
+    bool selfHosted = false,
     bool huggingFace = false,
     bool supabase = false,
   }) async {
     if (gemini) _geminiApiKey = null;
-    if (groq) _groqApiKey = null;
+    if (selfHosted) {
+      _selfHostedLlmUrl = null;
+      _selfHostedLlmToken = null;
+    }
     if (huggingFace) _hfApiKey = null;
     if (supabase) {
       _supabaseUrl = null;
@@ -231,10 +253,15 @@ class AIConfig {
 
   // ── HTTP Header'ları ──
 
-  Map<String, String> get groqHeaders => <String, String>{
-        'Authorization': 'Bearer $groqApiKey',
-        'Content-Type': 'application/json',
-      };
+  Map<String, String> get selfHostedHeaders {
+    final Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json',
+    };
+    if (selfHostedLlmToken.trim().isNotEmpty) {
+      headers['Authorization'] = 'Bearer ${selfHostedLlmToken.trim()}';
+    }
+    return headers;
+  }
 
   Map<String, String> get hfHeaders => <String, String>{
         'Authorization': 'Bearer $hfApiKey',

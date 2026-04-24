@@ -10,15 +10,15 @@
 //  ├─────────────────────────────────────────┤
 //  │  DeepAnalysisOrchestrator (bu dosya)    │
 //  ├──────────┬──────────┬───────────────────┤
-//  │ Embedding│  Groq    │  VectorStore      │
-//  │ Service  │  LLM     │  (profil vektör)  │
+//  │ Embedding│SelfHost │  VectorStore      │
+//  │ Service  │  LLM    │  (profil vektör)  │
 //  ├──────────┴──────────┴───────────────────┤
 //  │  TextAnalysisEngine (kural tabanlı)     │
 //  │  → AI yoksa bu katman tek başına çalışır│
 //  └─────────────────────────────────────────┘
 //
 //  Graceful Degradation:
-//  Groq + HF varsa → Tam AI analiz
+//  Self-hosted + HF varsa → Tam AI analiz
 //  Sadece HF varsa → Vektörel + kural tabanlı
 //  Hiçbiri yoksa   → Sadece kural tabanlı motor
 // ══════════════════════════════════════════════════════════════
@@ -35,7 +35,8 @@ import 'ai_config.dart';
 import 'ai_contracts.dart';
 import 'dynamic_prompt_builder.dart';
 import 'gemini_chat_service.dart';
-import 'groq_analysis_service.dart';
+import 'llm_analysis_models.dart';
+import 'self_hosted_llm_service.dart';
 import 'vector_profile_store.dart';
 
 /// Birleşik analiz sonucu — hem kural tabanlı hem AI
@@ -120,7 +121,7 @@ class DeepAnalysisOrchestrator {
 
   bool get hasChatAi => AIConfig.instance.isChatLlmAvailable;
   bool get hasDeepAnalysisAi =>
-      AIConfig.instance.hasGemini || AIConfig.instance.hasGroq;
+      AIConfig.instance.hasSelfHostedLlm || AIConfig.instance.hasGemini;
   bool get hasFullMotor =>
       hasDeepAnalysisAi && AIConfig.instance.hasHuggingFace;
 
@@ -133,8 +134,8 @@ class DeepAnalysisOrchestrator {
     final String contentHash = _buildHash(<Object?>[
       systemPrompt,
       userMessage,
+      AIConfig.instance.hasSelfHostedLlm,
       AIConfig.instance.hasGemini,
-      AIConfig.instance.hasGroq,
     ]);
 
     Future<AiEnvelope<ChatTurnPayload>> runWithProvider({
@@ -155,6 +156,21 @@ class DeepAnalysisOrchestrator {
       );
     }
 
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        return await runWithProvider(
+          call: () => SelfHostedLlmService.instance.completeJson(
+            systemPrompt: systemPrompt,
+            userMessage: userMessage,
+            task: 'chat_onboarding_turn',
+          ),
+          provider: AIConfig.selfHostedProviderLabel,
+        );
+      } catch (e) {
+        debugPrint('Chat onboarding self-hosted hatasi, Gemini deneniyor: $e');
+      }
+    }
+
     if (AIConfig.instance.hasGemini) {
       try {
         return await runWithProvider(
@@ -162,24 +178,10 @@ class DeepAnalysisOrchestrator {
             systemPrompt: systemPrompt,
             userMessage: userMessage,
           ),
-          provider: 'Gemini 2.5 Flash',
+          provider: AIConfig.geminiProviderLabel,
         );
       } catch (e) {
-        debugPrint('Chat onboarding Gemini hatasi, Groq deneniyor: $e');
-      }
-    }
-
-    if (AIConfig.instance.hasGroq) {
-      try {
-        return await runWithProvider(
-          call: () => GroqAnalysisService.instance.completeJson(
-            systemPrompt: systemPrompt,
-            userMessage: userMessage,
-          ),
-          provider: 'Groq Qwen3 32B',
-        );
-      } catch (e) {
-        debugPrint('Chat onboarding Groq hatasi: $e');
+        debugPrint('Chat onboarding Gemini hatasi: $e');
       }
     }
 
@@ -203,8 +205,8 @@ class DeepAnalysisOrchestrator {
     final String contentHash = _buildHash(<Object?>[
       systemPrompt,
       userMessage,
+      AIConfig.instance.hasSelfHostedLlm,
       AIConfig.instance.hasGemini,
-      AIConfig.instance.hasGroq,
     ]);
 
     BeliefExtractionPayload fallback = const BeliefExtractionPayload(
@@ -217,6 +219,29 @@ class DeepAnalysisOrchestrator {
       beliefAmbiguityIsNormal: 4,
       beliefLoveOvercomesIssues: 4,
     );
+
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        final Map<String, dynamic> json =
+            await SelfHostedLlmService.instance.completeJson(
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+          task: 'belief_extraction',
+        );
+        sw.stop();
+        return AiEnvelope<BeliefExtractionPayload>(
+          task: AiTaskType.beliefExtraction,
+          mode: AiRunMode.llm,
+          payload: _parseBeliefPayload(json),
+          latencyMs: sw.elapsedMilliseconds,
+          contentHash: contentHash,
+          isEnhanced: true,
+          provider: AIConfig.selfHostedProviderLabel,
+        );
+      } catch (e) {
+        debugPrint('Belief extraction self-hosted hatasi, Gemini deneniyor: $e');
+      }
+    }
 
     if (AIConfig.instance.hasGemini) {
       try {
@@ -233,32 +258,10 @@ class DeepAnalysisOrchestrator {
           latencyMs: sw.elapsedMilliseconds,
           contentHash: contentHash,
           isEnhanced: true,
-          provider: 'Gemini 2.5 Flash',
+          provider: AIConfig.geminiProviderLabel,
         );
       } catch (e) {
-        debugPrint('Belief extraction Gemini hatasi, Groq deneniyor: $e');
-      }
-    }
-
-    if (AIConfig.instance.hasGroq) {
-      try {
-        final Map<String, dynamic> json =
-            await GroqAnalysisService.instance.completeJson(
-          systemPrompt: systemPrompt,
-          userMessage: userMessage,
-        );
-        sw.stop();
-        return AiEnvelope<BeliefExtractionPayload>(
-          task: AiTaskType.beliefExtraction,
-          mode: AiRunMode.llm,
-          payload: _parseBeliefPayload(json),
-          latencyMs: sw.elapsedMilliseconds,
-          contentHash: contentHash,
-          isEnhanced: true,
-          provider: 'Groq Qwen3 32B',
-        );
-      } catch (e) {
-        debugPrint('Belief extraction Groq hatasi: $e');
+        debugPrint('Belief extraction Gemini hatasi: $e');
       }
     }
 
@@ -292,13 +295,32 @@ class DeepAnalysisOrchestrator {
     bool enhanced = false;
     String? error;
     String provider = 'Yerel temel motor';
-    String note = AIConfig.instance.hasGemini
-        ? 'Gemini 2.5 Flash denemesi baslatildi.'
-        : (AIConfig.instance.hasGroq
-            ? 'Groq fallback denemesi baslatildi.'
+    String note = AIConfig.instance.hasSelfHostedLlm
+        ? 'Self-hosted LLM denemesi baslatildi.'
+        : (AIConfig.instance.hasGemini
+            ? 'Gemini 2.5 ailesi denemesi baslatildi.'
             : 'LLM anahtari olmadigi icin yerel ayna raporu kullanildi.');
 
-    if (AIConfig.instance.hasGemini) {
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        final Map<String, dynamic> json =
+            await SelfHostedLlmService.instance.completeJson(
+          systemPrompt: DynamicPromptBuilder.buildPsycheAnchorPrompt(profile),
+          userMessage: _buildProfileNarrativeMessage(profile),
+          task: 'psyche_anchor',
+        );
+        payload = _parsePsycheAnchor(json, fallback: payload);
+        enhanced = true;
+        provider = AIConfig.selfHostedProviderLabel;
+        note = 'Self-hosted LLM JSON cevabi basariyla cozuldu.';
+      } catch (e) {
+        debugPrint('Psyche anchor self-hosted hatasi, Gemini deneniyor: $e');
+        error = e.toString();
+        note = 'Self-hosted cagrisi basarisiz oldu; Gemini yedegi denenecek.';
+      }
+    }
+
+    if (!enhanced && AIConfig.instance.hasGemini) {
       try {
         final Map<String, dynamic> json =
             await GeminiChatService.instance.generateJson(
@@ -307,32 +329,17 @@ class DeepAnalysisOrchestrator {
         );
         payload = _parsePsycheAnchor(json, fallback: payload);
         enhanced = true;
-        provider = 'Gemini 2.5 Flash';
-        note = 'Gemini 2.5 Flash JSON cevabi basariyla cozuldu.';
+        provider = AIConfig.geminiProviderLabel;
+        note = 'Gemini 2.5 ailesi JSON cevabi basariyla cozuldu.';
       } catch (e) {
-        debugPrint('Psyche anchor Gemini hatasi, Groq deneniyor: $e');
+        debugPrint('Psyche anchor Gemini hatasi: $e');
         error = e.toString();
-        note = 'Gemini cagrisi basarisiz oldu; Groq fallback denenecek.';
+        note = 'Gemini cagrisi basarisiz oldu; temel ayna raporuna donulecek.';
       }
     }
 
-    if (!enhanced && AIConfig.instance.hasGroq) {
-      try {
-        final Map<String, dynamic> json =
-            await GroqAnalysisService.instance.completeJson(
-          systemPrompt: DynamicPromptBuilder.buildPsycheAnchorPrompt(profile),
-          userMessage: _buildProfileNarrativeMessage(profile),
-        );
-        payload = _parsePsycheAnchor(json, fallback: payload);
-        enhanced = true;
-        provider = 'Groq Qwen3 32B';
-        error = null;
-        note = 'Groq fallback JSON cevabi basariyla cozuldu.';
-      } catch (e) {
-        debugPrint('Psyche anchor Groq hatasi: $e');
-        error = e.toString();
-        note = 'Gemini ve Groq cagrilari basarisiz oldu; temel ayna raporuna donuldu.';
-      }
+    if (!enhanced && error != null) {
+      note = 'LLM cagrilari basarisiz oldu; temel ayna raporuna donuldu.';
     }
 
     sw.stop();
@@ -345,7 +352,7 @@ class DeepAnalysisOrchestrator {
       isEnhanced: enhanced,
       provider: enhanced
           ? provider
-          : ((AIConfig.instance.hasGemini || AIConfig.instance.hasGroq)
+          : ((AIConfig.instance.hasSelfHostedLlm || AIConfig.instance.hasGemini)
               ? 'LLM denendi -> yerel temel motor'
               : 'Yerel temel motor'),
       note: note,
@@ -406,13 +413,38 @@ class DeepAnalysisOrchestrator {
     bool enhanced = false;
     String? error;
     String provider = 'Yerel mock analiz';
-    String note = AIConfig.instance.hasGemini
-        ? 'Gemini 2.5 Flash reflection analizi denendi.'
-        : (AIConfig.instance.hasGroq
-            ? 'Groq reflection fallback denendi.'
+    String note = AIConfig.instance.hasSelfHostedLlm
+        ? 'Self-hosted reflection analizi denendi.'
+        : (AIConfig.instance.hasGemini
+            ? 'Gemini 2.5 ailesi reflection analizi denendi.'
             : 'LLM anahtari olmadigi icin reflection yerel motordan uretildi.');
 
-    if (AIConfig.instance.hasGemini) {
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        final Map<String, dynamic> json =
+            await SelfHostedLlmService.instance.completeJson(
+          systemPrompt: DynamicPromptBuilder.buildReflectionReportPrompt(
+            profile,
+          ),
+          userMessage: _buildReflectionUserMessage(draft),
+          task: 'reflection_report',
+        );
+        payload = _parseReflectionReport(
+          json,
+          sessionId: sessionId,
+          fallback: fallback,
+        );
+        enhanced = true;
+        provider = AIConfig.selfHostedProviderLabel;
+        note = 'Self-hosted reflection JSON cevabi basariyla cozuldu.';
+      } catch (e) {
+        debugPrint('Reflection report self-hosted hatasi, Gemini deneniyor: $e');
+        error = e.toString();
+        note = 'Self-hosted reflection basarisiz oldu; Gemini yedegi denenecek.';
+      }
+    }
+
+    if (!enhanced && AIConfig.instance.hasGemini) {
       try {
         final Map<String, dynamic> json =
             await GeminiChatService.instance.generateJson(
@@ -427,37 +459,12 @@ class DeepAnalysisOrchestrator {
           fallback: fallback,
         );
         enhanced = true;
-        provider = 'Gemini 2.5 Flash';
-        note = 'Gemini 2.5 Flash reflection JSON cevabi basariyla cozuldu.';
+        provider = AIConfig.geminiProviderLabel;
+        note = 'Gemini 2.5 ailesi reflection JSON cevabi basariyla cozuldu.';
       } catch (e) {
-        debugPrint('Reflection report Gemini hatasi, Groq deneniyor: $e');
+        debugPrint('Reflection report Gemini hatasi: $e');
         error = e.toString();
-        note = 'Gemini reflection cagrisi basarisiz oldu; Groq fallback denenecek.';
-      }
-    }
-
-    if (!enhanced && AIConfig.instance.hasGroq) {
-      try {
-        final Map<String, dynamic> json =
-            await GroqAnalysisService.instance.completeJson(
-          systemPrompt: DynamicPromptBuilder.buildReflectionReportPrompt(
-            profile,
-          ),
-          userMessage: _buildReflectionUserMessage(draft),
-        );
-        payload = _parseReflectionReport(
-          json,
-          sessionId: sessionId,
-          fallback: fallback,
-        );
-        enhanced = true;
-        provider = 'Groq Qwen3 32B';
-        error = null;
-        note = 'Groq reflection fallback JSON cevabi basariyla cozuldu.';
-      } catch (e) {
-        debugPrint('Reflection report Groq hatasi: $e');
-        error = e.toString();
-        note = 'Gemini ve Groq reflection cagrilari basarisiz oldu; mock analiz kullanildi.';
+        note = 'Gemini reflection cagrisi basarisiz oldu; yerel analiz kullanilacak.';
       }
     }
 
@@ -471,7 +478,7 @@ class DeepAnalysisOrchestrator {
       isEnhanced: enhanced,
       provider: enhanced
           ? provider
-          : ((AIConfig.instance.hasGemini || AIConfig.instance.hasGroq)
+          : ((AIConfig.instance.hasSelfHostedLlm || AIConfig.instance.hasGemini)
               ? 'LLM denendi -> yerel mock analiz'
               : 'Yerel mock analiz'),
       note: note,
@@ -486,7 +493,7 @@ class DeepAnalysisOrchestrator {
   /// Profil oluşturma sonrası tam derin analiz.
   /// 1. Kural tabanlı TextAnalysisEngine çalışır
   /// 2. Metinler vektörlenir ve depolanır
-  /// 3. AI varsa Groq ile derin karakter analizi yapılır
+  /// 3. AI varsa self-hosted/Gemini ile derin karakter analizi yapılır
   Future<DeepAnalysisResult> analyzeProfile(OnboardingProfile profile) async {
     final Stopwatch sw = Stopwatch()..start();
 
@@ -753,6 +760,20 @@ class DeepAnalysisOrchestrator {
     required String userMessage,
     required AnalysisType type,
   }) async {
+    if (AIConfig.instance.hasSelfHostedLlm) {
+      try {
+        final Map<String, dynamic> json =
+            await SelfHostedLlmService.instance.completeJson(
+          systemPrompt: systemPrompt,
+          userMessage: userMessage,
+          task: type.name,
+        );
+        return _parseStructuredAnalysisJson(json);
+      } catch (e) {
+        debugPrint('Self-hosted structured analysis hatasi, Gemini deneniyor: $e');
+      }
+    }
+
     if (AIConfig.instance.hasGemini) {
       try {
         final Map<String, dynamic> json =
@@ -762,19 +783,7 @@ class DeepAnalysisOrchestrator {
         );
         return _parseStructuredAnalysisJson(json);
       } catch (e) {
-        debugPrint('Gemini structured analysis hatasi, Groq deneniyor: $e');
-      }
-    }
-
-    if (AIConfig.instance.hasGroq) {
-      try {
-        return await GroqAnalysisService.instance.analyze(
-          systemPrompt: systemPrompt,
-          userMessage: userMessage,
-          type: type,
-        );
-      } catch (e) {
-        debugPrint('Groq structured analysis hatasi: $e');
+        debugPrint('Gemini structured analysis hatasi: $e');
       }
     }
 

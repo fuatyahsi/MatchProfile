@@ -1381,7 +1381,7 @@ class DailyCheckIn {
   final String coachInsight;        // visible daily interpretation
   final String microAction;         // one concrete next step
   final String patternNote;         // the pattern/progress hook for return use
-  final bool aiEnhanced;            // whether Groq-backed analysis was used
+  final bool aiEnhanced;            // whether LLM-backed analysis was used
 
   DailyCheckIn copyWith({
     DateTime? date,
