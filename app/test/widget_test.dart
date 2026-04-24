@@ -3,11 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:match_profile/src/controller.dart';
 import 'package:match_profile/src/home.dart';
 import 'package:match_profile/src/models.dart';
-import 'package:match_profile/src/pages/start_pages.dart';
 import 'package:match_profile/src/theme.dart';
 
 void main() {
-  testWidgets('welcome start opens deep onboarding', (
+  testWidgets('welcome start opens chat onboarding', (
     WidgetTester tester,
   ) async {
     Future<void> pumpUi() async {
@@ -19,7 +18,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: buildAppTheme(),
-        home: _WelcomeHarness(controller: controller),
+        home: MatchProfileHome(controller: controller),
       ),
     );
     await pumpUi();
@@ -31,15 +30,8 @@ void main() {
     await tester.tap(find.byKey(const Key('welcome_start_button')));
     await pumpUi();
 
-    expect(find.byKey(const Key('onboarding_hub_screen')), findsOneWidget);
-
-    await tester.ensureVisible(find.byKey(const Key('onboarding_section_card_0')));
-    await pumpUi();
-    await tester.tap(find.byKey(const Key('onboarding_section_card_0')));
-    await pumpUi();
-
-    expect(find.byKey(const Key('onboarding_name_field')), findsOneWidget);
-    expect(find.byKey(const Key('onboarding_next_button')), findsOneWidget);
+    expect(find.text('Hizli baslangic'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
   });
 
   testWidgets('critical reflection to journal flow works', (
@@ -129,33 +121,6 @@ void main() {
     expect(controller.latestEntry?.title, 'First dinner date');
     expect(controller.latestEntry?.report.summary, isNotEmpty);
   });
-}
-
-class _WelcomeHarness extends StatefulWidget {
-  const _WelcomeHarness({required this.controller});
-
-  final MatchProfileController controller;
-
-  @override
-  State<_WelcomeHarness> createState() => _WelcomeHarnessState();
-}
-
-class _WelcomeHarnessState extends State<_WelcomeHarness> {
-  bool _showOnboarding = false;
-
-  @override
-  Widget build(BuildContext context) {
-    if (_showOnboarding) {
-      return OnboardingPage(
-        controller: widget.controller,
-        onComplete: () {},
-      );
-    }
-
-    return WelcomePage(
-      onStart: () => setState(() => _showOnboarding = true),
-    );
-  }
 }
 
 OnboardingProfile _sampleProfile() {

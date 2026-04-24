@@ -752,7 +752,6 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       ChatPhase.greeting => 'Tanışma',
       ChatPhase.deepDive => 'Muhabbet',
       ChatPhase.beliefs => 'İnançlar',
-      ChatPhase.confirmation => 'Son adım',
       ChatPhase.complete => 'Tamam!',
     };
   }
@@ -1191,7 +1190,6 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       ChatPhase.deepDive => 0.1 + (_service.history.where(
               (ChatMessage m) => m.role == 'user').length * 0.1).clamp(0.0, 0.6),
       ChatPhase.beliefs => 0.8,
-      ChatPhase.confirmation => 0.9,
       ChatPhase.complete => 1.0,
     };
 

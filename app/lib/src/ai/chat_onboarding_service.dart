@@ -6,13 +6,11 @@
 //  kullanıcıyla akıcı bir diyalog kurar.
 //
 //  Akış:
-//  1. Karşılama mesajı → kullanıcı ismini öğren
+//  1. İlk kullanıcı mesajı → kullanıcı ismini öğren
 //  2. 5-7 açık uçlu sohbet turu → profil alanlarını LLM çıkarsın
 //  3. Eksik kritik alanlar için takip soruları
-//  4. Onay & tamamlama
+//  4. İnanç sorusu & tamamlama
 // ══════════════════════════════════════════════════════════════
-
-// ignore_for_file: unused_element
 
 import 'package:flutter/foundation.dart';
 
@@ -41,7 +39,6 @@ enum ChatPhase {
   greeting,       // İsim öğrenme
   deepDive,       // Ana sohbet turları (5-7 tur)
   beliefs,        // İnanç skalası (kısa)
-  confirmation,   // Onay
   complete,       // Tamamlandı
 }
 
@@ -274,24 +271,6 @@ class ChatOnboardingService {
     return _handleDeepDive('analize geç');
   }
 
-  /// İlk karşılama mesajını LLM ile üretir. Yanıt gelmezse null döner.
-  Future<ChatMessage?> getGreeting() async {
-    if (!AIConfig.instance.isChatLlmAvailable) {
-      throw const LlmUnavailableException(
-        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. '
-        'Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
-      );
-    }
-
-    final String reply = await _requestAssistantOnlyMessage(
-      systemPrompt: _buildFocusedGreetingSystemPrompt(),
-      userMessage:
-          'İlk mesajı yaz. Boş küçük sohbet yapma. Ya hitap biçimini sor ya da doğrudan kendini birkaç cümleyle anlatmasını iste.',
-    );
-    if (reply.trim().isEmpty) return null;
-    return _addAssistant(reply.trim());
-  }
-
   /// Kullanıcı mesajını işle ve yanıt üret.
   /// LLM yoksa [LlmUnavailableException] fırlatır.
   Future<ChatMessage?> processUserMessage(String userText) async {
@@ -305,8 +284,6 @@ class ChatOnboardingService {
         return _handleDeepDive(userText);
       case ChatPhase.beliefs:
         return _handleBeliefs(userText);
-      case ChatPhase.confirmation:
-        return _handleConfirmation(userText);
       case ChatPhase.complete:
         return null;
     }
@@ -448,31 +425,6 @@ class ChatOnboardingService {
       systemPrompt: _buildFocusedCompletionSystemPrompt(),
       userMessage:
           'Kullanici son inanc sorusunu yanitladi. Kisa sekilde profil taslagini hazirladigini soyle. Yasal onay isteme; uygulama bunu ayri ekranda alacak.',
-    );
-    if (reply.trim().isEmpty) return null;
-    return _addAssistant(reply.trim());
-  }
-
-  Future<ChatMessage?> _handleConfirmation(String userText) async {
-    final String lower = userText.trim().toLowerCase();
-    if (lower.contains('evet') ||
-        lower.contains('onay') ||
-        lower.contains('tamam') ||
-        lower.contains('kabul') ||
-        lower == 'e') {
-      _phase = ChatPhase.complete;
-      final String reply = await _requestAssistantOnlyMessage(
-        systemPrompt: _buildFocusedCompletionSystemPrompt(),
-        userMessage:
-            'Kullanici onay verdi. Cok kisa bir sekilde kaydetmeye gectigini soyle.',
-      );
-      if (reply.trim().isEmpty) return null;
-      return _addAssistant(reply.trim());
-    }
-    final String reply = await _requestAssistantOnlyMessage(
-      systemPrompt: _buildFocusedConfirmationSystemPrompt(),
-      userMessage:
-          'Kullanici net bir onay vermedi. Ayni seyi tekrar etmeden, kisa ve nazik bir sekilde onay iste.',
     );
     if (reply.trim().isEmpty) return null;
     return _addAssistant(reply.trim());
@@ -622,196 +574,6 @@ class ChatOnboardingService {
     );
   }
 
-  String _buildGreetingSystemPrompt() {
-    return '''
-Sen "Sirdas"sin. Turkceyi dogal, akici ve sicak kullan.
-
-KURALLAR:
-- En fazla 2 cumle yaz.
-- Kendini kisaca tanit.
-- Karsindaki kisiye guven veren ama yapay durmayan bir acilis yap.
-- Sadece tek soru sor.
-- "Kendini nasil tanimlarim?" gibi bozuk veya ceviri kokan ifadeler kullanma.
-- "Ismini paylasmak istemezsen sorun degil" gibi erken savunma cümlesi kurma; simdilik sadece acilis yap.
-''';
-  }
-
-  String _buildBeliefTransitionSystemPrompt() {
-    return '''
-Sen "Sirdas"sin. Turkceyi dogal, kisa ve temiz kullan.
-
-KURALLAR:
-- En fazla 2 cumle yaz.
-- Profil toplama kismindan inanc/sezgi sorusuna zarif bir gecis yap.
-- Tek soru sor.
-- Yapay ceviri dili kullanma.
-- Asiri samimi veya laubali olma.
-''';
-  }
-
-  String _buildConfirmationSystemPrompt() {
-    return '''
-Sen "Sirdas"sin. Turkceyi dogal, nazik ve kisa kullan.
-
-KURALLAR:
-- En fazla 2 cumle yaz.
-- Tek soru sor veya tek bir onay cümlesi yaz.
-- Hukuki/onay metnini robot gibi degil, insan gibi ifade et.
-- "onayliyosun di mi" gibi gevsek dil kullanma.
-''';
-  }
-
-  String _buildCompletionSystemPrompt() {
-    return '''
-Sen "Sirdas"sin. Turkceyi kisa, guven veren ve dogal kullan.
-
-KURALLAR:
-- Tek cumle yaz.
-- Kullanicinin onay verdigini anla ve kaydetmeye gectigini kisaca soyle.
-- Kutlama tonu olabilir ama asiriya kacma.
-''';
-  }
-
-  String _buildClosingGapSystemPrompt({
-    required List<String> missingFields,
-  }) {
-    return '''
-Sen "Sirdas"sin. Turkceyi dogal, kisa ve nazik kullan.
-
-KURALLAR:
-- Kullanici sohbeti kapatmak istedigini hissettiriyor.
-- Bunu kabul et ama profili saglam kapatmak icin sadece tek bir en kritik soruyu sor.
-- En fazla 2 cumle yaz.
-- "Baska bir sey var mi?" gibi bos kapanis sorulari sorma.
-- Eksik alanlardan en yuksek degerli olani sec.
-
-EKSIK ALANLAR:
-${missingFields.isEmpty ? 'yok' : missingFields.join('\n')}
-''';
-  }
-
-  String _buildChatTurnSystemPrompt({
-    required List<String> missingFields,
-    required List<String> filledFields,
-  }) {
-    return '''
-Sen "Sırdaş"sın. Samimi, kısa, güven veren ama laubali olmayan bir Türkçe ile konuş.
-
-GÖREV:
-Tek bir JSON döndür. Aynı cevap içinde hem kullanıcının mesajından profil alanlarını çıkar hem de doğal bir sonraki sohbet mesajını üret.
-
-KONUŞMA KURALLARI:
-- assistant_reply en fazla 2 cümle olsun.
-- Tek bir ana soru sor.
-- "kanka", "ya", "valla", "canım", "tatlım" gibi aşırı gündelik hitaplar kullanma.
-- Önce kısa bir karşılık ver, sonra tek bir soru sor.
-- Kullanıcının daha önce söylediğini tekrar sorma; gerekiyorsa farklı açıdan yaklaş.
-- Mahrem bir bağlam fark edersen bunu dramatikleştirme ama gerçekten gördüğünü hissettir.
-
-PROFİL ÇIKARMA KURALLARI:
-- Sadece kullanıcının yazdığı mesajda net olan alanları doldur.
-- Tahmin yapma.
-- Bulamadığın alanları ekleme.
-- extracted_fields içinde sadece bu turda gerçekten yakaladığın alanlar olsun.
-
-TOPLANAN: ${filledFields.isEmpty ? 'henüz yok' : filledFields.join(', ')}
-EKSİK: ${missingFields.isEmpty ? 'tamam' : missingFields.join(', ')}
-
-JSON FORMATI:
-{
-  "assistant_reply": "Kisa dogal yanit + tek soru",
-  "acknowledged_sensitive_context": true,
-  "extracted_fields": {
-    "displayName": "varsa",
-    "selfDescription": "varsa",
-    "friendDescription": "varsa",
-    "threeExperiences": "varsa",
-    "currentLifeTheme": "varsa",
-    "datingChallenge": "varsa",
-    "freeformAboutMe": "varsa",
-    "goal": "serious|openExplore|slowBond|shortTerm|unsure",
-    "pacingPreference": "slow|balanced|fastButClear",
-    "relationshipExperience": "first|few|several|extensive",
-    "idealDay": "varsa",
-    "communicationPreference": "frequentContact|balancedRegular|spaceGiving|deepConversation|lightFun",
-    "conflictStyle": "talkItOut|coolDownFirst|shutDown|distance|overEngage|appease",
-    "ambiguityResponse": "wait|ask|withdraw|overthink|testInterest|assumeAndDecide",
-    "fatigueResponse": "seekCloseness|pullAway|test|goSilent|overAnalyze",
-    "assuranceNeed": "low|medium|high",
-    "vulnerabilityArea": "varsa",
-    "coreTraits": ["Ozellik 1"],
-    "values": ["Deger 1"],
-    "blindSpots": ["Kor nokta 1"],
-    "dealbreakers": ["sinir 1"],
-    "lifestyleFactors": ["uyum basligi 1"],
-    "alarmTriggers": ["alarm 1"],
-    "recurringPattern": "varsa",
-    "feedbackFromCloseOnes": "varsa",
-    "biggestMisjudgment": "varsa",
-    "trustBuilder": "varsa",
-    "openingUpTime": "varsa",
-    "recentDatingChallenge": "varsa",
-    "showsInterestHow": "varsa",
-    "directVsSoft": "Doğrudan ve net|Yumuşak ve dolaylı|Duruma göre",
-    "boundaryDifficulty": "varsa",
-    "attachmentHistory": "varsa",
-    "stayedTooLong": "varsa",
-    "jealousyLevel": "Düşük|Orta|Yüksek",
-    "respectSignal": "varsa",
-    "valueConflict": "varsa",
-    "unheardFeeling": "varsa",
-    "feelingsChanged": "varsa",
-    "messagingImportance": "varsa",
-    "misunderstandingRisk": "varsa",
-    "partnerShouldKnowEarly": "varsa",
-    "potentialVsBehavior": "varsa",
-    "safetyExperience": "varsa",
-    "judgmentCloudedBy": "varsa",
-    "freeformForProfile": "varsa",
-    "profileSummaryFeedback": "varsa",
-    "highAssuranceThought": "varsa",
-    "idealizationAwareness": "varsa",
-    "firstRelationshipLearning": "varsa",
-    "noSecondChanceBehavior": "varsa",
-    "fastAttachmentDriver": "varsa",
-    "fastEliminationReason": "varsa"
-  }
-}
-''';
-  }
-
-  String _buildChatTurnUserPayload({
-    required String conversationSoFar,
-    required String latestUserMessage,
-  }) {
-    return 'Şimdiye kadarki sohbet:\n$conversationSoFar\n'
-        'Son kullanıcı mesajı:\n$latestUserMessage';
-  }
-
-  /// JSON'dan çıkarılan alanları uygula (boş olmayanları)
-  String _buildFocusedGreetingSystemPrompt() {
-    return '''
-Sen "Sırdaş"sın. Doğal, temiz ve güncel Türkçe kullan.
-
-AMAÇ:
-- İlk mesajdan itibaren profil toplamaya başla.
-- Boş küçük sohbet yapma.
-
-KURALLAR:
-- En fazla 2 kısa cümle yaz.
-- İlk cümlede kendini kısaca tanıt.
-- İkinci cümlede tek bir soru sor.
-- İlk soru profile giriş açsın.
-- "Bugün nasılsın?" diye sorma.
-- "Sohbet etmekten memnuniyet duyarım", "Kendini nasıl tanımlarım?" gibi yapay kalıplar kullanma.
-- Güven veren ama resmi durmayan bir ton kullan.
-
-İYİ ÖRNEKLER:
-- "Merhaba, ben Sırdaş. Sana nasıl hitap etmemi istersin?"
-- "Merhaba, ben Sırdaş. Seni biraz tanımam için kendini birkaç cümleyle anlatır mısın?"
-''';
-  }
-
   String _buildFocusedPostNameSystemPrompt({
     required bool hasName,
     required String displayName,
@@ -892,22 +654,6 @@ KURALLAR:
 - "Bunu gördüm. İlişkilerde seni en çok ne yoruyor?"
 - "Tamam, bunu not aldım. Sana iyi gelen ilişki nasıl bir şey?"
 - "Bunu anladım. Sende sık tekrar eden şey ne oluyor?"
-''';
-  }
-
-  String _buildFocusedConfirmationSystemPrompt() {
-    return '''
-Sen "Sırdaş"sın. Doğal, kısa ve sakin Türkçe kullan.
-
-AMAÇ:
-- Onboarding'i tek soruda kapat.
-
-KURALLAR:
-- Tercihen tek cümle yaz; en fazla 2 cümle.
-- Profil taslaginin review ekraninda onaylanacagini soyle.
-- Yasal onay isteme; uygulama bunu ayri checkbox'larla alacak.
-- Bürokratik ya da robotik dil kullanma.
-- "onaylıyosun di mi" gibi gevşek dil kullanma.
 ''';
   }
 
@@ -1265,25 +1011,6 @@ Sadece JSON döndür:
         (String v) => _extracted.fastEliminationReason = v);
   }
 
-  String _beliefExtractionPrompt() {
-    return '''
-Kullanıcının aşk ve ilişki inançları hakkındaki mesajını oku.
-Her inanç için 1-7 arası bir skor belirle (1=hiç katılmıyorum, 7=tamamen katılıyorum).
-Kullanıcının söylediklerinden çıkarım yap, tahmin etme. Emin değilsen 4 ver.
-
-JSON formatında döndür:
-{
-  "beliefRightPersonFindsWay": 4,
-  "beliefChemistryFeltFast": 4,
-  "beliefStrongAttractionIsSign": 4,
-  "beliefFeelsRightOrNot": 4,
-  "beliefFirstFeelingsAreTruth": 4,
-  "beliefPotentialEqualsValue": 4,
-  "beliefAmbiguityIsNormal": 4,
-  "beliefLoveOvercomesIssues": 4
-}
-''';
-  }
 
   void _applyBeliefs(BeliefExtractionPayload payload) {
     _extracted.beliefRightPersonFindsWay =
@@ -1311,124 +1038,6 @@ JSON formatında döndür:
       'beliefAmbiguityIsNormal',
       'beliefLoveOvercomesIssues',
     ]);
-  }
-
-  /// Bir sonraki sohbet yanıtını LLM ile oluştur.
-  /// Kullanıcı ne derse desin (profil bilgisi, anlamadım, emoji, alakasız konu,
-  /// tek kelime cevap, vs.) LLM doğal şekilde yanıt verir.
-  ///
-  /// Öncelik: self-hosted HF Space. Yedek: Gemini 2.5 ailesi.
-  Future<String> _generateNextQuestion() async {
-    final StringBuffer conversationSoFar = StringBuffer();
-    // Son 12 tur yeterli — token tasarrufu + Gemini ücretsiz katmanını korur.
-    final List<ChatMessage> recent = _history.length > 12
-        ? _history.sublist(_history.length - 12)
-        : _history;
-    for (final ChatMessage msg in recent) {
-      final String role = msg.role == 'assistant' ? 'Sırdaş' : 'Kullanıcı';
-      conversationSoFar.writeln('$role: ${msg.content}');
-      conversationSoFar.writeln();
-    }
-
-    final List<String> missingFields = _getMissingFields();
-    final List<String> filledFields = _getFilledFields();
-
-    final String systemPrompt = '''
-Sen "Sırdaş"sın. Sıcak, kısa ve güven veren bir dille konuş. Türkçen akıcı ve doğal olmalı.
-
-KURALLAR:
-- Max 1-2 cümle. 3 cümleyi geçme.
-- Samimi ol ama laubali olma.
-- "kanka", "ya", "hani", "valla", "canım", "tatlım" gibi aşırı gündelik hitaplar kullanma.
-- Yakın arkadaş rahatlığında ol ama saygılı kal.
-- TEK soru sor. Çoklu soru sorma.
-- Önce kısa bir karşılık ver ("Anladım", "Bu önemli", "Bu zorlayıcı olabilir"), sonra sorunu sor.
-- Hassas konuda empati göster ama dramatikleşme.
-- Son 12 tur sana veriliyor — zaten sorduğun soruyu TEKRAR sorma, gerekiyorsa farklı açıdan yaklaş.
-- Aynı cümle kalıbını arka arkaya kullanma.
-
-ÖRNEK İYİ SORULAR:
-"İlişkilerde seni en çok ne yoruyor?"
-"Birine güvenmen için sende ne oluşması gerekiyor?"
-"Sende sık tekrar eden şey ne oluyor?"
-"En hassas olduğun yer neresi?"
-"Arkadaşların senin hakkında en çok ne söylüyor?"
-"Bir anlaşmazlıkta ilk yaptığın şey ne oluyor?"
-"Sınır koymak senin için kolay mı?"
-"Seni tanıyan biri en başta neyi bilse iyi olur?"
-
-TOPLANAN: ${filledFields.isEmpty ? 'henüz yok' : filledFields.join(', ')}
-
-EKSİK: ${missingFields.isEmpty ? 'tamam' : missingFields.join(', ')}
-
-Eksiklerden birini doğal sohbetle topla. SADECE sohbet mesajını yaz — başka hiçbir şey ekleme.
-''';
-
-    final String userPayload =
-        'Şimdiye kadarki sohbet:\n$conversationSoFar\n\n'
-        'Sıradaki doğal sohbet yanıtını yaz. Sadece metni döndür, JSON veya etiket kullanma.';
-
-    // ── Öncelik 1: Gemini 2.5 Flash (kaliteli Türkçe)
-    if (AIConfig.instance.hasGemini) {
-      try {
-        final String reply = await GeminiChatService.instance.generateReply(
-          systemPrompt: systemPrompt,
-          userMessage: userPayload,
-        );
-        final String trimmed = reply.trim();
-        if (trimmed.isNotEmpty) return trimmed;
-      } catch (e) {
-        debugPrint('Gemini sohbet hatası: $e');
-      }
-    }
-
-    // ── Yedek: self-hosted LLM (eski yardımcı akış)
-    if (AIConfig.instance.hasSelfHostedLlm) {
-      try {
-        final String reply = await SelfHostedLlmService.instance.completeText(
-          systemPrompt: systemPrompt,
-          userMessage: userPayload,
-          task: 'next_question',
-        );
-        final String trimmed = reply.trim();
-        if (trimmed.isNotEmpty) return trimmed;
-      } catch (e) {
-        debugPrint('Self-hosted sohbet yedek hatası: $e');
-      }
-    }
-
-    // LLM boş yanıt verdiyse basit bir takip sorusu
-    return _getDefaultFollowUp();
-  }
-
-  /// İnanç puanlarını metinden çıkar
-  Future<void> _extractBeliefsFromText(String userText) async {
-    final String systemPrompt = '''
-Kullanıcının aşk ve ilişki inançları hakkındaki mesajını oku.
-Her inanç için 1-7 arası bir skor belirle (1=hiç katılmıyorum, 7=tamamen katılıyorum).
-Kullanıcının söylediklerinden çıkarım yap, tahmin etme. Emin değilsen 4 ver.
-
-JSON formatında döndür:
-{
-  "beliefRightPersonFindsWay": 4,
-  "beliefChemistryFeltFast": 4,
-  "beliefStrongAttractionIsSign": 4,
-  "beliefFeelsRightOrNot": 4,
-  "beliefFirstFeelingsAreTruth": 4,
-  "beliefPotentialEqualsValue": 4,
-  "beliefAmbiguityIsNormal": 4,
-  "beliefLoveOvercomesIssues": 4
-}
-''';
-
-    final AiEnvelope<BeliefExtractionPayload> envelope =
-        await DeepAnalysisOrchestrator.instance.extractBeliefScores(
-      systemPrompt: systemPrompt,
-      userMessage: userText,
-    );
-    _applyBeliefs(envelope.payload);
-    return;
-
   }
 
   // ══════════════════════════════════════════════
@@ -1999,92 +1608,6 @@ JSON formatında döndür:
     }
 
     return filled;
-  }
-
-  String _getDefaultFollowUp() {
-    final List<String> missing = _getMissingFields();
-    if (missing.isEmpty) {
-      return 'Tamam, seni anlamak için iyi bir zemin oluştu.';
-    }
-
-    // Bölüm 1: Kendini Tanıt
-    if (!_hasField('selfDescription')) {
-      return 'Kendini üç kelimeyle anlatsan neler derdin?';
-    }
-    if (!_hasField('coreTraits')) {
-      return 'Seni en iyi tanımlayan 3 özellik ne olurdu?';
-    }
-    if (!_hasField('friendDescription')) {
-      return 'Arkadaşların seni birine tanıtsa ne der?';
-    }
-    if (!_hasField('datingChallenge')) {
-      return 'İlişkilerde seni en çok ne yoruyor?';
-    }
-
-    // Bölüm 2: İlişki
-    if (!_hasField('goal')) {
-      return 'Şu ara ilişkiden en çok ne bekliyorsun?';
-    }
-    if (!_hasField('trustBuilder')) {
-      return 'Birine güvenmen için sende ne oluşması gerekiyor?';
-    }
-    if (!_hasField('openingUpTime')) {
-      return 'Birine açılman ne kadar sürer genelde?';
-    }
-
-    // Bölüm 3: Değerler
-    if (!_hasField('values')) {
-      return 'İlişkide senin için en önemli şey ne?';
-    }
-    if (!_hasField('dealbreakers')) {
-      return 'Asla kabul etmeyeceğin bir davranış var mı?';
-    }
-    if (!_hasField('respectSignal')) {
-      return 'Sana saygı duyulduğunu nasıl anlarsın?';
-    }
-
-    // Bölüm 4: İletişim
-    if (!_hasField('showsInterestHow')) {
-      return 'Sen ilgini nasıl gösterirsin birine?';
-    }
-    if (!_hasField('unheardFeeling')) {
-      return 'Dinlenmediğini hissettiğinde ne yaparsın?';
-    }
-    if (!_hasField('conflictStyle')) {
-      return 'Bir anlaşmazlıkta ilk yaptığın şey ne oluyor?';
-    }
-
-    // Bölüm 5: Kör Noktalar
-    if (!_hasField('recurringPattern')) {
-      return 'Sende sık tekrar eden bir ilişki döngüsü var mı?';
-    }
-    if (!_hasField('feedbackFromCloseOnes')) {
-      return 'Yakınların ilişki konusunda sana en çok ne söylüyor?';
-    }
-    if (!_hasField('stayedTooLong')) {
-      return 'Gereğinden fazla kaldığın bir durum oldu mu?';
-    }
-
-    // Bölüm 7: Güvenlik
-    if (!_hasField('vulnerabilityArea')) {
-      return 'İlişkide en hassas olduğun alan neresi?';
-    }
-    if (!_hasField('alarmTriggers')) {
-      return 'Birinde gördüğünde sende alarm yaratan şeyler ne?';
-    }
-    if (!_hasField('boundaryDifficulty')) {
-      return 'Sınır koymak senin için kolay mı, zorlayıcı mı?';
-    }
-    if (!_hasField('attachmentHistory')) {
-      return 'Ailen bağlanma konusunda seni nasıl etkiledi?';
-    }
-
-    // Bölüm 8: Açık Alan
-    if (!_hasField('partnerShouldKnowEarly')) {
-      return 'Seninle tanışan biri ilk başta ne bilse iyi olur?';
-    }
-
-    return 'Bunu biraz daha açar mısın? Seni daha net anlamak istiyorum.';
   }
 
   // ── Enum Parsers ──
