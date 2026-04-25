@@ -271,6 +271,24 @@ class ChatOnboardingService {
     return _handleDeepDive('analize geç');
   }
 
+  /// İlk karşılama mesajını LLM ile üretir. Yanıt gelmezse null döner.
+  Future<ChatMessage?> getGreeting() async {
+    if (!AIConfig.instance.isChatLlmAvailable) {
+      throw const LlmUnavailableException(
+        'Self-hosted LLM veya Gemini API anahtarı bulunamadı. '
+        'Sohbet tabanlı onboarding için en az birinin yapılandırılması gerekli.',
+      );
+    }
+
+    final String reply = await _requestAssistantOnlyMessage(
+      systemPrompt: _buildFocusedGreetingSystemPrompt(),
+      userMessage:
+          'İlk mesajı yaz. Boş küçük sohbet yapma. Ya hitap biçimini sor ya da doğrudan kendini birkaç cümleyle anlatmasını iste.',
+    );
+    if (reply.trim().isEmpty) return null;
+    return _addAssistant(reply.trim());
+  }
+
   /// Kullanıcı mesajını işle ve yanıt üret.
   /// LLM yoksa [LlmUnavailableException] fırlatır.
   Future<ChatMessage?> processUserMessage(String userText) async {
@@ -572,6 +590,29 @@ class ChatOnboardingService {
     throw const LlmUnavailableException(
       'Assistant-only cevap uretilemedi. LLM baglantisi su an kullanilamiyor.',
     );
+  }
+
+  String _buildFocusedGreetingSystemPrompt() {
+    return '''
+Sen "Sırdaş"sın. Doğal, temiz ve güncel Türkçe kullan.
+
+AMAÇ:
+- İlk mesajdan itibaren profil toplamaya başla.
+- Boş küçük sohbet yapma.
+
+KURALLAR:
+- En fazla 2 kısa cümle yaz.
+- İlk cümlede kendini kısaca tanıt.
+- İkinci cümlede tek bir soru sor.
+- İlk soru profile giriş açsın.
+- "Bugün nasılsın?" diye sorma.
+- "Sohbet etmekten memnuniyet duyarım", "Kendini nasıl tanımlarım?" gibi yapay kalıplar kullanma.
+- Güven veren ama resmi durmayan bir ton kullan.
+
+İYİ ÖRNEKLER:
+- "Merhaba, ben Sırdaş. Sana nasıl hitap etmemi istersin?"
+- "Merhaba, ben Sırdaş. Seni biraz tanımam için kendini birkaç cümleyle anlatır mısın?"
+''';
   }
 
   String _buildFocusedPostNameSystemPrompt({

@@ -52,6 +52,11 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
 
     if (!_service.isLlmAvailable) {
       _llmUnavailable = true;
+    } else {
+      _isLoading = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _loadGreeting();
+      });
     }
   }
 
@@ -75,6 +80,33 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
     });
   }
 
+  Future<void> _loadGreeting() async {
+    try {
+      final ChatMessage? greeting = await _service.getGreeting();
+      if (!mounted) return;
+      setState(() {
+        if (greeting != null && greeting.content.trim().isNotEmpty) {
+          _messages.add(greeting);
+        }
+        _isLoading = false;
+      });
+      _scrollToBottom();
+    } on LlmUnavailableException {
+      if (!mounted) return;
+      setState(() {
+        _llmUnavailable = true;
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Acilis sohbet hatasi: $e');
+      if (!mounted) return;
+      setState(() {
+        _llmUnavailable = true;
+        _isLoading = false;
+      });
+    }
+  }
+
   bool get _hasUserMessages => _messages.any((ChatMessage m) => m.role == 'user');
 
   Future<void> _applyQuickStart() async {
@@ -92,7 +124,7 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
       assuranceNeed: _quickAssurance,
     );
 
-    final bool shouldKickoff = !_hasUserMessages;
+    final bool shouldKickoff = _messages.isEmpty;
 
     setState(() {
       _quickStartApplied = true;
@@ -1388,8 +1420,9 @@ class _ChatOnboardingPageState extends State<ChatOnboardingPage>
         _service.reset();
         _messages.clear();
         _quickStartApplied = false;
-        _isLoading = false;
+        _isLoading = true;
       });
+      _loadGreeting();
     } else {
       setState(() {
         _llmUnavailable = true;
